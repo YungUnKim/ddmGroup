@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="uos.codingsroom.ddmgroup"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="19" />
+
+    <!-- 1 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 2 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application
+        android:name="com.kakao.GlobalApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/real_app_name"
+        android:theme="@style/NoTitleBarTheme" >
+        <activity
+            android:name="uos.codingsroom.ddmgroup.KakaoLoginActivity"
+            android:label="@string/real_app_name"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="uos.codingsroom.ddmgroup.MainActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        
+        <activity
+            android:name="uos.codingsroom.ddmgroup.SettingActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <!-- 4 -->
+        <activity
+            android:name="com.kakao.LoginActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <!-- 5 -->
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="@string/kakao_app_key" />
+    </application>
+
+</manifest>
