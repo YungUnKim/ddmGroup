@@ -1,12 +1,17 @@
 package uos.codingsroom.ddmgroup;
 
+import uos.codingsroom.ddmgroup.item.GroupItem;
+import uos.codingsroom.ddmgroup.listview.GroupListAdapter;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,11 +25,14 @@ import com.kakao.UserProfile;
 
 public class MainActivity extends Activity {
 	public static MainActivity preActivity;
-	
+
 	private UserProfile userProfile;
 	private NetworkImageView profilePictureLayout;
 	private TextView myNameText;
 	private ImageView settingButton;
+
+	private ListView groupListView;
+	private GroupListAdapter groupAdapter;
 
 	MakeMenu menu;
 
@@ -45,6 +53,55 @@ public class MainActivity extends Activity {
 		}
 		readProfile();
 		setProfile();
+		setBigListView();
+	}
+
+	public void setBigListView() {
+		groupAdapter.addItem(new GroupItem("대분류 1"));
+		groupAdapter.addItem(new GroupItem("대분류 2"));
+		groupAdapter.addItem(new GroupItem("대분류 3"));
+		groupAdapter.addItem(new GroupItem("대분류 4"));
+		groupAdapter.addItem(new GroupItem("대분류 5"));
+
+		groupListView.setAdapter(groupAdapter);
+		groupListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+				GroupItem curItem = (GroupItem) groupAdapter.getItem(position);
+				Toast.makeText(getApplicationContext(), curItem.getTitle(), Toast.LENGTH_SHORT).show();
+				groupAdapter.clearItem();
+				setLittleListView();
+			}
+		});
+	}
+
+	public void setLittleListView() {
+		groupAdapter.addItem(new GroupItem("/뒤로가기"));
+		groupAdapter.addItem(new GroupItem("소분류 1"));
+		groupAdapter.addItem(new GroupItem("소분류 2"));
+		groupAdapter.addItem(new GroupItem("소분류 3"));
+		groupAdapter.addItem(new GroupItem("소분류 4"));
+		groupAdapter.addItem(new GroupItem("소분류 5"));
+		groupAdapter.addItem(new GroupItem("소분류 6"));
+		groupAdapter.addItem(new GroupItem("소분류 7"));
+
+		groupListView.setAdapter(groupAdapter);
+		groupListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+				if (position == 0) {
+					Toast.makeText(getApplicationContext(), "대분류로 이동합니다.", Toast.LENGTH_SHORT).show();
+					groupAdapter.clearItem();
+					setBigListView();
+				} else {
+					GroupItem curItem = (GroupItem) groupAdapter.getItem(position);
+					Toast.makeText(getApplicationContext(), curItem.getTitle(), Toast.LENGTH_SHORT).show();
+				}
+
+			}
+		});
 	}
 
 	public void setProfileURL(final String profileImageURL) {
@@ -95,6 +152,7 @@ public class MainActivity extends Activity {
 
 		initializeButtons();
 		initializeProfileView();
+		initializeListView();
 	}
 
 	private void initializeProfileView() {
@@ -110,6 +168,11 @@ public class MainActivity extends Activity {
 				moveToSettingActivity();
 			}
 		});
+	}
+
+	private void initializeListView() {
+		groupListView = (ListView) findViewById(R.id.listview_group);
+		groupAdapter = new GroupListAdapter(this);
 	}
 
 	private void redirectLoginActivity() {
