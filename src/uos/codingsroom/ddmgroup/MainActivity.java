@@ -72,7 +72,7 @@ public class MainActivity extends Activity {
 	}
 	
 	public void showMyMemNumber(){
-		Toast.makeText(getApplication(), "당신의 회원 번호는 " + myMemNum, Toast.LENGTH_SHORT).show();
+		Toast.makeText(getApplication(), "당신의 회원 번호는 " + myMemNum + " 입니다.", Toast.LENGTH_SHORT).show();
 	}
 
 	public void setBigListView() {
