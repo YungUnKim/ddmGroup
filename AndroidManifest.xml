@@ -37,6 +37,11 @@
         </activity>
         
         <activity
+            android:name="uos.codingsroom.ddmgroup.KakaoTalkSignupActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        
+        <activity
             android:name="uos.codingsroom.ddmgroup.SettingActivity"
             android:screenOrientation="portrait" >
         </activity>

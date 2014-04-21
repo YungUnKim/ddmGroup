@@ -76,7 +76,7 @@ public class KakaoLoginActivity extends Activity {
 	}
 
 	protected void onSessionOpened() {
-		final Intent intent = new Intent(KakaoLoginActivity.this, MainActivity.class);
+		final Intent intent = new Intent(KakaoLoginActivity.this, KakaoTalkSignupActivity.class);
 		startActivity(intent);
 		finish();
 	}

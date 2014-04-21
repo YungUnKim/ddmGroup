@@ -1,11 +1,14 @@
 package uos.codingsroom.ddmgroup;
 
+import uos.codingsroom.ddmgroup.comm.Connect_Thread;
+import uos.codingsroom.ddmgroup.comm.EventHandler;
 import uos.codingsroom.ddmgroup.item.GroupItem;
 import uos.codingsroom.ddmgroup.listview.GroupListAdapter;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -21,7 +24,10 @@ import com.kakao.GlobalApplication;
 import com.kakao.KakaoTalkHttpResponseHandler;
 import com.kakao.KakaoTalkProfile;
 import com.kakao.KakaoTalkService;
+import com.kakao.MeResponseCallback;
+import com.kakao.UserManagement;
 import com.kakao.UserProfile;
+import com.kakao.helper.Logger;
 
 public class MainActivity extends Activity {
 	public static MainActivity preActivity;
@@ -36,8 +42,10 @@ public class MainActivity extends Activity {
 
 	MakeMenu menu;
 
+	private static Integer myMemNum;
 	private static String nickName;
 	private static String profileImageURL;
+	private static Long kakaoCode;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +62,17 @@ public class MainActivity extends Activity {
 		readProfile();
 		setProfile();
 		setBigListView();
+		
+		Connect_Thread mThread = new Connect_Thread(this, 10, nickName, profileImageURL, kakaoCode);
+		mThread.start();
+	}
+		
+	public void setMyMemberNum(int myMemberNumber){
+		myMemNum = myMemberNumber;
+	}
+	
+	public void showMyMemNumber(){
+		Toast.makeText(getApplication(), "당신의 회원 번호는 " + myMemNum, Toast.LENGTH_SHORT).show();
 	}
 
 	public void setBigListView() {
@@ -136,6 +155,7 @@ public class MainActivity extends Activity {
 			protected void onHttpSuccess(final KakaoTalkProfile talkProfile) {
 				nickName = talkProfile.getNickName();
 				profileImageURL = talkProfile.getThumbnailURL();
+				kakaoCode = userProfile.getId();
 			}
 		});
 	}
