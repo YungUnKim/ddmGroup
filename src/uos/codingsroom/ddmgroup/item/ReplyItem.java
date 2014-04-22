@@ -1,13 +1,13 @@
 package uos.codingsroom.ddmgroup.item;
 
 public class ReplyItem {
-	private int index_num;			// ��� ��ȣ
-	private int mem_num;			// ��� �� ȸ�� ��ȣ 
-	private int board_num;			// ���� ��ȣ 
-	private String article;			// ��� ���� 
-	private String date;			// ��� ��¥ 
+	private int index_num;			
+	private int mem_num;			
+	private int board_num;			
+	private String article;		
+	private String date;			
 
-	// ���� 
+
 	public ReplyItem(int index_num, int mem_num, int board_num, String article, String date) {
 		this.index_num = index_num;
 		this.mem_num = mem_num;

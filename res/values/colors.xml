@@ -3,7 +3,11 @@
 	<color name="ddm_start_blue">#aa017095</color>
 	<color name="ddm_end_blue">#aa151371</color>
 	
-	<color name="ddm_real_green">#bb016c6b</color>
+	<color name="ddm_real_green">#016c6b</color>
 	<color name="ddm_real_blue">#bb151371</color>
+	
+	<color name="ddm_gray">#d9d9d9</color>
+	<color name="ddm_line_gray">#d0d0d0</color>
+	<color name="ddm_text_gray">#b4b4b4</color>
 
 </resources>
