@@ -56,99 +56,21 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/notice_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_height="match_parent"
         android:orientation="vertical" >
 
-        <TextView
+        <fragment
+            android:id="@+id/newsfeedFragment"
+            android:name="uos.codingsroom.ddmgroup.fragments.NewsfeedFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="3dp"
-            android:drawableLeft="@drawable/icon_notice"
-            android:gravity="center_vertical"
-            android:text="@string/notice_text"
-            android:textColor="@color/ddm_real_green"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:layout_height="match_parent" />
 
-        <LinearLayout
+        <fragment
+            android:id="@+id/boardFragment"
+            android:name="uos.codingsroom.ddmgroup.fragments.BoardFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/notice_box"
-            android:orientation="vertical" >
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="33dp"
-                android:drawableRight="@drawable/icon_read"
-                android:gravity="center_vertical"
-                android:padding="5dp"
-                android:text="여기는 공지사항1 입니다."
-                android:textSize="13sp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/ddm_line_gray" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="31dp"
-                android:drawableRight="@drawable/icon_read"
-                android:gravity="center_vertical"
-                android:padding="5dp"
-                android:text="여기는 공지사항2 입니다."
-                android:textSize="13sp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/ddm_line_gray" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="33dp"
-                android:drawableRight="@drawable/icon_read"
-                android:gravity="center_vertical"
-                android:padding="5dp"
-                android:text="여기는 공지사항3 입니다."
-                android:textSize="13sp" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="5dp"
-        android:orientation="vertical" >
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:drawableLeft="@drawable/icon_newsfeed"
-            android:gravity="center_vertical"
-            android:text="@string/notice_newsfeed"
-            android:textColor="@color/ddm_real_green"
-            android:textSize="15sp"
-            android:textStyle="bold" />
-
-        <ListView
-            android:id="@+id/listview_newsfeed"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#ffffff"
-            android:divider="#eeeeee"
-            android:dividerHeight="1dip"
-            android:fadingEdge="none"
-            android:scrollbars="none" >
-        </ListView>
+            android:layout_height="match_parent" />
     </LinearLayout>
 
 </LinearLayout>
