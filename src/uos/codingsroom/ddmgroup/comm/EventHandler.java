@@ -25,9 +25,14 @@ public class EventHandler extends Handler {
 			}
 			else if (msg.what == -10) { // 마커정보가 하나도 없을 경우
 			// Log.i("MyTag","Handler -10 >> 마커가 하나도 없음 >> " + msg);
-			} else if (msg.what == 10) { // 마커정보 얻어오기
+			} 
+			else if (msg.what == 10) { // 마커정보 얻어오기
 			// Log.i("MyTag","Handler 10 >> " + msg);
 				((MainActivity) mcontext).showMyMemNumber();
+			}
+			else if (msg.what == 11) { // 마커정보 얻어오기
+			// Log.i("MyTag","Handler 10 >> " + msg);
+				((MainActivity) mcontext).setNoticeTitle();
 			}
 		} catch (Exception e) {
 		}

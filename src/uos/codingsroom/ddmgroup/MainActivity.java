@@ -1,6 +1,8 @@
 package uos.codingsroom.ddmgroup;
 
 import uos.codingsroom.ddmgroup.comm.Connect_Thread;
+import uos.codingsroom.ddmgroup.fragments.NewsfeedFragment;
+import uos.codingsroom.ddmgroup.fragments.RegisterFragment;
 import uos.codingsroom.ddmgroup.item.GroupItem;
 import uos.codingsroom.ddmgroup.listview.GroupListAdapter;
 import android.app.Application;
@@ -81,6 +83,14 @@ public class MainActivity extends FragmentActivity {
 
 	public void showMyMemNumber() {
 		Toast.makeText(getApplication(), "당신의 회원 번호는 " + myMemNum + " 입니다.", Toast.LENGTH_SHORT).show();
+	}
+	
+	public void setNotice(int index, String title, int num){
+		((NewsfeedFragment) fragments[NEWSFEED]).setNotice(index, title, num);
+	}
+	
+	public void setNoticeTitle(){
+		((NewsfeedFragment) fragments[NEWSFEED]).setNoticeTitle();
 	}
 
 	public void setBigListView() {
@@ -183,6 +193,7 @@ public class MainActivity extends FragmentActivity {
 		FragmentManager fm = getSupportFragmentManager();
 		fragments[NEWSFEED] = fm.findFragmentById(R.id.newsfeedFragment);
 		fragments[BOARD] = fm.findFragmentById(R.id.boardFragment);
+		fragments[REGISTER] = fm.findFragmentById(R.id.registerFragment);
 
 		FragmentTransaction transaction = fm.beginTransaction();
 		for (int i = 0; i < fragments.length; i++) {

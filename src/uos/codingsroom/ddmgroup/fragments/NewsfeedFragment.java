@@ -17,7 +17,12 @@ public class NewsfeedFragment extends Fragment {
 	private ListView newsfeedListView;
 	private NewsFeedListAdapter newsfeedAdapter;
 	
-	private TextView[] noticeTitle = new TextView[3];
+	private TextView[] noticeTitleText = new TextView[3];
+	
+	private int noticeNum[] = new int[3];
+	private String noticeTitle[] = new String[3];
+	
+	private int noticeCount = 0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -36,9 +41,9 @@ public class NewsfeedFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View view = inflater.inflate(R.layout.fragment_newsfeed, container, false);
 		
-		noticeTitle[0] = (TextView) view.findViewById(R.id.notice_3);
-		noticeTitle[1] = (TextView) view.findViewById(R.id.notice_2);
-		noticeTitle[2] = (TextView) view.findViewById(R.id.notice_1);
+		noticeTitleText[0] = (TextView) view.findViewById(R.id.notice_1);
+		noticeTitleText[1] = (TextView) view.findViewById(R.id.notice_2);
+		noticeTitleText[2] = (TextView) view.findViewById(R.id.notice_3);
 
 		newsfeedListView = (ListView) view.findViewById(R.id.listview_newsfeed);
 		newsfeedAdapter = new NewsFeedListAdapter(this.getActivity());
@@ -47,9 +52,17 @@ public class NewsfeedFragment extends Fragment {
 		return view;
 	}
 	
-	public void setNoticeTitle(String title, int index){
-		noticeTitle[index].setText(title);
-		noticeTitle[index].setVisibility(View.VISIBLE);
+	public void setNotice(int index, String title, int num){
+		noticeTitle[index] = title;
+		noticeNum[index] = num;
+		noticeCount++;
+	}
+	
+	public void setNoticeTitle(){
+		for(int i=0;i<noticeCount;i++){
+			noticeTitleText[i].setText(noticeTitle[i]);
+			noticeTitleText[i].setVisibility(View.VISIBLE);
+		}
 	}
 	
 	
