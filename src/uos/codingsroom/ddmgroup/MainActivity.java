@@ -97,7 +97,9 @@ public class MainActivity extends FragmentActivity {
 				GroupItem curItem = (GroupItem) groupAdapter.getItem(position);
 				Toast.makeText(getApplicationContext(), curItem.getTitle(), Toast.LENGTH_SHORT).show();
 				groupAdapter.clearItem();
-				setLittleListView();
+				Connect_Thread mThread = new Connect_Thread(MainActivity.this, 20, position);
+				mThread.start();
+				//setLittleListView();
 			}
 		});
 	}
