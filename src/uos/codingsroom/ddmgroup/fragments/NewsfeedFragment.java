@@ -1,6 +1,7 @@
 package uos.codingsroom.ddmgroup.fragments;
 
 import uos.codingsroom.ddmgroup.R;
+import uos.codingsroom.ddmgroup.comm.Connect_Thread;
 import uos.codingsroom.ddmgroup.item.NewsFeedItem;
 import uos.codingsroom.ddmgroup.listview.NewsFeedListAdapter;
 import android.os.Bundle;
@@ -21,6 +22,9 @@ public class NewsfeedFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		Connect_Thread mThread = new Connect_Thread(this.getActivity(), 11);
+		mThread.start();
 	}
 
 	@Override
@@ -47,6 +51,8 @@ public class NewsfeedFragment extends Fragment {
 		noticeTitle[index].setText(title);
 		noticeTitle[index].setVisibility(View.VISIBLE);
 	}
+	
+	
 	
 
 	public void setNewsfeedListView() {

@@ -81,9 +81,8 @@ public class Connect_Thread extends Thread {
 						+ kakaoCode;
 				Log.i("mytag", ">>>>"+ kakaoCode);
 				// 회원 가입
-			} else if (menu == 12) { // 마커 등록하기
-				url += "&name=" + URLEncoder.encode(name, "UTF-8") + "&kind=" + kind + "&x=" + x + "&y=" + y
-						+ "&memo=" + URLEncoder.encode(text, "UTF-8");
+			} else if (menu == 11) { // 마커 등록하기
+				
 			}
 			// Log.i("MyTag","url >> " + url);
 
