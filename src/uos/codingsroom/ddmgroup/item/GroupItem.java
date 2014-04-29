@@ -7,6 +7,10 @@ public class GroupItem {
 	private String title;			
 	private String description;
 	
+	public GroupItem() {
+		
+	}
+	
 	public GroupItem(String title) {
 		this.title = title;
 	}

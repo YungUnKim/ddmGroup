@@ -108,14 +108,19 @@ public class MainActivity extends FragmentActivity {
 				GroupItem curItem = (GroupItem) groupAdapter.getItem(position);
 				Toast.makeText(getApplicationContext(), curItem.getTitle(), Toast.LENGTH_SHORT).show();
 				groupAdapter.clearItem();
-//				Connect_Thread mThread = new Connect_Thread(MainActivity.this, 20, position);
-//				mThread.start();
-				setLittleListView();
+				Connect_Thread mThread = new Connect_Thread(MainActivity.this, 20, position);
+				mThread.start();
+//				setLittleListView();
 			}
 		});
 	}
 
+	public void addGroupItem(GroupItem mItem){
+		groupAdapter.addItem(mItem);
+	}
+	
 	public void setLittleListView() {
+		/*
 		groupAdapter.addItem(new GroupItem("/뒤로가기"));
 		groupAdapter.addItem(new GroupItem("소분류 1"));
 		groupAdapter.addItem(new GroupItem("소분류 2"));
@@ -124,7 +129,9 @@ public class MainActivity extends FragmentActivity {
 		groupAdapter.addItem(new GroupItem("소분류 5"));
 		groupAdapter.addItem(new GroupItem("소분류 6"));
 		groupAdapter.addItem(new GroupItem("소분류 7"));
-
+		*/
+		groupAdapter.addItem(0,new GroupItem("뒤로가기"));
+		
 		groupListView.setAdapter(groupAdapter);
 		groupListView.setOnItemClickListener(new OnItemClickListener() {
 

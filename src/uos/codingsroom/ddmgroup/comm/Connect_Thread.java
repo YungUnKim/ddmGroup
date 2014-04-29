@@ -10,6 +10,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import uos.codingsroom.ddmgroup.MainActivity;
+import uos.codingsroom.ddmgroup.item.GroupItem;
 import uos.codingsroom.ddmgroup.util.SystemValue;
 import android.content.Context;
 import android.os.Message;
@@ -43,6 +44,8 @@ public class Connect_Thread extends Thread {
 	private String thumbNailURL;
 	private Long kakaoCode;
 
+	GroupItem groupItem;
+	
 	EventHandler mHandler;
 	Message msg;
 	Context mcontext;
@@ -72,6 +75,7 @@ public class Connect_Thread extends Thread {
 		this.msg = mHandler.obtainMessage();
 		this.mcontext = context; // 액티비티 객체
 		this.menu = menu; // 어떤 작업을 할 것인가
+		this.category = category;
 	}
 
 	// // 생성자 (마커 등록할 때)
@@ -118,14 +122,13 @@ public class Connect_Thread extends Thread {
 			if (menu == 10) { // 회원 가입
 				connectForSignUp(xpp);
 			} else if (menu == 11) { // 공지받아오기 함수 호출
-				Log.i("MyTag", "url >> " + url);
 				connectForGetNotice(xpp);
 			} else if (menu == 12) { // 뉴스피드 받아오기 함수 호출
 				connectForGetNewsfeed(xpp);
 			} else if (menu == 20) { // 소분류 받아오기
 				connectForGetCategory(xpp);
 			}
-
+			Log.i("MyTag", "url >> " + url);
 		} catch (Exception e) {
 			e.getMessage();
 		}
@@ -248,26 +251,41 @@ public class Connect_Thread extends Thread {
 				if (eventType == XmlPullParser.START_TAG) {
 					tagname = xpp.getName(); // 태그를 받아온다.
 				} else if (eventType == XmlPullParser.TEXT) {
-					if (tagname.equals("member_num")) {
-						// location 태그정보는 중복되어 배열에 저장하지 않음.
+					if (tagname.equals("TITLE") || tagname.equals("DSCR") || tagname.equals("MASTER")
+							|| tagname.equals("NUM") || tagname.equals("total")) {
 						ret = xpp.getText(); // id 태그에 해당되는 TEXT를 임시로 저장
 					}
 				} else if (eventType == XmlPullParser.END_TAG) {
 					// 태그가 닫히는 부분에서 임시 저장된 TEXT를 Array에 저장한다.
 					tagname = xpp.getName();
-					if (tagname.equals("member_num")) {
+					if (tagname.equals("total")) {
 						if (ret.equals(0)) {
-							msg.what = -10;
+							msg.what = -20;
 							mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다
-						} else {
-							msg.what = 10;
-							((MainActivity) mcontext).setMyMemberNum(Integer.parseInt(ret));
+							break;
 						}
+			
 					}
+					else if(tagname.equals("NUM")){
+						groupItem = new GroupItem();
+						groupItem.setCategoryNum(Integer.parseInt(ret));
+					}
+					else if(tagname.equals("TITLE")){
+						groupItem.setTitle(ret);			
+					}
+					else if(tagname.equals("DSCR")){
+						groupItem.setDescription(ret);
+					}
+					else if(tagname.equals("MASTER")){
+						groupItem.setMasterNum(Integer.parseInt(ret));
+						((MainActivity) mcontext).addGroupItem(groupItem);
+					}
+					
 				}
 				eventType = xpp.next();
 			} // end while
 
+			msg.what = 20;
 			mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다
 		} catch (Exception e) {
 			e.getMessage();
