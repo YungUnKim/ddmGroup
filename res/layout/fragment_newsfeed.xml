@@ -30,13 +30,15 @@
             android:orientation="vertical" >
 
             <TextView
+                android:id="@+id/notice_1"
                 android:layout_width="match_parent"
                 android:layout_height="33dp"
                 android:drawableRight="@drawable/icon_read"
                 android:gravity="center_vertical"
                 android:padding="5dp"
                 android:text="여기는 공지사항1 입니다."
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                android:visibility="gone" />
 
             <View
                 android:layout_width="match_parent"
@@ -44,13 +46,15 @@
                 android:background="@color/ddm_line_gray" />
 
             <TextView
+                android:id="@+id/notice_2"
                 android:layout_width="match_parent"
                 android:layout_height="31dp"
                 android:drawableRight="@drawable/icon_read"
                 android:gravity="center_vertical"
                 android:padding="5dp"
                 android:text="여기는 공지사항2 입니다."
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                android:visibility="gone" />
 
             <View
                 android:layout_width="match_parent"
@@ -58,13 +62,15 @@
                 android:background="@color/ddm_line_gray" />
 
             <TextView
+                android:id="@+id/notice_3"
                 android:layout_width="match_parent"
                 android:layout_height="33dp"
                 android:drawableRight="@drawable/icon_read"
                 android:gravity="center_vertical"
                 android:padding="5dp"
                 android:text="여기는 공지사항3 입니다."
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
 

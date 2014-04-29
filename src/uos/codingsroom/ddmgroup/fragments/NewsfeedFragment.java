@@ -9,11 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class NewsfeedFragment extends Fragment {
 
 	private ListView newsfeedListView;
 	private NewsFeedListAdapter newsfeedAdapter;
+	
+	private TextView[] noticeTitle = new TextView[3];
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -28,12 +31,21 @@ public class NewsfeedFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View view = inflater.inflate(R.layout.fragment_newsfeed, container, false);
+		
+		noticeTitle[0] = (TextView) view.findViewById(R.id.notice_3);
+		noticeTitle[1] = (TextView) view.findViewById(R.id.notice_2);
+		noticeTitle[2] = (TextView) view.findViewById(R.id.notice_1);
 
 		newsfeedListView = (ListView) view.findViewById(R.id.listview_newsfeed);
 		newsfeedAdapter = new NewsFeedListAdapter(this.getActivity());
 
 		setNewsfeedListView();
 		return view;
+	}
+	
+	public void setNoticeTitle(String title, int index){
+		noticeTitle[index].setText(title);
+		noticeTitle[index].setVisibility(View.VISIBLE);
 	}
 	
 
