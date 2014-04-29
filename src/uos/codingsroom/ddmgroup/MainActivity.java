@@ -47,14 +47,15 @@ public class MainActivity extends FragmentActivity {
 
 	private static final int NEWSFEED = 0;
 	private static final int BOARD = 1;
-	private static final int FRAGMENT_COUNT = BOARD + 1;
+	private static final int REGISTER = 2;
+	private static final int FRAGMENT_COUNT = REGISTER + 1;
 
 	private static Fragment[] fragments = new Fragment[FRAGMENT_COUNT];
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		initializeView();
+		initializeView();								// 뷰를 초기화 
 
 		readProfile();
 		setProfile();

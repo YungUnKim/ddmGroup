@@ -58,6 +58,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:orientation="vertical" >
 
         <fragment
@@ -69,6 +71,12 @@
         <fragment
             android:id="@+id/boardFragment"
             android:name="uos.codingsroom.ddmgroup.fragments.BoardFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        
+        <fragment
+            android:id="@+id/registerFragment"
+            android:name="uos.codingsroom.ddmgroup.fragments.RegisterFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
