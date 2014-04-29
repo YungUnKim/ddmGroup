@@ -39,7 +39,7 @@ public class EventHandler extends Handler {
 			else if (msg.what == 20) { 
 			// Log.i("MyTag","Handler 10 >> " + msg);
 				((MainActivity) mcontext).setLittleListView();
-				Log.i("MyTag", "핸들러 접근 성공");
+			//	Log.i("MyTag", "핸들러 접근 성공");
 			}
 		} catch (Exception e) {
 		}
