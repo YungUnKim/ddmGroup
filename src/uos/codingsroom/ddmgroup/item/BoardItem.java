@@ -1,24 +1,37 @@
 package uos.codingsroom.ddmgroup.item;
 
-public class ContentItem {
+public class BoardItem {
 	private int index_num;
 	private int board_category;
 	private int mem_num;
 	private int reply_count;
 	private String title;
+	private String name;
 	private String article;
 	private String img_url;
 	private String date;
 	private Boolean notice_check;
+	
+	public BoardItem(int index_num, int board_category, int mem_num, int reply_count,
+			String title, String name, String date){
+		this.index_num = index_num;
+		this.board_category = board_category;
+		this.mem_num = mem_num;
+		this.reply_count = reply_count;
+		this.title = title;
+		this.name = name;
+		this.date = date;
+	}
 
-	public ContentItem(int index_num, int board_category, int mem_num, int reply_count,
-			String title, String article, String img_url, String date, Boolean notice_check) {
+	public BoardItem(int index_num, int board_category, int mem_num, int reply_count,
+			String title, String name, String article, String img_url, String date, Boolean notice_check) {
 
 		this.index_num = index_num;
 		this.board_category = board_category;
 		this.mem_num = mem_num;
 		this.reply_count = reply_count;
 		this.title = title;
+		this.name = name;
 		this.article = article;
 		this.img_url = img_url;
 		this.date = date;
@@ -63,6 +76,14 @@ public class ContentItem {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getArticle() {
