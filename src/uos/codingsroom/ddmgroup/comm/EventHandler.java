@@ -4,6 +4,7 @@ import uos.codingsroom.ddmgroup.MainActivity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 public class EventHandler extends Handler {
 	Context mcontext;
@@ -20,19 +21,20 @@ public class EventHandler extends Handler {
 
 	public void handleMessage(Message msg) {
 		try {
-			if (msg.what == 0) { // 맵에서 현재위치 주소 받기
+			if (msg.what == 0) { 
 			
 			}
-			else if (msg.what == -10) { // 마커정보가 하나도 없을 경우
-			// Log.i("MyTag","Handler -10 >> 마커가 하나도 없음 >> " + msg);
+			else if (msg.what == -10) { 
+			
 			} 
-			else if (msg.what == 10) { // 마커정보 얻어오기
+			else if (msg.what == 10) { 
 			// Log.i("MyTag","Handler 10 >> " + msg);
 				((MainActivity) mcontext).showMyMemNumber();
 			}
-			else if (msg.what == 11) { // 마커정보 얻어오기
+			else if (msg.what == 11) { 
 			// Log.i("MyTag","Handler 10 >> " + msg);
 				((MainActivity) mcontext).setNoticeTitle();
+				Log.i("MyTag", "핸들러 접근 성공");
 			}
 		} catch (Exception e) {
 		}

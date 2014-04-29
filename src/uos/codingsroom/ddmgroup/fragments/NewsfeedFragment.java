@@ -6,6 +6,7 @@ import uos.codingsroom.ddmgroup.item.NewsFeedItem;
 import uos.codingsroom.ddmgroup.listview.NewsFeedListAdapter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,31 +17,33 @@ public class NewsfeedFragment extends Fragment {
 
 	private ListView newsfeedListView;
 	private NewsFeedListAdapter newsfeedAdapter;
-	
+
 	private TextView[] noticeTitleText = new TextView[3];
-	
+
 	private int noticeNum[] = new int[3];
 	private String noticeTitle[] = new String[3];
-	
+
 	private int noticeCount = 0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		Connect_Thread mThread = new Connect_Thread(this.getActivity(), 11);
-		mThread.start();
+
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
+		
+		Connect_Thread mThread = new Connect_Thread(this.getActivity(), 11);
+		mThread.start();
+
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View view = inflater.inflate(R.layout.fragment_newsfeed, container, false);
-		
+
 		noticeTitleText[0] = (TextView) view.findViewById(R.id.notice_1);
 		noticeTitleText[1] = (TextView) view.findViewById(R.id.notice_2);
 		noticeTitleText[2] = (TextView) view.findViewById(R.id.notice_3);
@@ -49,24 +52,24 @@ public class NewsfeedFragment extends Fragment {
 		newsfeedAdapter = new NewsFeedListAdapter(this.getActivity());
 
 		setNewsfeedListView();
+		
 		return view;
 	}
-	
-	public void setNotice(int index, String title, int num){
+
+	public void setNotice(int index, String title, int num) {
 		noticeTitle[index] = title;
 		noticeNum[index] = num;
 		noticeCount++;
 	}
-	
-	public void setNoticeTitle(){
-		for(int i=0;i<noticeCount;i++){
+
+	public void setNoticeTitle() {
+		Log.i("MyTag", "입력된다." + noticeCount);
+		for (int i = 0; i < noticeCount; i++) {
 			noticeTitleText[i].setText(noticeTitle[i]);
 			noticeTitleText[i].setVisibility(View.VISIBLE);
+
 		}
 	}
-	
-	
-	
 
 	public void setNewsfeedListView() {
 		newsfeedAdapter.addItem(new NewsFeedItem(10, 1, "여기는 제목입니다.1", "Codingsroom1", "1988/08/03"));

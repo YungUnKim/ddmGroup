@@ -29,6 +29,7 @@
                 android:textStyle="bold" />
 
             <ImageView
+                android:id="@+id/ddm_logo"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
@@ -58,22 +59,24 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
         android:orientation="vertical" >
 
         <fragment
             android:id="@+id/newsfeedFragment"
             android:name="uos.codingsroom.ddmgroup.fragments.NewsfeedFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
 
         <fragment
             android:id="@+id/boardFragment"
             android:name="uos.codingsroom.ddmgroup.fragments.BoardFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-        
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
+
         <fragment
             android:id="@+id/registerFragment"
             android:name="uos.codingsroom.ddmgroup.fragments.RegisterFragment"

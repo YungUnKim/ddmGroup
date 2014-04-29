@@ -2,7 +2,6 @@ package uos.codingsroom.ddmgroup;
 
 import uos.codingsroom.ddmgroup.comm.Connect_Thread;
 import uos.codingsroom.ddmgroup.fragments.NewsfeedFragment;
-import uos.codingsroom.ddmgroup.fragments.RegisterFragment;
 import uos.codingsroom.ddmgroup.item.GroupItem;
 import uos.codingsroom.ddmgroup.listview.GroupListAdapter;
 import android.app.Application;
@@ -36,6 +35,7 @@ public class MainActivity extends FragmentActivity {
 	private NetworkImageView profilePictureLayout;
 	private TextView myNameText;
 	private ImageView settingButton;
+	private ImageView ddmLogo;
 
 	private ListView groupListView;
 	private GroupListAdapter groupAdapter;
@@ -108,9 +108,9 @@ public class MainActivity extends FragmentActivity {
 				GroupItem curItem = (GroupItem) groupAdapter.getItem(position);
 				Toast.makeText(getApplicationContext(), curItem.getTitle(), Toast.LENGTH_SHORT).show();
 				groupAdapter.clearItem();
-				Connect_Thread mThread = new Connect_Thread(MainActivity.this, 20, position);
-				mThread.start();
-				//setLittleListView();
+//				Connect_Thread mThread = new Connect_Thread(MainActivity.this, 20, position);
+//				mThread.start();
+				setLittleListView();
 			}
 		});
 	}
@@ -233,6 +233,16 @@ public class MainActivity extends FragmentActivity {
 			@Override
 			public void onClick(View v) {
 				moveToSettingActivity();
+			}
+		});
+		
+		ddmLogo = (ImageView) findViewById(R.id.ddm_logo);
+		ddmLogo.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				showFragment(REGISTER, false);
+				
 			}
 		});
 	}
