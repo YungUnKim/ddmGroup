@@ -1,13 +1,15 @@
 package uos.codingsroom.ddmgroup.item;
 
 public class NewsFeedItem {
+	private int num;
 	private int read_count;
 	private int reply_count;
 	private String title;
 	private String group_name;
 	private String date;
 
-	public NewsFeedItem(int read_count, int reply_count, String title, String group_name, String date) {
+	public NewsFeedItem(int num, int read_count, int reply_count, String title, String group_name, String date) {
+		this.num = num;
 		this.read_count = read_count;
 		this.reply_count = reply_count;
 		this.title = title;

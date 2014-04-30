@@ -51,48 +51,32 @@ public class NewsfeedFragment extends Fragment {
 		newsfeedListView = (ListView) view.findViewById(R.id.listview_newsfeed);
 		newsfeedAdapter = new NewsFeedListAdapter(this.getActivity());
 
-		setNewsfeedListView();
+		//setNewsfeedListView();
 		
 		return view;
 	}
-
+	//공지사항 1개씩 저장
 	public void setNotice(int index, String title, int num) {
 		noticeTitle[index] = title;
 		noticeNum[index] = num;
 		noticeCount++;
 	}
-
+	//공지사항 출력 (3개)
 	public void setNoticeTitle() {
-		Log.i("MyTag", "입력된다." + noticeCount);
+		Log.i("MyTag", "공지사항 입력된다." + noticeCount);
 		for (int i = 0; i < noticeCount; i++) {
 			noticeTitleText[i].setText(noticeTitle[i]);
 			noticeTitleText[i].setVisibility(View.VISIBLE);
-
 		}
+	}	
+	//뉴스피드 1개씩 입력
+	public void setNewsFeed(NewsFeedItem newsFeedItem) {
+		newsfeedAdapter.addItem(newsFeedItem);
+		
 	}
-
-	public void setNewsfeedListView() {
-		newsfeedAdapter.addItem(new NewsFeedItem(10, 1, "여기는 제목입니다.1", "Codingsroom1", "1988/08/03"));
-		newsfeedAdapter.addItem(new NewsFeedItem(9, 2, "여기는 제목입니다.2", "Codingsroom2", "1988/08/03"));
-		newsfeedAdapter.addItem(new NewsFeedItem(8, 3, "여기는 제목입니다.3", "Codingsroom3", "1988/08/03"));
-		newsfeedAdapter.addItem(new NewsFeedItem(7, 4, "여기는 제목입니다.4", "Codingsroom4", "1988/08/03"));
-		newsfeedAdapter.addItem(new NewsFeedItem(6, 5, "여기는 제목입니다.5", "Codingsroom5", "1988/08/03"));
-		newsfeedAdapter.addItem(new NewsFeedItem(5, 6, "여기는 제목입니다.6", "Codingsroom6", "1988/08/03"));
-		newsfeedAdapter.addItem(new NewsFeedItem(4, 7, "여기는 제목입니다.7", "Codingsroom7", "1988/08/03"));
-		newsfeedAdapter.addItem(new NewsFeedItem(3, 8, "여기는 제목입니다.8", "Codingsroom8", "1988/08/03"));
-		newsfeedAdapter.addItem(new NewsFeedItem(2, 9, "여기는 제목입니다.9", "Codingsroom9", "1988/08/03"));
-		newsfeedAdapter.addItem(new NewsFeedItem(1, 10, "여기는 제목입니다.10", "Codingsroom10", "1988/08/03"));
-		newsfeedAdapter.addItem(new NewsFeedItem(10, 1, "여기는 제목입니다.11", "Codingsroom1", "1988/08/03"));
-		newsfeedAdapter.addItem(new NewsFeedItem(9, 2, "여기는 제목입니다.12", "Codingsroom2", "1988/08/03"));
-		newsfeedAdapter.addItem(new NewsFeedItem(8, 3, "여기는 제목입니다.13", "Codingsroom3", "1988/08/03"));
-		newsfeedAdapter.addItem(new NewsFeedItem(7, 4, "여기는 제목입니다.14", "Codingsroom4", "1988/08/03"));
-		newsfeedAdapter.addItem(new NewsFeedItem(6, 5, "여기는 제목입니다.15", "Codingsroom5", "1988/08/03"));
-		newsfeedAdapter.addItem(new NewsFeedItem(5, 6, "여기는 제목입니다.16", "Codingsroom6", "1988/08/03"));
-		newsfeedAdapter.addItem(new NewsFeedItem(4, 7, "여기는 제목입니다.17", "Codingsroom7", "1988/08/03"));
-		newsfeedAdapter.addItem(new NewsFeedItem(3, 8, "여기는 제목입니다.18", "Codingsroom8", "1988/08/03"));
-		newsfeedAdapter.addItem(new NewsFeedItem(2, 9, "여기는 제목입니다.19", "Codingsroom9", "1988/08/03"));
-		newsfeedAdapter.addItem(new NewsFeedItem(1, 10, "여기는 제목입니다.20", "Codingsroom10", "1988/08/03"));
-
+	//뉴스피드 출력(20개)
+	public void setNewsFeedTitle() {
+		Log.i("MyTag", "뉴스피드입력된다." + noticeCount);
 		newsfeedListView.setAdapter(newsfeedAdapter);
 
 		// newsfeedListView.setOnScrollListener(new OnScrollListener() {
