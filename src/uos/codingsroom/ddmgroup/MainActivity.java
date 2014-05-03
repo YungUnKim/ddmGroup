@@ -3,6 +3,7 @@ package uos.codingsroom.ddmgroup;
 import uos.codingsroom.ddmgroup.comm.Connect_Thread;
 import uos.codingsroom.ddmgroup.fragments.NewsfeedFragment;
 import uos.codingsroom.ddmgroup.item.GroupItem;
+import uos.codingsroom.ddmgroup.item.NewsFeedItem;
 import uos.codingsroom.ddmgroup.listview.GroupListAdapter;
 import android.app.Application;
 import android.content.Intent;
@@ -62,6 +63,7 @@ public class MainActivity extends FragmentActivity {
 		readProfile();
 		setProfile();
 		setBigListView();
+		setNewsFeedView();//뉴스피드 시작
 		
 		showFragment(NEWSFEED, false);
 
@@ -84,7 +86,7 @@ public class MainActivity extends FragmentActivity {
 	public void showMyMemNumber() {
 		Toast.makeText(getApplication(), "당신의 회원 번호는 " + myMemNum + " 입니다.", Toast.LENGTH_SHORT).show();
 	}
-	
+
 	public void setNotice(int index, String title, int num){
 		((NewsfeedFragment) fragments[NEWSFEED]).setNotice(index, title, num);
 	}
@@ -92,7 +94,21 @@ public class MainActivity extends FragmentActivity {
 	public void setNoticeTitle(){
 		((NewsfeedFragment) fragments[NEWSFEED]).setNoticeTitle();
 	}
-
+	
+	public void setNewsFeed(NewsFeedItem newsFeedItem){
+		((NewsfeedFragment) fragments[NEWSFEED]).setNewsFeed(newsFeedItem);
+	}
+	
+	public void setNewsFeedTitle(){
+		((NewsfeedFragment) fragments[NEWSFEED]).setNewsFeedTitle();
+	}
+	
+	//뉴스피드 스레드 실행
+	public void setNewsFeedView(){
+		Connect_Thread mThread = new Connect_Thread(MainActivity.this, 12);
+		mThread.start();	
+	}
+	
 	public void setBigListView() {
 		groupAdapter.addItem(new GroupItem("대분류 1"));
 		groupAdapter.addItem(new GroupItem("대분류 2"));

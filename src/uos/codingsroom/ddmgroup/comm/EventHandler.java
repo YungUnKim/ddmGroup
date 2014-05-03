@@ -31,9 +31,14 @@ public class EventHandler extends Handler {
 			// Log.i("MyTag","Handler 10 >> " + msg);
 				((MainActivity) mcontext).showMyMemNumber();
 			}
-			else if (msg.what == 11) { 
+			else if (msg.what == 11) { //공지사항
 			// Log.i("MyTag","Handler 10 >> " + msg);
 				((MainActivity) mcontext).setNoticeTitle();
+			//	Log.i("MyTag", "핸들러 접근 성공");
+			}
+			else if (msg.what == 12) { //뉴스피드
+			// Log.i("MyTag","Handler 10 >> " + msg);
+				((MainActivity) mcontext).setNewsFeedTitle();
 			//	Log.i("MyTag", "핸들러 접근 성공");
 			}
 			else if (msg.what == 20) { 
