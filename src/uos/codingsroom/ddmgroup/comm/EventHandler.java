@@ -46,6 +46,9 @@ public class EventHandler extends Handler {
 				((MainActivity) mcontext).setLittleListView();
 			//	Log.i("MyTag", "핸들러 접근 성공");
 			}
+			else if (msg.what == 22){
+				Log.i("MyTag", "글 올리기 핸들러");
+			}
 		} catch (Exception e) {
 		}
 		return;
