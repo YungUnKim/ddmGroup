@@ -1,7 +1,7 @@
 package uos.codingsroom.ddmgroup;
 
 import uos.codingsroom.ddmgroup.comm.Connect_Thread;
-import uos.codingsroom.ddmgroup.fragments.BoardFragment;
+import uos.codingsroom.ddmgroup.fragments.CotentsFragment;
 import uos.codingsroom.ddmgroup.fragments.NewsfeedFragment;
 import uos.codingsroom.ddmgroup.item.GroupItem;
 import uos.codingsroom.ddmgroup.item.NewsFeedItem;
@@ -156,9 +156,9 @@ public class MainActivity extends FragmentActivity {
 					setBigListView();
 				} else {
 					GroupItem curItem = (GroupItem) groupAdapter.getItem(position);
-					((BoardFragment) fragments[BOARD]).setCurrentGroupNum(curItem.getIndexNum());
-					((BoardFragment) fragments[BOARD]).setTitleLabel(curItem.getTitle());
-					((BoardFragment) fragments[BOARD]).setListView();
+					((CotentsFragment) fragments[BOARD]).setCurrentGroupNum(curItem.getIndexNum());
+					((CotentsFragment) fragments[BOARD]).setTitleLabel(curItem.getTitle());
+					((CotentsFragment) fragments[BOARD]).setListView();
 					showFragment(BOARD, false);
 					menu.getMenu().showContent();
 				}

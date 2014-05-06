@@ -1,7 +1,7 @@
 package uos.codingsroom.ddmgroup.listview;
 
 import uos.codingsroom.ddmgroup.R;
-import uos.codingsroom.ddmgroup.item.BoardItem;
+import uos.codingsroom.ddmgroup.item.ContentItem;
 import uos.codingsroom.ddmgroup.item.GroupItem;
 import uos.codingsroom.ddmgroup.item.NewsFeedItem;
 import android.content.Context;
@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class BoardView extends LinearLayout {
+public class ContentView extends LinearLayout {
 
 	private TextView mText01;
 	private TextView mText02;
@@ -17,7 +17,7 @@ public class BoardView extends LinearLayout {
 	private TextView mText04;
 	private TextView mText05;
 
-	public BoardView(Context context, BoardItem aItem) {
+	public ContentView(Context context, ContentItem aItem) {
 		super(context);
 
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

@@ -1,6 +1,6 @@
 package uos.codingsroom.ddmgroup.item;
 
-public class BoardItem {
+public class ContentItem {
 	private int index_num;
 	private int board_category;
 	private int mem_num;
@@ -13,7 +13,7 @@ public class BoardItem {
 	private String date;
 	private Boolean notice_check;
 	
-	public BoardItem(int index_num, int reply_count, int read_count, String title, String name, String date){
+	public ContentItem(int index_num, int reply_count, int read_count, String title, String name, String date){
 		this.index_num = index_num;
 		this.reply_count = reply_count;
 		this.read_count = read_count;
@@ -22,7 +22,7 @@ public class BoardItem {
 		this.date = date;
 	}
 	
-	public BoardItem(int index_num, int board_category, int mem_num, int reply_count, int read_count,
+	public ContentItem(int index_num, int board_category, int mem_num, int reply_count, int read_count,
 			String title, String name, String date){
 		this.index_num = index_num;
 		this.board_category = board_category;
@@ -34,7 +34,7 @@ public class BoardItem {
 		this.date = date;
 	}
 
-	public BoardItem(int index_num, int board_category, int mem_num, int reply_count, int read_count,
+	public ContentItem(int index_num, int board_category, int mem_num, int reply_count, int read_count,
 			String title, String name, String article, String img_url, String date, Boolean notice_check) {
 
 		this.index_num = index_num;

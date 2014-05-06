@@ -3,24 +3,24 @@ package uos.codingsroom.ddmgroup.listview;
 import java.util.ArrayList;
 import java.util.List;
 
-import uos.codingsroom.ddmgroup.item.BoardItem;
+import uos.codingsroom.ddmgroup.item.ContentItem;
 import uos.codingsroom.ddmgroup.item.NewsFeedItem;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-public class BoardListAdapter extends BaseAdapter {
+public class ContentListAdapter extends BaseAdapter {
 
 	private Context mContext;
 
-	private List<BoardItem> mItems = new ArrayList<BoardItem>();
+	private List<ContentItem> mItems = new ArrayList<ContentItem>();
 
-	public BoardListAdapter(Context context) {
+	public ContentListAdapter(Context context) {
 		mContext = context;
 	}
 
-	public void addItem(BoardItem it) {
+	public void addItem(ContentItem it) {
 		mItems.add(it);
 	}
 	
@@ -28,11 +28,11 @@ public class BoardListAdapter extends BaseAdapter {
 		mItems.clear();
 	}
 
-	public void addItem(int position, BoardItem it) {
+	public void addItem(int position, ContentItem it) {
 		mItems.add(position, it);
 	}
 
-	public void setListItems(List<BoardItem> lit) {
+	public void setListItems(List<ContentItem> lit) {
 		mItems = lit;
 	}
 
@@ -61,11 +61,11 @@ public class BoardListAdapter extends BaseAdapter {
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
-		BoardView itemView;
+		ContentView itemView;
 		if (convertView == null) {
-			itemView = new BoardView(mContext, mItems.get(position));
+			itemView = new ContentView(mContext, mItems.get(position));
 		} else {
-			itemView = (BoardView) convertView;
+			itemView = (ContentView) convertView;
 
 //			itemView.setIcon(mItems.get(position).getIcon());
 			itemView.setText(0, Integer.toString(mItems.get(position).getReadCount()));
