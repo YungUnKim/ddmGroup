@@ -321,7 +321,7 @@ public class Connect_Thread extends Thread {
 					}
 					else if(tagname.equals("NUM")){
 						groupItem = new GroupItem();
-						groupItem.setCategoryNum(Integer.parseInt(ret));
+						groupItem.setIndexNum((Integer.parseInt(ret)));
 					}
 					else if(tagname.equals("TITLE")){
 						groupItem.setTitle(ret);			
