@@ -4,19 +4,21 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <TextView 
+    <TextView
+        android:id="@+id/board_label_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
-        android:textStyle="bold"
+        android:text="그룹 이름"
         android:textSize="18sp"
-        android:text="그룹 이름"/>
-    
+        android:textStyle="bold" />
+
     <ListView
         android:id="@+id/listview_board"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
         android:background="#ffffff"
         android:divider="#eeeeee"
         android:dividerHeight="1dip"

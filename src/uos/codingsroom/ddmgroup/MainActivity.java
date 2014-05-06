@@ -1,6 +1,7 @@
 package uos.codingsroom.ddmgroup;
 
 import uos.codingsroom.ddmgroup.comm.Connect_Thread;
+import uos.codingsroom.ddmgroup.fragments.BoardFragment;
 import uos.codingsroom.ddmgroup.fragments.NewsfeedFragment;
 import uos.codingsroom.ddmgroup.item.GroupItem;
 import uos.codingsroom.ddmgroup.item.NewsFeedItem;
@@ -58,13 +59,13 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		initializeView();								// 뷰를 초기화 
+		initializeView(); // 뷰를 초기화
 
 		readProfile();
 		setProfile();
 		setBigListView();
-		setNewsFeedView();//뉴스피드 시작
-		
+		setNewsFeedView();// 뉴스피드 시작
+
 		showFragment(NEWSFEED, false);
 
 		Connect_Thread mThread = new Connect_Thread(this, 10, nickName, profileImageURL, kakaoCode);
@@ -87,28 +88,28 @@ public class MainActivity extends FragmentActivity {
 		Toast.makeText(getApplication(), "당신의 회원 번호는 " + myMemNum + " 입니다.", Toast.LENGTH_SHORT).show();
 	}
 
-	public void setNotice(int index, String title, int num){
+	public void setNotice(int index, String title, int num) {
 		((NewsfeedFragment) fragments[NEWSFEED]).setNotice(index, title, num);
 	}
-	
-	public void setNoticeTitle(){
+
+	public void setNoticeTitle() {
 		((NewsfeedFragment) fragments[NEWSFEED]).setNoticeTitle();
 	}
-	
-	public void setNewsFeed(NewsFeedItem newsFeedItem){
+
+	public void setNewsFeed(NewsFeedItem newsFeedItem) {
 		((NewsfeedFragment) fragments[NEWSFEED]).setNewsFeed(newsFeedItem);
 	}
-	
-	public void setNewsFeedTitle(){
+
+	public void setNewsFeedTitle() {
 		((NewsfeedFragment) fragments[NEWSFEED]).setNewsFeedTitle();
 	}
-	
-	//뉴스피드 스레드 실행
-	public void setNewsFeedView(){
+
+	// 뉴스피드 스레드 실행
+	public void setNewsFeedView() {
 		Connect_Thread mThread = new Connect_Thread(MainActivity.this, 12);
-		mThread.start();	
+		mThread.start();
 	}
-	
+
 	public void setBigListView() {
 		groupAdapter.addItem(new GroupItem("대분류 1"));
 		groupAdapter.addItem(new GroupItem("대분류 2"));
@@ -122,32 +123,26 @@ public class MainActivity extends FragmentActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 				GroupItem curItem = (GroupItem) groupAdapter.getItem(position);
-				Toast.makeText(getApplicationContext(), curItem.getTitle(), Toast.LENGTH_SHORT).show();
+//				Toast.makeText(getApplicationContext(), curItem.getTitle(), Toast.LENGTH_SHORT).show();
 				groupAdapter.clearItem();
 				Connect_Thread mThread = new Connect_Thread(MainActivity.this, 20, position);
 				mThread.start();
-//				setLittleListView();
+				// setLittleListView();
 			}
 		});
 	}
 
-	public void addGroupItem(GroupItem mItem){
+	public void addGroupItem(GroupItem mItem) {
 		groupAdapter.addItem(mItem);
 	}
-	
+
 	public void setLittleListView() {
 		/*
-		groupAdapter.addItem(new GroupItem("/뒤로가기"));
-		groupAdapter.addItem(new GroupItem("소분류 1"));
-		groupAdapter.addItem(new GroupItem("소분류 2"));
-		groupAdapter.addItem(new GroupItem("소분류 3"));
-		groupAdapter.addItem(new GroupItem("소분류 4"));
-		groupAdapter.addItem(new GroupItem("소분류 5"));
-		groupAdapter.addItem(new GroupItem("소분류 6"));
-		groupAdapter.addItem(new GroupItem("소분류 7"));
-		*/
-		groupAdapter.addItem(0,new GroupItem("뒤로가기"));
-		
+		 * groupAdapter.addItem(new GroupItem("/뒤로가기")); groupAdapter.addItem(new GroupItem("소분류 1")); groupAdapter.addItem(new GroupItem("소분류 2")); groupAdapter.addItem(new GroupItem("소분류 3"));
+		 * groupAdapter.addItem(new GroupItem("소분류 4")); groupAdapter.addItem(new GroupItem("소분류 5")); groupAdapter.addItem(new GroupItem("소분류 6")); groupAdapter.addItem(new GroupItem("소분류 7"));
+		 */
+		groupAdapter.addItem(0, new GroupItem("뒤로가기"));
+
 		groupListView.setAdapter(groupAdapter);
 		groupListView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -159,7 +154,11 @@ public class MainActivity extends FragmentActivity {
 					setBigListView();
 				} else {
 					GroupItem curItem = (GroupItem) groupAdapter.getItem(position);
-					Toast.makeText(getApplicationContext(), curItem.getTitle(), Toast.LENGTH_SHORT).show();
+					((BoardFragment) fragments[BOARD]).setCurrentGroupNum(curItem.getIndexNum());
+					((BoardFragment) fragments[BOARD]).setTitleLabel(curItem.getTitle());
+					((BoardFragment) fragments[BOARD]).setListView();
+					showFragment(BOARD, false);
+					menu.getMenu().showContent();
 				}
 
 			}
@@ -258,14 +257,14 @@ public class MainActivity extends FragmentActivity {
 				moveToSettingActivity();
 			}
 		});
-		
+
 		ddmLogo = (ImageView) findViewById(R.id.ddm_logo);
 		ddmLogo.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				showFragment(REGISTER, false);
-				
+
 			}
 		});
 	}

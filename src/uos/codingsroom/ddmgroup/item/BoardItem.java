@@ -5,6 +5,7 @@ public class BoardItem {
 	private int board_category;
 	private int mem_num;
 	private int reply_count;
+	private int read_count;
 	private String title;
 	private String name;
 	private String article;
@@ -12,24 +13,35 @@ public class BoardItem {
 	private String date;
 	private Boolean notice_check;
 	
-	public BoardItem(int index_num, int board_category, int mem_num, int reply_count,
+	public BoardItem(int index_num, int reply_count, int read_count, String title, String name, String date){
+		this.index_num = index_num;
+		this.reply_count = reply_count;
+		this.read_count = read_count;
+		this.title = title;
+		this.name = name;
+		this.date = date;
+	}
+	
+	public BoardItem(int index_num, int board_category, int mem_num, int reply_count, int read_count,
 			String title, String name, String date){
 		this.index_num = index_num;
 		this.board_category = board_category;
 		this.mem_num = mem_num;
 		this.reply_count = reply_count;
+		this.read_count = read_count;
 		this.title = title;
 		this.name = name;
 		this.date = date;
 	}
 
-	public BoardItem(int index_num, int board_category, int mem_num, int reply_count,
+	public BoardItem(int index_num, int board_category, int mem_num, int reply_count, int read_count,
 			String title, String name, String article, String img_url, String date, Boolean notice_check) {
 
 		this.index_num = index_num;
 		this.board_category = board_category;
 		this.mem_num = mem_num;
 		this.reply_count = reply_count;
+		this.read_count = read_count;
 		this.title = title;
 		this.name = name;
 		this.article = article;
@@ -68,6 +80,14 @@ public class BoardItem {
 
 	public void setReplyCount(int reply_count) {
 		this.reply_count = reply_count;
+	}
+	
+	public int getReadCount() {
+		return read_count;
+	}
+
+	public void setReadCount(int read_count) {
+		this.read_count = read_count;
 	}
 
 	public String getTitle() {

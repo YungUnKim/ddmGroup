@@ -19,5 +19,9 @@ public class MakeMenu {
 		menu.attachToActivity(thisView, SlidingMenu.SLIDING_CONTENT);
 
 	}
+	
+	public SlidingMenu getMenu(){
+		return menu;
+	}
 
 }

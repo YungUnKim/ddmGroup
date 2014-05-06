@@ -23,19 +23,19 @@ public class BoardView extends LinearLayout {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater.inflate(R.layout.item_board, this, true);
 
-		mText01 = (TextView) findViewById(R.id.mypost_catagory);
-		mText01.setText(Integer.toString(aItem.getBoardCategory()));
+		mText01 = (TextView) findViewById(R.id.board_read_count);
+		mText01.setText(Integer.toString(aItem.getReadCount()));
 
-		mText02 = (TextView) findViewById(R.id.mypost_title);
+		mText02 = (TextView) findViewById(R.id.board_title);
 		mText02.setText(aItem.getTitle());
 
-		mText03 = (TextView) findViewById(R.id.mypost_member);
+		mText03 = (TextView) findViewById(R.id.board_name);
 		mText03.setText(aItem.getName());
 
-		mText04 = (TextView) findViewById(R.id.mypost_date);
+		mText04 = (TextView) findViewById(R.id.board_date);
 		mText04.setText(aItem.getDate());
 
-		mText05 = (TextView) findViewById(R.id.mypost_reply_count);
+		mText05 = (TextView) findViewById(R.id.board_reply_count);
 		mText05.setText(Integer.toString(aItem.getReplyCount()));
 	}
 
