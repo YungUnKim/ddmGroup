@@ -152,7 +152,7 @@ public class MainActivity extends FragmentActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 				if (position == 0) {
-					Toast.makeText(getApplicationContext(), "대분류로 이동합니다.", Toast.LENGTH_SHORT).show();
+//					Toast.makeText(getApplicationContext(), "대분류로 이동합니다.", Toast.LENGTH_SHORT).show();
 					groupAdapter.clearItem();
 					setBigListView();
 				} else {
