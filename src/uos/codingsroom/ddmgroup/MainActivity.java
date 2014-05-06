@@ -70,8 +70,6 @@ public class MainActivity extends FragmentActivity {
 
 		showFragment(NEWSFEED, false);
 
-		Connect_Thread mThread = new Connect_Thread(this, 10, nickName, profileImageURL, kakaoCode);
-		mThread.start();
 	}
 
 	protected void onResume() {
@@ -80,6 +78,9 @@ public class MainActivity extends FragmentActivity {
 		// if (userProfile != null) {
 		// setProfileURL(userProfile.getThumbnailImagePath());
 		// }
+
+		Connect_Thread mThread = new Connect_Thread(this, 10, nickName, profileImageURL, kakaoCode);
+		mThread.start();
 	}
 
 	public void setMyMemberNum(int myMemberNumber) {
