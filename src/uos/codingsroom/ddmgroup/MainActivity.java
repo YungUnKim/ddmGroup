@@ -49,6 +49,8 @@ public class MainActivity extends FragmentActivity {
 	private static String profileImageURL;
 	private static Long kakaoCode;
 
+	private static Integer currentFrgment = 0;
+
 	private static final int NEWSFEED = 0;
 	private static final int BOARD = 1;
 	private static final int REGISTER = 2;
@@ -123,7 +125,7 @@ public class MainActivity extends FragmentActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 				GroupItem curItem = (GroupItem) groupAdapter.getItem(position);
-//				Toast.makeText(getApplicationContext(), curItem.getTitle(), Toast.LENGTH_SHORT).show();
+				// Toast.makeText(getApplicationContext(), curItem.getTitle(), Toast.LENGTH_SHORT).show();
 				groupAdapter.clearItem();
 				Connect_Thread mThread = new Connect_Thread(MainActivity.this, 20, position);
 				mThread.start();
@@ -242,6 +244,8 @@ public class MainActivity extends FragmentActivity {
 			transaction.addToBackStack(null);
 		}
 		transaction.commit();
+
+		currentFrgment = fragmentIndex;
 	}
 
 	private void initializeProfileView() {
@@ -283,5 +287,16 @@ public class MainActivity extends FragmentActivity {
 	private void moveToSettingActivity() {
 		final Intent intent = new Intent(MainActivity.this, SettingActivity.class);
 		startActivity(intent);
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (menu.getMenu().isMenuShowing()) {
+			menu.getMenu().showContent();
+		} else if (currentFrgment != 0) {
+			showFragment(0, false);
+		} else {
+			super.onBackPressed();
+		}
 	}
 }
