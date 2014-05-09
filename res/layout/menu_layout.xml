@@ -1,45 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_menu"
     android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="46dp"
-        android:background="@color/ddm_end_blue"
-        android:orientation="horizontal"
-        android:weightSum="1" >
-
-        <TextView
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="0.8"
-            android:gravity="center_vertical|center_horizontal"
-            android:text="분류"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-        <View
-            android:layout_width="0.1dip"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="4dp"
-            android:layout_marginTop="4dp"
-            android:background="#003333" />
-
-        <ImageView
-            android:id="@+id/button_setting"
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="0.2"
-            android:padding="3dp"
-            android:src="@drawable/icon_setting" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/gradient_menu"
+        android:layout_marginBottom="46dp"
         android:orientation="vertical" >
 
         <com.android.volley.toolbox.NetworkImageView
@@ -56,4 +25,25 @@
         </ListView>
     </LinearLayout>
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:weightSum="3" >
+
+        <View
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="2" />
+
+        <ImageView
+            android:id="@+id/button_setting"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="3dp"
+            android:src="@drawable/icon_setting" />
+    </LinearLayout>
+
+</RelativeLayout>
