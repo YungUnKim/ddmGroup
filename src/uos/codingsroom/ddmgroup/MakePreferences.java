@@ -9,7 +9,7 @@ public class MakePreferences {
 	Editor prefEdit;
 	
 	public MakePreferences(Context context){
-		preferences = context.getSharedPreferences("prefs", Context.MODE_PRIVATE);
+		preferences = context.getSharedPreferences("prefs", 0);
 		prefEdit = preferences.edit();
 	}
 	

@@ -1,5 +1,9 @@
 package uos.codingsroom.ddmgroup;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
 import uos.codingsroom.ddmgroup.comm.Connect_Thread;
 import uos.codingsroom.ddmgroup.fragments.CotentsFragment;
 import uos.codingsroom.ddmgroup.fragments.NewsfeedFragment;
@@ -14,6 +18,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -41,6 +46,7 @@ public class MainActivity extends FragmentActivity {
 	private NetworkImageView profilePictureLayout;
 	private TextView myNameText;
 	private ImageView settingButton;
+	private ImageView favoriteButton;
 	private ImageView ddmLogo;
 	private ImageView menuBackButton;
 
@@ -52,6 +58,11 @@ public class MainActivity extends FragmentActivity {
 	private GroupListAdapter groupAdapter;
 
 	MakeMenu menu;
+	MakePreferences myPreference;
+
+	GroupItem groupItem;
+
+	Set<String> favoriteStringSet;
 
 	private static Integer myMemNum;
 	private static String nickName;
@@ -74,8 +85,11 @@ public class MainActivity extends FragmentActivity {
 
 		readProfile(this);
 		// setProfile();
-//		setBigListView();
+		// setBigListView();
 		setNewsFeedView();// 뉴스피드 시작
+
+		myPreference = new MakePreferences(this);
+		favoriteStringSet = myPreference.getMyPreference().getStringSet("favoriteName", new HashSet<String>());
 
 		showFragment(NEWSFEED, false);
 
@@ -120,37 +134,11 @@ public class MainActivity extends FragmentActivity {
 		mThread.start();
 	}
 
-	public void setBigListView() {
-		groupAdapter.addItem(new GroupItem("대분류 1"));
-		groupAdapter.addItem(new GroupItem("대분류 2"));
-		groupAdapter.addItem(new GroupItem("대분류 3"));
-		groupAdapter.addItem(new GroupItem("대분류 4"));
-		groupAdapter.addItem(new GroupItem("대분류 5"));
-
-		groupListView.setAdapter(groupAdapter);
-		groupListView.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-				GroupItem curItem = (GroupItem) groupAdapter.getItem(position);
-				// Toast.makeText(getApplicationContext(), curItem.getTitle(), Toast.LENGTH_SHORT).show();
-				groupAdapter.clearItem();
-				Connect_Thread mThread = new Connect_Thread(MainActivity.this, 20, position);
-				mThread.start();
-				// setLittleListView();
-			}
-		});
-	}
-
 	public void addGroupItem(GroupItem mItem) {
 		groupAdapter.addItem(mItem);
 	}
 
 	public void setLittleListView() {
-		/*
-		 * groupAdapter.addItem(new GroupItem("/뒤로가기")); groupAdapter.addItem(new GroupItem("소분류 1")); groupAdapter.addItem(new GroupItem("소분류 2")); groupAdapter.addItem(new GroupItem("소분류 3"));
-		 * groupAdapter.addItem(new GroupItem("소분류 4")); groupAdapter.addItem(new GroupItem("소분류 5")); groupAdapter.addItem(new GroupItem("소분류 6")); groupAdapter.addItem(new GroupItem("소분류 7"));
-		 */
 		groupAdapter.addItem(0, new GroupItem("돌아가기"));
 
 		groupListView.setAdapter(groupAdapter);
@@ -161,11 +149,10 @@ public class MainActivity extends FragmentActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 				if (position == 0) {
-					// Toast.makeText(getApplicationContext(), "대분류로 이동합니다.", Toast.LENGTH_SHORT).show();
 					menuLayout.setVisibility(View.VISIBLE);
 					groupListView.setVisibility(View.GONE);
 					groupAdapter.clearItem();
-//					setBigListView();
+					// setBigListView();
 				} else {
 					GroupItem curItem = (GroupItem) groupAdapter.getItem(position);
 					((CotentsFragment) fragments[BOARD]).setCurrentGroupNum(curItem.getIndexNum());
@@ -239,7 +226,7 @@ public class MainActivity extends FragmentActivity {
 			transaction.hide(fragments[i]);
 		}
 		transaction.commit();
-		
+
 		menuLayout = (LinearLayout) findViewById(R.id.layout_menu);
 
 		initializeButtons();
@@ -276,6 +263,23 @@ public class MainActivity extends FragmentActivity {
 			@Override
 			public void onClick(View v) {
 				moveToSettingActivity();
+			}
+		});
+		favoriteButton = (ImageView) findViewById(R.id.button_favorite);
+		favoriteButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				groupAdapter.clearItem();
+				
+				for (String string : favoriteStringSet) {
+					String[] dataSet = new String(string).split(" ");
+					groupItem = new GroupItem();
+					groupItem.setIndexNum((Integer.parseInt(dataSet[0])));
+					groupItem.setTitle(string.substring(dataSet[0].length()));
+					addGroupItem(groupItem);					
+				}
+
+				setLittleListView();
 			}
 		});
 

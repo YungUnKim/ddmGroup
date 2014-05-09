@@ -2,6 +2,7 @@ package uos.codingsroom.ddmgroup.fragments;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 import uos.codingsroom.ddmgroup.ContentsActivity;
 import uos.codingsroom.ddmgroup.MakePreferences;
@@ -37,7 +38,6 @@ public class CotentsFragment extends Fragment {
 
 	MakePreferences myPreference;
 
-	Set<String> favoriteNumberSet;
 	Set<String> favoriteStringSet;
 
 	@Override
@@ -45,7 +45,6 @@ public class CotentsFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 
 		myPreference = new MakePreferences(getActivity());
-		favoriteNumberSet = myPreference.getMyPreference().getStringSet("favoriteNum", new HashSet<String>());
 		favoriteStringSet = myPreference.getMyPreference().getStringSet("favoriteName", new HashSet<String>());
 	}
 
@@ -65,12 +64,10 @@ public class CotentsFragment extends Fragment {
 					Toast.makeText(getActivity(), "즐겨찾기에 추가되었습니다.", Toast.LENGTH_SHORT).show();
 					favoriteStar.setSelected(true);
 					favoriteThisGroup = true;
-					favoriteNumberSet.add(Integer.toString(currentGroup));
-					favoriteStringSet.add(currentGroupName);
-					// for(String string:favoriteStringSet){
+					favoriteStringSet.add(Integer.toString(currentGroup) + " " + currentGroupName);
+					// for (String string : favoriteStringSet) {
 					// Log.i("setTag", string);
 					// }
-					myPreference.getMyPrefEditor().putStringSet("favoriteNum", favoriteNumberSet);
 					myPreference.getMyPrefEditor().putStringSet("favoriteName", favoriteStringSet);
 					myPreference.getMyPrefEditor().commit();
 
@@ -78,12 +75,10 @@ public class CotentsFragment extends Fragment {
 					Toast.makeText(getActivity(), "즐겨찾기가 해제되었습니다.", Toast.LENGTH_SHORT).show();
 					favoriteStar.setSelected(false);
 					favoriteThisGroup = false;
-					favoriteNumberSet.remove(Integer.toString(currentGroup));
-					favoriteStringSet.remove(currentGroupName);
-					// for(String string:favoriteStringSet){
+					favoriteStringSet.remove(Integer.toString(currentGroup) + " " + currentGroupName);
+					// for (String string : favoriteStringSet) {
 					// Log.i("setTag", string);
 					// }
-					myPreference.getMyPrefEditor().putStringSet("favoriteNum", favoriteNumberSet);
 					myPreference.getMyPrefEditor().putStringSet("favoriteName", favoriteStringSet);
 					myPreference.getMyPrefEditor().commit();
 				}
@@ -103,15 +98,20 @@ public class CotentsFragment extends Fragment {
 	}
 
 	public void setListView() {
+//		Toast.makeText(getActivity(), "현재 그룹 번호는 " + currentGroup, Toast.LENGTH_SHORT).show();
 		favoriteStar.setSelected(false);
 		favoriteThisGroup = false;
-		for (String string : favoriteNumberSet) {
-			if (Integer.parseInt(string) == currentGroup) {
+
+		favoriteStringSet = myPreference.getMyPreference().getStringSet("favoriteName", new HashSet<String>());
+		for (String string : favoriteStringSet) {
+			String[] dataSet = new String(string).split(" ");
+			if (Integer.parseInt(dataSet[0]) == currentGroup) {
 				favoriteStar.setSelected(true);
 				favoriteThisGroup = true;
 				break;
 			}
 		}
+
 		boardListAdapter.clearItem();
 
 		boardListAdapter.addItem(new ContentItem(0, 10, 10, "제목 입니다.", "재영박", "08/03/1988"));

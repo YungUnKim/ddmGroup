@@ -98,41 +98,10 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 				moveToConetentsActivity();
 			}
 		});
-
-		// newsfeedListView.setOnScrollListener(new OnScrollListener() {
-		//
-		// @Override
-		// public void onScrollStateChanged(AbsListView view, int scrollState) {
-		// // TODO Auto-generated method stub
-		//
-		// }
-		//
-		// @Override
-		// public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-		// // TODO Auto-generated method stub
-		// if (firstVisibleItem == 1) {
-		// if (layoutHideFlag == false) {
-		// layoutHideFlag = true;
-		// new Handler().postDelayed(new Runnable() {
-		// @Override
-		// public void run() {
-		// layoutHideFlag = false;
-		// }
-		// }, 800);
-		// noticeLayout.setVisibility(View.GONE);
-		// }
-		// } else if (firstVisibleItem == 0) {
-		// if (layoutHideFlag == false) {
-		// noticeLayout.setVisibility(View.VISIBLE);
-		// }
-		// }
-		// }
-		// });
 	}
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.notice_1:
 			moveToConetentsActivity();
