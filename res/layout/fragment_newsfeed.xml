@@ -24,49 +24,49 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/notice_box"
+            android:background="#ffffff"
             android:orientation="vertical" >
 
             <TextView
                 android:id="@+id/notice_1"
                 android:layout_width="match_parent"
                 android:layout_height="33dp"
+                android:background="@drawable/notice_box"
                 android:drawableRight="@drawable/icon_read"
                 android:gravity="center_vertical"
                 android:padding="5dp"
-                android:text="여기는 공지사항1 입니다."
                 android:textSize="13sp"
                 android:visibility="gone" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/ddm_line_gray" />
+                android:background="#f8f8f8" />
 
             <TextView
                 android:id="@+id/notice_2"
                 android:layout_width="match_parent"
                 android:layout_height="31dp"
+                android:background="@drawable/notice_box"
                 android:drawableRight="@drawable/icon_read"
                 android:gravity="center_vertical"
                 android:padding="5dp"
-                android:text="여기는 공지사항2 입니다."
                 android:textSize="13sp"
                 android:visibility="gone" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/ddm_line_gray" />
+                android:background="#f8f8f8" />
 
             <TextView
                 android:id="@+id/notice_3"
                 android:layout_width="match_parent"
                 android:layout_height="33dp"
+                android:background="@drawable/notice_box"
                 android:drawableRight="@drawable/icon_read"
                 android:gravity="center_vertical"
                 android:padding="5dp"
-                android:text="여기는 공지사항3 입니다."
                 android:textSize="13sp"
                 android:visibility="gone" />
         </LinearLayout>
