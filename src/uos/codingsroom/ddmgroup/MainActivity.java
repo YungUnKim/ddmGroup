@@ -44,6 +44,7 @@ public class MainActivity extends FragmentActivity {
 
 	private UserProfile userProfile;
 	private NetworkImageView profilePictureLayout;
+	private TextView profileNameText;
 	private TextView myNameText;
 	private ImageView settingButton;
 	private ImageView favoriteButton;
@@ -208,6 +209,7 @@ public class MainActivity extends FragmentActivity {
 
 	public void setProfile() {
 		myNameText.setText(nickName + "님 안녕하세요!");
+		profileNameText.setText(nickName);
 		setProfileURL(profileImageURL);
 	}
 
@@ -255,6 +257,7 @@ public class MainActivity extends FragmentActivity {
 	private void initializeProfileView() {
 		myNameText = (TextView) findViewById(R.id.my_name);
 		profilePictureLayout = (NetworkImageView) findViewById(R.id.profile_image);
+		profileNameText = (TextView) findViewById(R.id.profile_name);
 	}
 
 	private void initializeButtons() {
