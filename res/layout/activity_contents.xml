@@ -42,6 +42,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
+                    android:layout_marginRight="5dp"
                     android:layout_alignParentRight="true"
                     android:orientation="horizontal" >
 
@@ -57,15 +58,15 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="4dp"
-                        android:padding="2dp"
+                        android:layout_marginTop="3dp"
+                        android:padding="3dp"
                         android:src="@drawable/icon_comment" />
 
                     <TextView
                         android:id="@+id/contents_reply_count"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="-8dp"
+                        android:layout_marginLeft="-10dp"
                         android:gravity="center_vertical"
                         android:text="12"
                         android:textColor="@color/content_gray"

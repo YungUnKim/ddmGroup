@@ -24,7 +24,6 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 	private NewsFeedListAdapter newsfeedAdapter;
 
 	private TextView[] noticeTitleText = new TextView[3];
-
 	private int noticeNum[] = new int[3];
 	private String noticeTitle[] = new String[3];
 

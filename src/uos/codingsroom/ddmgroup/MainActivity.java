@@ -151,7 +151,7 @@ public class MainActivity extends FragmentActivity {
 		 * groupAdapter.addItem(new GroupItem("/뒤로가기")); groupAdapter.addItem(new GroupItem("소분류 1")); groupAdapter.addItem(new GroupItem("소분류 2")); groupAdapter.addItem(new GroupItem("소분류 3"));
 		 * groupAdapter.addItem(new GroupItem("소분류 4")); groupAdapter.addItem(new GroupItem("소분류 5")); groupAdapter.addItem(new GroupItem("소분류 6")); groupAdapter.addItem(new GroupItem("소분류 7"));
 		 */
-		groupAdapter.addItem(0, new GroupItem("뒤로가기"));
+		groupAdapter.addItem(0, new GroupItem("돌아가기"));
 
 		groupListView.setAdapter(groupAdapter);
 		menuLayout.setVisibility(View.GONE);

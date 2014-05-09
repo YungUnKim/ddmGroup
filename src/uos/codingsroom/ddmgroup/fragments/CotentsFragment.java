@@ -1,18 +1,24 @@
 package uos.codingsroom.ddmgroup.fragments;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import uos.codingsroom.ddmgroup.ContentsActivity;
+import uos.codingsroom.ddmgroup.MakePreferences;
 import uos.codingsroom.ddmgroup.R;
 import uos.codingsroom.ddmgroup.item.ContentItem;
 import uos.codingsroom.ddmgroup.listview.ContentListAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,22 +26,27 @@ import android.widget.Toast;
 public class CotentsFragment extends Fragment {
 
 	private static Integer currentGroup = 0;
+	private static String currentGroupName;
 
 	private ListView boardListView;
 	private ContentListAdapter boardListAdapter;
-
+	private ImageView favoriteStar;
 	private TextView boardLabelTitle;
+
+	private Boolean favoriteThisGroup = false;
+
+	MakePreferences myPreference;
+
+	Set<String> favoriteNumberSet;
+	Set<String> favoriteStringSet;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-
+		myPreference = new MakePreferences(getActivity());
+		favoriteNumberSet = myPreference.getMyPreference().getStringSet("favoriteNum", new HashSet<String>());
+		favoriteStringSet = myPreference.getMyPreference().getStringSet("favoriteName", new HashSet<String>());
 	}
 
 	@Override
@@ -46,11 +57,44 @@ public class CotentsFragment extends Fragment {
 		boardListAdapter = new ContentListAdapter(this.getActivity());
 
 		boardLabelTitle = (TextView) view.findViewById(R.id.board_label_title);
+		favoriteStar = (ImageView) view.findViewById(R.id.board_star_favorite);
+		favoriteStar.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				if (!favoriteThisGroup) {
+					Toast.makeText(getActivity(), "즐겨찾기에 추가되었습니다.", Toast.LENGTH_SHORT).show();
+					favoriteStar.setSelected(true);
+					favoriteThisGroup = true;
+					favoriteNumberSet.add(Integer.toString(currentGroup));
+					favoriteStringSet.add(currentGroupName);
+					// for(String string:favoriteStringSet){
+					// Log.i("setTag", string);
+					// }
+					myPreference.getMyPrefEditor().putStringSet("favoriteNum", favoriteNumberSet);
+					myPreference.getMyPrefEditor().putStringSet("favoriteName", favoriteStringSet);
+					myPreference.getMyPrefEditor().commit();
+
+				} else {
+					Toast.makeText(getActivity(), "즐겨찾기가 해제되었습니다.", Toast.LENGTH_SHORT).show();
+					favoriteStar.setSelected(false);
+					favoriteThisGroup = false;
+					favoriteNumberSet.remove(Integer.toString(currentGroup));
+					favoriteStringSet.remove(currentGroupName);
+					// for(String string:favoriteStringSet){
+					// Log.i("setTag", string);
+					// }
+					myPreference.getMyPrefEditor().putStringSet("favoriteNum", favoriteNumberSet);
+					myPreference.getMyPrefEditor().putStringSet("favoriteName", favoriteStringSet);
+					myPreference.getMyPrefEditor().commit();
+				}
+			}
+		});
 
 		return view;
 	}
 
 	public void setTitleLabel(String title) {
+		currentGroupName = title;
 		boardLabelTitle.setText(title);
 	}
 
@@ -59,7 +103,15 @@ public class CotentsFragment extends Fragment {
 	}
 
 	public void setListView() {
-		Toast.makeText(getActivity(), "현재 그룹 번호 : " + currentGroup, Toast.LENGTH_SHORT).show();
+		favoriteStar.setSelected(false);
+		favoriteThisGroup = false;
+		for (String string : favoriteNumberSet) {
+			if (Integer.parseInt(string) == currentGroup) {
+				favoriteStar.setSelected(true);
+				favoriteThisGroup = true;
+				break;
+			}
+		}
 		boardListAdapter.clearItem();
 
 		boardListAdapter.addItem(new ContentItem(0, 10, 10, "제목 입니다.", "재영박", "08/03/1988"));
@@ -83,8 +135,8 @@ public class CotentsFragment extends Fragment {
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 				final Intent intent = new Intent(getActivity(), ContentsActivity.class);
 				startActivity(intent);
-							}
+			}
 		});
-		
+
 	}
 }

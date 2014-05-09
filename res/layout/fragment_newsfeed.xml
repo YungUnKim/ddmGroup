@@ -13,7 +13,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:drawableLeft="@drawable/icon_notice"
             android:gravity="center_vertical"
             android:text="@string/notice_text"
@@ -75,13 +76,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:orientation="vertical" >
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
+            android:layout_marginBottom="3dp"
             android:drawableLeft="@drawable/icon_newsfeed"
             android:gravity="center_vertical"
             android:text="@string/notice_newsfeed"
@@ -93,6 +95,7 @@
             android:id="@+id/listview_newsfeed"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
             android:background="#ffffff"
             android:divider="#eeeeee"
             android:dividerHeight="1dip"
