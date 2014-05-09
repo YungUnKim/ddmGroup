@@ -7,6 +7,7 @@ import uos.codingsroom.ddmgroup.item.GroupItem;
 import uos.codingsroom.ddmgroup.item.NewsFeedItem;
 import uos.codingsroom.ddmgroup.listview.GroupListAdapter;
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,7 +19,9 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,12 +35,18 @@ import com.kakao.UserProfile;
 
 public class MainActivity extends FragmentActivity {
 	public static MainActivity preActivity;
+	private static final int menus = 7;
 
 	private UserProfile userProfile;
 	private NetworkImageView profilePictureLayout;
 	private TextView myNameText;
 	private ImageView settingButton;
 	private ImageView ddmLogo;
+	private ImageView menuBackButton;
+
+	private LinearLayout menuLayout;
+	private RelativeLayout[] menuButtons = new RelativeLayout[menus];
+	private Integer[] menuButtonView = { R.id.menu_1, R.id.menu_2, R.id.menu_3, R.id.menu_4, R.id.menu_5, R.id.menu_6, R.id.menu_7 };
 
 	private ListView groupListView;
 	private GroupListAdapter groupAdapter;
@@ -63,9 +72,9 @@ public class MainActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		initializeView(); // 뷰를 초기화
 
-		readProfile();
-		setProfile();
-		setBigListView();
+		readProfile(this);
+		// setProfile();
+//		setBigListView();
 		setNewsFeedView();// 뉴스피드 시작
 
 		showFragment(NEWSFEED, false);
@@ -79,8 +88,6 @@ public class MainActivity extends FragmentActivity {
 		// setProfileURL(userProfile.getThumbnailImagePath());
 		// }
 
-		Connect_Thread mThread = new Connect_Thread(this, 10, nickName, profileImageURL, kakaoCode);
-		mThread.start();
 	}
 
 	public void setMyMemberNum(int myMemberNumber) {
@@ -147,14 +154,18 @@ public class MainActivity extends FragmentActivity {
 		groupAdapter.addItem(0, new GroupItem("뒤로가기"));
 
 		groupListView.setAdapter(groupAdapter);
+		menuLayout.setVisibility(View.GONE);
+		groupListView.setVisibility(View.VISIBLE);
 		groupListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 				if (position == 0) {
-//					Toast.makeText(getApplicationContext(), "대분류로 이동합니다.", Toast.LENGTH_SHORT).show();
+					// Toast.makeText(getApplicationContext(), "대분류로 이동합니다.", Toast.LENGTH_SHORT).show();
+					menuLayout.setVisibility(View.VISIBLE);
+					groupListView.setVisibility(View.GONE);
 					groupAdapter.clearItem();
-					setBigListView();
+//					setBigListView();
 				} else {
 					GroupItem curItem = (GroupItem) groupAdapter.getItem(position);
 					((CotentsFragment) fragments[BOARD]).setCurrentGroupNum(curItem.getIndexNum());
@@ -194,13 +205,16 @@ public class MainActivity extends FragmentActivity {
 		}
 	}
 
-	public void readProfile() {
+	public void readProfile(final Context context) {
 		KakaoTalkService.requestProfile(new MyTalkHttpResponseHandler<KakaoTalkProfile>() {
 			@Override
 			protected void onHttpSuccess(final KakaoTalkProfile talkProfile) {
 				nickName = talkProfile.getNickName();
 				profileImageURL = talkProfile.getThumbnailURL();
 				kakaoCode = userProfile.getId();
+
+				Connect_Thread mThread = new Connect_Thread(context, 10, nickName, profileImageURL, kakaoCode);
+				mThread.start();
 			}
 		});
 	}
@@ -225,6 +239,8 @@ public class MainActivity extends FragmentActivity {
 			transaction.hide(fragments[i]);
 		}
 		transaction.commit();
+		
+		menuLayout = (LinearLayout) findViewById(R.id.layout_menu);
 
 		initializeButtons();
 		initializeProfileView();
@@ -272,6 +288,27 @@ public class MainActivity extends FragmentActivity {
 
 			}
 		});
+
+		menuBackButton = (ImageView) findViewById(R.id.slidingmenu_back_button);
+		menuBackButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				menu.getMenu().showContent();
+			}
+		});
+
+		for (int i = 0; i < menus; i++) {
+			final int position = i;
+			menuButtons[i] = (RelativeLayout) findViewById(menuButtonView[i]);
+			menuButtons[i].setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Connect_Thread mThread = new Connect_Thread(MainActivity.this, 20, position);
+					mThread.start();
+				}
+			});
+		}
+
 	}
 
 	private void initializeListView() {

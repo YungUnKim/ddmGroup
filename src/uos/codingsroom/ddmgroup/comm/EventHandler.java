@@ -30,6 +30,7 @@ public class EventHandler extends Handler {
 			else if (msg.what == 10) { 
 			// Log.i("MyTag","Handler 10 >> " + msg);
 				((MainActivity) mcontext).showMyMemNumber();
+				((MainActivity) mcontext).setProfile();
 			}
 			else if (msg.what == 11) { //공지사항
 			// Log.i("MyTag","Handler 10 >> " + msg);

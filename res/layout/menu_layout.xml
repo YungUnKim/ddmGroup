@@ -11,17 +11,120 @@
         android:layout_marginBottom="46dp"
         android:orientation="vertical" >
 
-        <com.android.volley.toolbox.NetworkImageView
-            android:id="@+id/profile_image"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:background="@drawable/kakao_default_profile_image"
-            android:scaleType="centerCrop" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="#33000000" >
+
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/profile_image"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/kakao_default_profile_image"
+                android:scaleType="centerCrop" />
+
+            <ImageView
+                android:id="@+id/slidingmenu_back_button"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="5dp"
+                android:padding="3dp"
+                android:src="@drawable/icon_back_w" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_menu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="15dp"
+            android:weightSum="3" >
+
+            <LinearLayout style="@style/inner_horizotal_menu" >
+
+                <RelativeLayout
+                    android:id="@+id/menu_1"
+                    style="@style/menu_item_layout" >
+
+                    <TextView
+                        style="@style/menu_item"
+                        android:text="대분류1" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/menu_2"
+                    style="@style/menu_item_layout" >
+
+                    <TextView
+                        style="@style/menu_item"
+                        android:text="대분류2" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/menu_3"
+                    style="@style/menu_item_layout" >
+
+                    <TextView
+                        style="@style/menu_item"
+                        android:text="대분류3" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout style="@style/inner_horizotal_menu" >
+
+                <RelativeLayout
+                    android:id="@+id/menu_4"
+                    style="@style/menu_item_layout" >
+
+                    <TextView
+                        style="@style/menu_item"
+                        android:text="대분류4" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/menu_5"
+                    style="@style/menu_item_layout" >
+
+                    <TextView
+                        style="@style/menu_item"
+                        android:text="대분류5" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/menu_6"
+                    style="@style/menu_item_layout" >
+
+                    <TextView
+                        style="@style/menu_item"
+                        android:text="대분류6" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout style="@style/inner_horizotal_menu" >
+
+                <RelativeLayout
+                    android:id="@+id/menu_7"
+                    style="@style/menu_item_layout" >
+
+                    <TextView
+                        style="@style/menu_item"
+                        android:text="대분류7" />
+                </RelativeLayout>
+
+            </LinearLayout>
+        </LinearLayout>
 
         <ListView
             android:id="@+id/listview_group"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent"
+            android:layout_margin="15dp"
+            android:scrollbars="none"
+            android:divider="#11ffffff"
+            android:dividerHeight="0.5dip"
+            android:visibility="gone" >
         </ListView>
     </LinearLayout>
 
@@ -29,13 +132,25 @@
         android:layout_width="match_parent"
         android:layout_height="46dp"
         android:layout_alignParentBottom="true"
+        android:background="#33000000"
         android:orientation="horizontal"
         android:weightSum="3" >
 
-        <View
+        <ImageView
+            android:id="@+id/button_favorite"
             android:layout_width="0dip"
             android:layout_height="match_parent"
-            android:layout_weight="2" />
+            android:layout_weight="1"
+            android:padding="5dp"
+            android:src="@drawable/icon_favorite" />
+
+        <ImageView
+            android:id="@+id/button_notice"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="3dp"
+            android:src="@drawable/icon_notice2" />
 
         <ImageView
             android:id="@+id/button_setting"
