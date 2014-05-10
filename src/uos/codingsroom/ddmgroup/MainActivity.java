@@ -70,7 +70,7 @@ public class MainActivity extends FragmentActivity {
 	private static String profileImageURL;
 	private static Long kakaoCode;
 
-	private static Integer currentFrgment = 0;
+	private static Integer currentFragment = 0;
 	private static Boolean favoriteFlag = false;
 
 	private static final int NEWSFEED = 0;
@@ -154,7 +154,7 @@ public class MainActivity extends FragmentActivity {
 					menuLayout.setVisibility(View.VISIBLE);
 					groupListView.setVisibility(View.GONE);
 					groupAdapter.clearItem();
-					if(favoriteFlag)
+					if (favoriteFlag)
 						closeFavorite();
 					// setBigListView();
 				} else {
@@ -254,7 +254,7 @@ public class MainActivity extends FragmentActivity {
 		}
 		transaction.commit();
 
-		currentFrgment = fragmentIndex;
+		currentFragment = fragmentIndex;
 	}
 
 	private void initializeProfileView() {
@@ -286,7 +286,7 @@ public class MainActivity extends FragmentActivity {
 		ddmLogo.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				showFragment(REGISTER, false);
+				Toast.makeText(getBaseContext(), "조인행 코딩좀 해", Toast.LENGTH_SHORT).show();
 
 			}
 		});
@@ -356,7 +356,9 @@ public class MainActivity extends FragmentActivity {
 	public void onBackPressed() {
 		if (menu.getMenu().isMenuShowing()) {
 			menu.getMenu().showContent();
-		} else if (currentFrgment != 0) {
+		} else if (currentFragment == 2) {
+			showFragment(1, false);
+		} else if (currentFragment == 1) {
 			showFragment(0, false);
 		} else {
 			super.onBackPressed();
