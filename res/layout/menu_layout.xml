@@ -160,7 +160,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:padding="5dp"
-            android:src="@drawable/icon_favorite" />
+            android:src="@drawable/favorite_icon" />
 
         <ImageView
             android:id="@+id/button_notice"

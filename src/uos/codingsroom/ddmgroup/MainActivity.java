@@ -71,6 +71,7 @@ public class MainActivity extends FragmentActivity {
 	private static Long kakaoCode;
 
 	private static Integer currentFrgment = 0;
+	private static Boolean favoriteFlag = false;
 
 	private static final int NEWSFEED = 0;
 	private static final int BOARD = 1;
@@ -153,6 +154,8 @@ public class MainActivity extends FragmentActivity {
 					menuLayout.setVisibility(View.VISIBLE);
 					groupListView.setVisibility(View.GONE);
 					groupAdapter.clearItem();
+					if(favoriteFlag)
+						closeFavorite();
 					// setBigListView();
 				} else {
 					GroupItem curItem = (GroupItem) groupAdapter.getItem(position);
@@ -272,23 +275,15 @@ public class MainActivity extends FragmentActivity {
 		favoriteButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				groupAdapter.clearItem();
-				
-				for (String string : favoriteStringSet) {
-					String[] dataSet = new String(string).split(" ");
-					groupItem = new GroupItem();
-					groupItem.setIndexNum((Integer.parseInt(dataSet[0])));
-					groupItem.setTitle(string.substring(dataSet[0].length()));
-					addGroupItem(groupItem);					
-				}
-
-				setLittleListView();
+				if (favoriteFlag)
+					closeFavorite();
+				else
+					openFavorite();
 			}
 		});
 
 		ddmLogo = (ImageView) findViewById(R.id.ddm_logo);
 		ddmLogo.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				showFragment(REGISTER, false);
@@ -316,6 +311,29 @@ public class MainActivity extends FragmentActivity {
 			});
 		}
 
+	}
+
+	public void openFavorite() {
+		groupAdapter.clearItem();
+
+		for (String string : favoriteStringSet) {
+			String[] dataSet = new String(string).split(" ");
+			groupItem = new GroupItem();
+			groupItem.setIndexNum((Integer.parseInt(dataSet[0])));
+			groupItem.setTitle(string.substring(dataSet[0].length()));
+			addGroupItem(groupItem);
+		}
+		setLittleListView();
+		favoriteButton.setSelected(true);
+		favoriteFlag = true;
+	}
+
+	public void closeFavorite() {
+		menuLayout.setVisibility(View.VISIBLE);
+		groupListView.setVisibility(View.GONE);
+		groupAdapter.clearItem();
+		favoriteButton.setSelected(false);
+		favoriteFlag = false;
 	}
 
 	private void initializeListView() {
