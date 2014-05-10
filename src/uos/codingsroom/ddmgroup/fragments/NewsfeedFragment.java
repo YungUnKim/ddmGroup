@@ -14,7 +14,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AbsListView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -22,12 +25,16 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 
 	private ListView newsfeedListView;
 	private NewsFeedListAdapter newsfeedAdapter;
+	private LinearLayout noticeLayout;
 
 	private TextView[] noticeTitleText = new TextView[3];
 	private int noticeNum[] = new int[3];
 	private String noticeTitle[] = new String[3];
 
 	private int noticeCount = 0;
+	
+	private int mLastFirstVisibleItem;
+	private boolean mIsScrollingUp;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -47,6 +54,8 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View view = inflater.inflate(R.layout.fragment_newsfeed, container, false);
+		
+		noticeLayout = (LinearLayout) view.findViewById(R.id.notice_layout);
 
 		noticeTitleText[0] = (TextView) view.findViewById(R.id.notice_1);
 		noticeTitleText[1] = (TextView) view.findViewById(R.id.notice_2);
@@ -90,9 +99,7 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 	public void setNewsFeedTitle() {
 		// Log.i("MyTag", "뉴스피드입력된다." + noticeCount);
 		newsfeedListView.setAdapter(newsfeedAdapter);
-
 		newsfeedListView.setOnItemClickListener(new OnItemClickListener() {
-
 			@Override
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 				moveToConetentsActivity();

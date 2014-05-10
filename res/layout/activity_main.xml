@@ -71,11 +71,9 @@
 
         <fragment
             android:id="@+id/boardFragment"
-            android:name="uos.codingsroom.ddmgroup.fragments.CotentsFragment"
+            android:name="uos.codingsroom.ddmgroup.fragments.ContentsFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp" />
+            android:layout_height="match_parent" />
 
         <fragment
             android:id="@+id/registerFragment"

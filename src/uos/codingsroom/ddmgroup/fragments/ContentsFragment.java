@@ -2,9 +2,9 @@ package uos.codingsroom.ddmgroup.fragments;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.StringTokenizer;
 
 import uos.codingsroom.ddmgroup.ContentsActivity;
+import uos.codingsroom.ddmgroup.MainActivity;
 import uos.codingsroom.ddmgroup.MakePreferences;
 import uos.codingsroom.ddmgroup.R;
 import uos.codingsroom.ddmgroup.item.ContentItem;
@@ -12,19 +12,22 @@ import uos.codingsroom.ddmgroup.listview.ContentListAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.webkit.WebView.FindListener;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CotentsFragment extends Fragment {
+public class ContentsFragment extends Fragment implements OnClickListener {
 
 	private static Integer currentGroup = 0;
 	private static String currentGroupName;
@@ -33,10 +36,19 @@ public class CotentsFragment extends Fragment {
 	private ContentListAdapter boardListAdapter;
 	private ImageView favoriteStar;
 	private TextView boardLabelTitle;
+	private LinearLayout boardMenuLayout;
+
+	private TextView boardBackButton;
+	private TextView boardRegisterButton;
+	private ImageView boardPrevButton;
+	private ImageView boardNextButton;
 
 	private Boolean favoriteThisGroup = false;
 
 	MakePreferences myPreference;
+
+	private int mLastFirstVisibleItem;
+	private boolean mIsScrollingUp;
 
 	Set<String> favoriteStringSet;
 
@@ -56,34 +68,20 @@ public class CotentsFragment extends Fragment {
 		boardListAdapter = new ContentListAdapter(this.getActivity());
 
 		boardLabelTitle = (TextView) view.findViewById(R.id.board_label_title);
-		favoriteStar = (ImageView) view.findViewById(R.id.board_star_favorite);
-		favoriteStar.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				if (!favoriteThisGroup) {
-					Toast.makeText(getActivity(), "즐겨찾기에 추가되었습니다.", Toast.LENGTH_SHORT).show();
-					favoriteStar.setSelected(true);
-					favoriteThisGroup = true;
-					favoriteStringSet.add(Integer.toString(currentGroup) + " " + currentGroupName);
-					// for (String string : favoriteStringSet) {
-					// Log.i("setTag", string);
-					// }
-					myPreference.getMyPrefEditor().putStringSet("favoriteName", favoriteStringSet);
-					myPreference.getMyPrefEditor().commit();
+		boardMenuLayout = (LinearLayout) view.findViewById(R.id.layout_board_menu);
 
-				} else {
-					Toast.makeText(getActivity(), "즐겨찾기가 해제되었습니다.", Toast.LENGTH_SHORT).show();
-					favoriteStar.setSelected(false);
-					favoriteThisGroup = false;
-					favoriteStringSet.remove(Integer.toString(currentGroup) + " " + currentGroupName);
-					// for (String string : favoriteStringSet) {
-					// Log.i("setTag", string);
-					// }
-					myPreference.getMyPrefEditor().putStringSet("favoriteName", favoriteStringSet);
-					myPreference.getMyPrefEditor().commit();
-				}
-			}
-		});
+		boardBackButton = (TextView) view.findViewById(R.id.button_board_home);
+		boardRegisterButton = (TextView) view.findViewById(R.id.button_board_register);
+		boardPrevButton = (ImageView) view.findViewById(R.id.button_board_prev);
+		boardNextButton = (ImageView) view.findViewById(R.id.button_board_next);
+
+		boardBackButton.setOnClickListener(this);
+		boardRegisterButton.setOnClickListener(this);
+		boardPrevButton.setOnClickListener(this);
+		boardNextButton.setOnClickListener(this);
+
+		favoriteStar = (ImageView) view.findViewById(R.id.board_star_favorite);
+		favoriteStar.setOnClickListener(this);
 
 		return view;
 	}
@@ -98,7 +96,7 @@ public class CotentsFragment extends Fragment {
 	}
 
 	public void setListView() {
-//		Toast.makeText(getActivity(), "현재 그룹 번호는 " + currentGroup, Toast.LENGTH_SHORT).show();
+		// Toast.makeText(getActivity(), "현재 그룹 번호는 " + currentGroup, Toast.LENGTH_SHORT).show();
 		favoriteStar.setSelected(false);
 		favoriteThisGroup = false;
 
@@ -129,14 +127,89 @@ public class CotentsFragment extends Fragment {
 
 		boardListView.setAdapter(boardListAdapter);
 
-		boardListView.setOnItemClickListener(new OnItemClickListener() {
+		boardListView.setOnScrollListener(new OnScrollListener() {
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+				final ListView lw = (ListView) view;
 
+				if (view.getId() == lw.getId()) {
+					final int currentFirstVisibleItem = lw.getFirstVisiblePosition();
+
+					if (currentFirstVisibleItem > mLastFirstVisibleItem) {
+						mIsScrollingUp = false;
+					} else if (currentFirstVisibleItem < mLastFirstVisibleItem) {
+						mIsScrollingUp = true;
+					}
+
+					mLastFirstVisibleItem = currentFirstVisibleItem;
+				}
+			}
+
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+				if (firstVisibleItem == 0) {
+					boardMenuLayout.setVisibility(View.VISIBLE);
+				} else if (mIsScrollingUp) {
+					boardMenuLayout.setVisibility(View.VISIBLE);
+				} else {
+					boardMenuLayout.setVisibility(View.GONE);
+				}
+			}
+		});
+
+		boardListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 				final Intent intent = new Intent(getActivity(), ContentsActivity.class);
 				startActivity(intent);
 			}
 		});
+
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.button_board_home:
+			((MainActivity) getActivity()).showFragment(0, false);
+			break;
+		case R.id.button_board_register:
+			((MainActivity) getActivity()).showFragment(2, false);
+			break;
+		case R.id.button_board_prev:
+			
+			break;
+		case R.id.button_board_next:
+
+			break;
+		case R.id.board_star_favorite:
+			if (!favoriteThisGroup) {
+				Toast.makeText(getActivity(), "즐겨찾기에 추가되었습니다.", Toast.LENGTH_SHORT).show();
+				favoriteStar.setSelected(true);
+				favoriteThisGroup = true;
+				favoriteStringSet.add(Integer.toString(currentGroup) + " " + currentGroupName);
+				// for (String string : favoriteStringSet) {
+				// Log.i("setTag", string);
+				// }
+				myPreference.getMyPrefEditor().putStringSet("favoriteName", favoriteStringSet);
+				myPreference.getMyPrefEditor().commit();
+
+			} else {
+				Toast.makeText(getActivity(), "즐겨찾기가 해제되었습니다.", Toast.LENGTH_SHORT).show();
+				favoriteStar.setSelected(false);
+				favoriteThisGroup = false;
+				favoriteStringSet.remove(Integer.toString(currentGroup) + " " + currentGroupName);
+				// for (String string : favoriteStringSet) {
+				// Log.i("setTag", string);
+				// }
+				myPreference.getMyPrefEditor().putStringSet("favoriteName", favoriteStringSet);
+				myPreference.getMyPrefEditor().commit();
+			}
+			break;
+
+		default:
+			break;
+		}
 
 	}
 }
