@@ -1,13 +1,11 @@
 package uos.codingsroom.ddmgroup;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import uos.codingsroom.ddmgroup.comm.Connect_Thread;
 import uos.codingsroom.ddmgroup.fragments.ContentsFragment;
 import uos.codingsroom.ddmgroup.fragments.NewsfeedFragment;
-import uos.codingsroom.ddmgroup.fragments.RegisterFragment;
 import uos.codingsroom.ddmgroup.item.GroupItem;
 import uos.codingsroom.ddmgroup.item.NewsFeedItem;
 import uos.codingsroom.ddmgroup.listview.GroupListAdapter;
@@ -19,7 +17,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -69,6 +66,7 @@ public class MainActivity extends FragmentActivity {
 	private static Integer myMemNum;
 	private static String nickName;
 	private static String profileImageURL;
+	private static String profileBigImageURL;
 	private static Long kakaoCode;
 
 	private static Integer currentFragment = 0;
@@ -203,6 +201,7 @@ public class MainActivity extends FragmentActivity {
 			protected void onHttpSuccess(final KakaoTalkProfile talkProfile) {
 				nickName = talkProfile.getNickName();
 				profileImageURL = talkProfile.getThumbnailURL();
+				profileBigImageURL = talkProfile.getProfileImageURL();
 				kakaoCode = userProfile.getId();
 
 				Connect_Thread mThread = new Connect_Thread(context, 10, nickName, profileImageURL, kakaoCode);
@@ -349,7 +348,10 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	private void moveToSettingActivity() {
-		final Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+		final Intent intent = new Intent(this, SettingActivity.class);
+		intent.putExtra("myName", nickName);
+		intent.putExtra("myProfileUrl", profileBigImageURL);
+		intent.putExtra("myCode", kakaoCode);
 		startActivity(intent);
 	}
 
