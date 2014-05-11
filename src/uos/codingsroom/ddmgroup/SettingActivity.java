@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -15,18 +16,25 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.kakao.APIErrorResult;
+import com.kakao.AppActionBuilder;
 import com.kakao.GlobalApplication;
+import com.kakao.KakaoLink;
+import com.kakao.KakaoParameterException;
+import com.kakao.KakaoTalkLinkMessageBuilder;
 import com.kakao.LogoutResponseCallback;
 import com.kakao.UnlinkResponseCallback;
 import com.kakao.UserManagement;
-import com.kakao.helper.Logger;
 
 public class SettingActivity extends Activity implements OnClickListener {
+
+	KakaoLink kakaoLink;
+	KakaoTalkLinkMessageBuilder kakaoTalkLinkMessageBuilder;
 
 	private ImageView backButton;
 	private Button logoutButton;
 	private Button resignButton;
 	private Button contactButton;
+	private Button kakaoLinkButton;
 	private NetworkImageView profilePictureLayout;
 
 	private final String mailAddress = "codingsroom@gmail.com";
@@ -62,10 +70,20 @@ public class SettingActivity extends Activity implements OnClickListener {
 		resignButton.setOnClickListener(this);
 		contactButton = (Button) findViewById(R.id.button_contact);
 		contactButton.setOnClickListener(this);
+		kakaoLinkButton = (Button) findViewById(R.id.kakaolink);
+		kakaoLinkButton.setOnClickListener(this);
 
 		setProfileURL(profileBigImageURL);
 		myNameText.setText(nickName);
 		myCodeText.setText(Long.toString(kakaoCode));
+
+		try {
+			kakaoLink = KakaoLink.getKakaoLink();
+			kakaoTalkLinkMessageBuilder = kakaoLink.createKakaoTalkLinkMessageBuilder();
+		} catch (KakaoParameterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void onClickLogout() {
@@ -104,10 +122,39 @@ public class SettingActivity extends Activity implements OnClickListener {
 		case R.id.button_resign:
 			onClickUnlink();
 			break;
+		case R.id.kakaolink:
+			sendKakaoLink();
+			kakaoTalkLinkMessageBuilder = kakaoLink.createKakaoTalkLinkMessageBuilder();
+			break;
 		default:
 			break;
 		}
 
+	}
+
+	private void sendKakaoLink() {
+		try {
+			kakaoTalkLinkMessageBuilder.addText("테스트메시지");
+
+			kakaoTalkLinkMessageBuilder.addAppButton("앱 연결",
+					new AppActionBuilder()
+							.setAndroidExecuteURLParam("target=main")
+							.setIOSExecuteURLParam("target=main", AppActionBuilder.DEVICE_TYPE.PHONE).build());
+
+			kakaoLink.sendMessage(kakaoTalkLinkMessageBuilder.build(), this);
+		} catch (KakaoParameterException e) {
+			alert(e.getMessage());
+			Log.i("setTag", "lol");
+		}
+	}
+
+	private void alert(String message) {
+		new AlertDialog.Builder(this)
+				.setIcon(android.R.drawable.ic_dialog_alert)
+				.setTitle(R.string.app_name)
+				.setMessage(message)
+				.setPositiveButton(android.R.string.ok, null)
+				.create().show();
 	}
 
 	private void sendMail() {
