@@ -8,6 +8,7 @@ import uos.codingsroom.ddmgroup.comm.Get_Newsfeed_Thread;
 import uos.codingsroom.ddmgroup.comm.Login_Profile_Thread;
 import uos.codingsroom.ddmgroup.fragments.ContentsFragment;
 import uos.codingsroom.ddmgroup.fragments.NewsfeedFragment;
+import uos.codingsroom.ddmgroup.fragments.RegisterFragment;
 import uos.codingsroom.ddmgroup.item.GroupItem;
 import uos.codingsroom.ddmgroup.item.NewsFeedItem;
 import uos.codingsroom.ddmgroup.listview.GroupListAdapter;
@@ -163,6 +164,8 @@ public class MainActivity extends FragmentActivity {
 					((ContentsFragment) fragments[BOARD]).setCurrentGroupNum(curItem.getIndexNum());
 					((ContentsFragment) fragments[BOARD]).setTitleLabel(curItem.getTitle());
 					((ContentsFragment) fragments[BOARD]).setListView();
+					((RegisterFragment) fragments[REGISTER]).setCurrentGroupNum(curItem.getIndexNum());
+					((RegisterFragment) fragments[REGISTER]).setTitleLabel(curItem.getTitle());
 					showFragment(BOARD, false);
 					menu.getMenu().showContent();
 				}
@@ -288,7 +291,10 @@ public class MainActivity extends FragmentActivity {
 		ddmLogo.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(getBaseContext(), "조인행 코딩좀 해", Toast.LENGTH_SHORT).show();
+				if (currentFragment != 0) {
+					showFragment(0, false);
+					Toast.makeText(getBaseContext(), "조인행 코딩좀 해", Toast.LENGTH_SHORT).show();
+				}
 
 			}
 		});

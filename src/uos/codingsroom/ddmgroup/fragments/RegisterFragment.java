@@ -1,5 +1,6 @@
 package uos.codingsroom.ddmgroup.fragments;
 
+import uos.codingsroom.ddmgroup.MainActivity;
 import uos.codingsroom.ddmgroup.R;
 import uos.codingsroom.ddmgroup.comm.Insert_Content_Thread;
 import android.app.Activity;
@@ -16,27 +17,27 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class RegisterFragment extends Fragment {
+
+	private static Integer currentGroup = 0;
+	private static String currentGroupName;
 
 	EditText EditTitle;
 	EditText EditMemo;
 	Button BtnUpload;
 	Button BtnRegister;
+	Button BtnBack;
 	ImageView temp_img;
 	int REQUEST_CODE_IMAGE = 1;
-	
+
+	TextView groupTitle;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
 	}
 
 	@Override
@@ -45,49 +46,70 @@ public class RegisterFragment extends Fragment {
 
 		EditTitle = (EditText) view.findViewById(R.id.editTitle);
 		EditMemo = (EditText) view.findViewById(R.id.editMemo);
-		
+
+		groupTitle = (TextView) view.findViewById(R.id.text_register_groupname);
+
 		clickListener click = new clickListener();
 		BtnUpload = (Button) view.findViewById(R.id.button_img_upload);
 		temp_img = (ImageView) view.findViewById(R.id.temp_img);
 		BtnUpload.setOnClickListener(click);
 		BtnRegister = (Button) view.findViewById(R.id.button_content_register);
 		BtnRegister.setOnClickListener(click);
-		
+		BtnBack = (Button) view.findViewById(R.id.button_content_back);
+		BtnBack.setOnClickListener(click);
+
 		return view;
 	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+
+	}
+
+	public void setTitleLabel(String title) {
+		currentGroupName = title;
+		groupTitle.setText(title);
+	}
+
+	public void setCurrentGroupNum(Integer num) {
+		currentGroup = num;
+	}
+
 	// 버튼 클릭 이벤트
-	class clickListener implements View.OnClickListener{
+	class clickListener implements View.OnClickListener {
 
 		@Override
 		public void onClick(View v) {
-			switch(v.getId()){
-			case R.id.button_img_upload:	// 이미지 업로드
-			{
-				Intent intent = new Intent (Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-				startActivityForResult(intent,REQUEST_CODE_IMAGE);
-				
-			}	
+			switch (v.getId()) {
+			case R.id.button_img_upload: // 이미지 업로드
+				Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+				startActivityForResult(intent, REQUEST_CODE_IMAGE);
 				break;
-			case R.id.button_content_register:	// 글 업로드 버튼
+			case R.id.button_content_register: // 글 업로드 버튼
 				registerContent();
 				break;
+			case R.id.button_content_back:
+				((MainActivity) getActivity()).showFragment(1, false);
+				break;
 			}
-			
+
 		}
-		
+
 	}
-	//사진 경로 구하는 클래스
-	class innerforURI extends Activity{
+
+	// 사진 경로 구하는 클래스
+	class innerforURI extends Activity {
 		public String getRealPathFromURI(Uri contentUri) {
-			String [] proj={MediaStore.Images.Media.DATA};
-			Log.i("img","contentUri = "+contentUri.toString() + "proj = " + proj.toString());
-			Cursor cursor = managedQuery(contentUri,proj,null,null,null);
+			String[] proj = { MediaStore.Images.Media.DATA };
+			Log.i("img", "contentUri = " + contentUri.toString() + "proj = " + proj.toString());
+			Cursor cursor = managedQuery(contentUri, proj, null, null, null);
 			int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
 			cursor.moveToFirst();
 			return cursor.getString(column_index);
 		}
 	}
+
 	public void registerContent() {
 		String Title = EditTitle.getText().toString();
 		String Memo = EditMemo.getText().toString();
@@ -98,40 +120,33 @@ public class RegisterFragment extends Fragment {
 			return;
 		}
 		Log.i("MyTag", Title + " >> " + Memo);
-		Insert_Content_Thread mThread = new Insert_Content_Thread(this.getActivity(), 22, 
-				16 , 1, Title, Memo);	// 회원번호, 소분류 번호 임시로 넣음
+		Insert_Content_Thread mThread = new Insert_Content_Thread(this.getActivity(), 22,
+				16, 1, Title, Memo); // 회원번호, 소분류 번호 임시로 넣음
 		mThread.start();
-		
-//		rDialog = createRegisterDialog();
-//		rDialog.show();
+
+		// rDialog = createRegisterDialog();
+		// rDialog.show();
 
 	}
-	
+
 	public void setNoticeTitle(String title, int index) {
 
 	}
+
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		SetImage setImage = new SetImage();
-		temp_img.setImageURI(data.getData()); 
+		temp_img.setImageURI(data.getData());
 		temp_img.setVisibility(temp_img.VISIBLE);
 		/*
-	    if (requestCode == REQUEST_CODE_IMAGE && resultCode == -1 && null != data) {
-	    	Uri currImageURI = data.getData();
-	    	Log.i("img",currImageURI.toString());
-	    	innerforURI inner = new innerforURI();
-	    	String imagePath = inner.getRealPathFromURI(currImageURI) ;
-	    	// 찍은 사진을 이미지뷰에 보여준다.
-	    	
-	    	final Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-	    	setImage.setAlbumImageDrawble(imagePath, temp_img) ;
-	    	
-	    	
-	    }//end if
-	     */
-	 }//end onActivityResult Method
-	
-
-	
+		 * if (requestCode == REQUEST_CODE_IMAGE && resultCode == -1 && null != data) { Uri currImageURI = data.getData(); Log.i("img",currImageURI.toString()); innerforURI inner = new
+		 * innerforURI(); String imagePath = inner.getRealPathFromURI(currImageURI) ; // 찍은 사진을 이미지뷰에 보여준다.
+		 * 
+		 * final Bitmap bitmap = BitmapFactory.decodeFile(imagePath); setImage.setAlbumImageDrawble(imagePath, temp_img) ;
+		 * 
+		 * 
+		 * }//end if
+		 */
+	}// end onActivityResult Method
 
 }

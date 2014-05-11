@@ -30,9 +30,6 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 	private String noticeTitle[] = new String[3];
 
 	private int noticeCount = 0;
-	
-	private int mLastFirstVisibleItem;
-	private boolean mIsScrollingUp;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
