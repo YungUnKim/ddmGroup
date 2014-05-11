@@ -134,9 +134,9 @@ public class SettingActivity extends Activity implements OnClickListener {
 
 	private void sendKakaoLink() {
 		try {
-			kakaoTalkLinkMessageBuilder.addText("테스트메시지");
+			kakaoTalkLinkMessageBuilder.addText("동대문 그룹에 초대합니다! \n 카카오톡으로 간편하게 가입하시고 모임에 대한 이야기를 나눠보세요!");
 
-			kakaoTalkLinkMessageBuilder.addAppButton("앱 연결",
+			kakaoTalkLinkMessageBuilder.addAppButton("앱으로 이동",
 					new AppActionBuilder()
 							.setAndroidExecuteURLParam("target=main")
 							.setIOSExecuteURLParam("target=main", AppActionBuilder.DEVICE_TYPE.PHONE).build());
