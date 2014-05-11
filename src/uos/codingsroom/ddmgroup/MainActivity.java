@@ -3,7 +3,9 @@ package uos.codingsroom.ddmgroup;
 import java.util.HashSet;
 import java.util.Set;
 
-import uos.codingsroom.ddmgroup.comm.Connect_Thread;
+import uos.codingsroom.ddmgroup.comm.Get_Groups_Thread;
+import uos.codingsroom.ddmgroup.comm.Get_Newsfeed_Thread;
+import uos.codingsroom.ddmgroup.comm.Login_Profile_Thread;
 import uos.codingsroom.ddmgroup.fragments.ContentsFragment;
 import uos.codingsroom.ddmgroup.fragments.NewsfeedFragment;
 import uos.codingsroom.ddmgroup.item.GroupItem;
@@ -131,7 +133,7 @@ public class MainActivity extends FragmentActivity {
 
 	// 뉴스피드 스레드 실행
 	public void setNewsFeedView() {
-		Connect_Thread mThread = new Connect_Thread(MainActivity.this, 12);
+		Get_Newsfeed_Thread mThread = new Get_Newsfeed_Thread(MainActivity.this, 12);
 		mThread.start();
 	}
 
@@ -204,7 +206,7 @@ public class MainActivity extends FragmentActivity {
 				profileBigImageURL = talkProfile.getProfileImageURL();
 				kakaoCode = userProfile.getId();
 
-				Connect_Thread mThread = new Connect_Thread(context, 10, nickName, profileImageURL, kakaoCode);
+				Login_Profile_Thread mThread = new Login_Profile_Thread(context, 10, nickName, profileImageURL, kakaoCode);
 				mThread.start();
 			}
 		});
@@ -305,7 +307,7 @@ public class MainActivity extends FragmentActivity {
 			menuButtons[i].setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Connect_Thread mThread = new Connect_Thread(MainActivity.this, 20, position);
+					Get_Groups_Thread mThread = new Get_Groups_Thread(MainActivity.this, 20, position);
 					mThread.start();
 				}
 			});

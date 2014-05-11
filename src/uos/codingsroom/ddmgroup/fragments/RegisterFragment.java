@@ -1,48 +1,15 @@
 package uos.codingsroom.ddmgroup.fragments;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
 import uos.codingsroom.ddmgroup.R;
-import uos.codingsroom.ddmgroup.comm.Connect_Thread;
+import uos.codingsroom.ddmgroup.comm.Insert_Content_Thread;
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.IntentSender;
-import android.content.IntentSender.SendIntentException;
-import android.content.ServiceConnection;
-import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.res.AssetManager;
-import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.content.res.Resources.Theme;
 import android.database.Cursor;
-import android.database.DatabaseErrorHandler;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.UserHandle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -131,7 +98,7 @@ public class RegisterFragment extends Fragment {
 			return;
 		}
 		Log.i("MyTag", Title + " >> " + Memo);
-		Connect_Thread mThread = new Connect_Thread(this.getActivity(), 22, 
+		Insert_Content_Thread mThread = new Insert_Content_Thread(this.getActivity(), 22, 
 				16 , 1, Title, Memo);	// 회원번호, 소분류 번호 임시로 넣음
 		mThread.start();
 		
