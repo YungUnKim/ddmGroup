@@ -5,6 +5,7 @@ import org.xmlpull.v1.XmlPullParser;
 import uos.codingsroom.ddmgroup.MainActivity;
 import uos.codingsroom.ddmgroup.item.GroupItem;
 import uos.codingsroom.ddmgroup.item.NewsFeedItem;
+import uos.codingsroom.ddmgroup.util.TimeFormat;
 import android.content.Context;
 import android.util.Log;
 
@@ -66,7 +67,7 @@ public class Get_Newsfeed_Thread extends Communication_Thread {
 		        	   reply_count = Integer.parseInt(ret);
 		           }
 		           else if (tagname.equals("CONTENT_DATE")) {
-		        	   date = ret;	           
+		        	   date = new TimeFormat().timeDelay(ret);	           
 		           }
 		           else if (tagname.equals("CONTENT_NOTICE")) {	           
 		           }

@@ -12,7 +12,6 @@ import uos.codingsroom.ddmgroup.fragments.RegisterFragment;
 import uos.codingsroom.ddmgroup.item.GroupItem;
 import uos.codingsroom.ddmgroup.item.NewsFeedItem;
 import uos.codingsroom.ddmgroup.listview.GroupListAdapter;
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +19,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -31,9 +31,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.toolbox.NetworkImageView;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnCloseListener;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnOpenListener;
 import com.kakao.APIErrorResult;
-import com.kakao.GlobalApplication;
 import com.kakao.KakaoTalkHttpResponseHandler;
 import com.kakao.KakaoTalkProfile;
 import com.kakao.KakaoTalkService;
@@ -42,15 +42,16 @@ import com.kakao.UserProfile;
 public class MainActivity extends FragmentActivity {
 	public static MainActivity preActivity;
 	private static final int menus = 7;
+	private static int currentCategory = 0;
 
 	private UserProfile userProfile;
-	private NetworkImageView profilePictureLayout;
-	private TextView profileNameText;
 	private TextView myNameText;
 	private ImageView settingButton;
 	private ImageView favoriteButton;
 	private ImageView ddmLogo;
 	private ImageView menuBackButton;
+
+	private RelativeLayout menuHelperLayout;
 
 	private LinearLayout menuLayout;
 	private RelativeLayout[] menuButtons = new RelativeLayout[menus];
@@ -148,6 +149,7 @@ public class MainActivity extends FragmentActivity {
 		groupListView.setAdapter(groupAdapter);
 		menuLayout.setVisibility(View.GONE);
 		groupListView.setVisibility(View.VISIBLE);
+		menuButtons[currentCategory].setClickable(true);
 		groupListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -158,6 +160,8 @@ public class MainActivity extends FragmentActivity {
 					groupAdapter.clearItem();
 					if (favoriteFlag)
 						closeFavorite();
+
+					showFragment(NEWSFEED, false);
 					// setBigListView();
 				} else {
 					GroupItem curItem = (GroupItem) groupAdapter.getItem(position);
@@ -172,15 +176,6 @@ public class MainActivity extends FragmentActivity {
 
 			}
 		});
-	}
-
-	public void setProfileURL(final String profileImageURL) {
-		if (profilePictureLayout != null && profileImageURL != null) {
-			Application app = GlobalApplication.getGlobalApplicationContext();
-			if (app == null)
-				throw new UnsupportedOperationException("needs com.kakao.GlobalApplication in order to use ImageLoader");
-			profilePictureLayout.setImageUrl(profileImageURL, ((GlobalApplication) app).getImageLoader());
-		}
 	}
 
 	private abstract class MyTalkHttpResponseHandler<T> extends KakaoTalkHttpResponseHandler<T> {
@@ -217,8 +212,6 @@ public class MainActivity extends FragmentActivity {
 
 	public void setProfile() {
 		myNameText.setText(nickName + "님 안녕하세요!");
-		profileNameText.setText(nickName);
-		setProfileURL(profileImageURL);
 	}
 
 	private void initializeView() {
@@ -237,7 +230,21 @@ public class MainActivity extends FragmentActivity {
 		}
 		transaction.commit();
 
+		menuHelperLayout = (RelativeLayout) findViewById(R.id.main_menu_helper_layout);
 		menuLayout = (LinearLayout) findViewById(R.id.layout_menu);
+
+		menu.getMenu().setOnCloseListener(new OnCloseListener() {
+			@Override
+			public void onClose() {
+				menuHelperLayout.setVisibility(View.GONE);
+			}
+		});
+		menu.getMenu().setOnOpenListener(new OnOpenListener() {
+			@Override
+			public void onOpen() {
+				menuHelperLayout.setVisibility(View.VISIBLE);
+			}
+		});
 
 		initializeButtons();
 		initializeProfileView();
@@ -264,8 +271,6 @@ public class MainActivity extends FragmentActivity {
 
 	private void initializeProfileView() {
 		myNameText = (TextView) findViewById(R.id.my_name);
-		profilePictureLayout = (NetworkImageView) findViewById(R.id.profile_image);
-		profileNameText = (TextView) findViewById(R.id.profile_name);
 	}
 
 	private void initializeButtons() {
@@ -313,6 +318,8 @@ public class MainActivity extends FragmentActivity {
 			menuButtons[i].setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
+					menuButtons[position].setClickable(false);
+					currentCategory = position;
 					Get_Groups_Thread mThread = new Get_Groups_Thread(MainActivity.this, 20, position);
 					mThread.start();
 				}
@@ -361,6 +368,16 @@ public class MainActivity extends FragmentActivity {
 		intent.putExtra("myProfileUrl", profileBigImageURL);
 		intent.putExtra("myCode", kakaoCode);
 		startActivity(intent);
+	}
+
+	public boolean onKeyDown(int keycode, KeyEvent e) {
+		switch (keycode) {
+		case KeyEvent.KEYCODE_MENU:
+			menu.getMenu().showMenu();
+			return true;
+		}
+
+		return super.onKeyDown(keycode, e);
 	}
 
 	@Override

@@ -1,95 +1,108 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="85dp"
-        android:adjustViewBounds="true"
-        android:background="@drawable/header"
-        android:orientation="vertical" >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="10" >
-
-            <TextView
-                android:id="@+id/my_name"
-                android:layout_width="0dip"
-                android:layout_height="match_parent"
-                android:layout_weight="6"
-                android:gravity="bottom"
-                android:paddingLeft="10dp"
-                android:textColor="#ffffff"
-                android:textSize="17sp"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/ddm_logo"
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:padding="5dp"
-                android:src="@drawable/ddmlogo2" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:orientation="horizontal" >
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_margin="8dp"
-                android:background="@drawable/rounded_white_box"
-                android:drawableRight="@drawable/icon_search"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:textSize="18sp" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dip"
-        android:background="@color/ddm_title_underbar1" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dip"
-        android:background="@color/ddm_title_underbar2" />
+    android:layout_height="match_parent" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
-        <fragment
-            android:id="@+id/newsfeedFragment"
-            android:name="uos.codingsroom.ddmgroup.fragments.NewsfeedFragment"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="85dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/header"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="10" >
+
+                <TextView
+                    android:id="@+id/my_name"
+                    android:layout_width="0dip"
+                    android:layout_height="match_parent"
+                    android:layout_weight="6"
+                    android:gravity="bottom"
+                    android:paddingLeft="10dp"
+                    android:textColor="#ffffff"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/ddm_logo"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:padding="5dp"
+                    android:src="@drawable/ddmlogo2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="horizontal" >
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/rounded_white_box"
+                    android:drawableRight="@drawable/icon_search"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dip"
+            android:background="@color/ddm_title_underbar1" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dip"
+            android:background="@color/ddm_title_underbar2" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp" />
+            android:orientation="vertical" >
 
-        <fragment
-            android:id="@+id/boardFragment"
-            android:name="uos.codingsroom.ddmgroup.fragments.ContentsFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            <fragment
+                android:id="@+id/newsfeedFragment"
+                android:name="uos.codingsroom.ddmgroup.fragments.NewsfeedFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp" />
 
-        <fragment
-            android:id="@+id/registerFragment"
-            android:name="uos.codingsroom.ddmgroup.fragments.RegisterFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            <fragment
+                android:id="@+id/boardFragment"
+                android:name="uos.codingsroom.ddmgroup.fragments.ContentsFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <fragment
+                android:id="@+id/registerFragment"
+                android:name="uos.codingsroom.ddmgroup.fragments.RegisterFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+    <RelativeLayout
+        android:id="@+id/main_menu_helper_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#aa000000"
+        android:visibility="gone" >
+    </RelativeLayout>
+
+</RelativeLayout>

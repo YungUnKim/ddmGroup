@@ -15,9 +15,10 @@
         <TextView
             android:id="@+id/board_label_title"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="29dp"
             android:layout_alignParentLeft="true"
-            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="1dp"
             android:drawableLeft="@drawable/icon_group"
             android:textColor="@color/ddm_real_green"
             android:textSize="17sp"
@@ -35,18 +36,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-        <ListView
-            android:id="@+id/listview_board"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="7dp"
-            android:divider="#eeeeee"
-            android:dividerHeight="1dip"
-            android:fadingEdge="none"
-            android:scrollbars="none" >
-        </ListView>
+            android:background="@color/ddm_real_green_n2"
+            android:padding="1dp" >
+
+            <ListView
+                android:id="@+id/listview_board"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="#eeeeee"
+                android:dividerHeight="1dip"
+                android:fadingEdge="none"
+                android:scrollbars="none" >
+            </ListView>
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/layout_board_menu"

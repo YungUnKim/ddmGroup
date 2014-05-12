@@ -14,8 +14,8 @@ public class MakeMenu {
 		menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
 		menu.setFadeEnabled(true);
 		menu.setFadeDegree(1.0f);
-		menu.setShadowDrawable(R.drawable.shadow);
-		menu.setShadowWidthRes(R.dimen.shadow_width);
+//		menu.setShadowDrawable(R.drawable.shadow);
+//		menu.setShadowWidthRes(R.dimen.shadow_width);
 		menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
 		menu.attachToActivity(thisView, SlidingMenu.SLIDING_WINDOW);
 

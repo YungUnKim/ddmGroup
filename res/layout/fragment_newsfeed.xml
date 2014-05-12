@@ -14,18 +14,18 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="6dp"
-            android:drawableLeft="@drawable/icon_notice"
+            android:drawableLeft="@drawable/icon_notice3"
             android:gravity="center_vertical"
             android:text="@string/notice_text"
-            android:textColor="@color/ddm_real_green"
+            android:textColor="@color/ddm_black_1"
             android:textSize="15sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="85dp"
-            android:background="#000000"
+            android:background="@color/ddm_black_0"
             android:orientation="horizontal"
-            android:padding="3dp"
+            android:padding="2dp"
             android:weightSum="3" >
 
             <TextView
@@ -75,7 +75,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="3dp"
+            android:layout_marginBottom="5dp"
             android:drawableLeft="@drawable/icon_newsfeed"
             android:gravity="center_vertical"
             android:text="@string/notice_newsfeed"
@@ -85,9 +85,9 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingLeft="2dp"
-            android:paddingRight="2dp"
-           	android:paddingTop="2dp"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
+           	android:paddingTop="1dp"
             android:background="@color/ddm_real_green_n2" >
 
             <ListView
