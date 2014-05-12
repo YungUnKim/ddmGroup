@@ -7,11 +7,13 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ContentsActivity extends Activity implements OnClickListener {
 
@@ -40,6 +42,9 @@ public class ContentsActivity extends Activity implements OnClickListener {
 	private TextView menuBackButton;
 	private TextView menuEditButton;
 	private TextView menuDeleteButton;
+
+	private EditText commentEdit;
+	private TextView commentRegister;
 
 	private ContentItem conItem;
 
@@ -100,11 +105,21 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		menuEditButton.setOnClickListener(this);
 		menuDeleteButton = (TextView) findViewById(R.id.contents_delete_btn);
 		menuDeleteButton.setOnClickListener(this);
+
+		commentEdit = (EditText) findViewById(R.id.edittext_comment);
+		commentRegister = (TextView) findViewById(R.id.button_comment_register);
+		commentRegister.setOnClickListener(this);
 	}
 
 	private View header() {
 		View header = getLayoutInflater().inflate(R.layout.header_contents, null);
 		return header;
+	}
+
+	private void addComment(String string) {
+		commentsListAdapter.addItem(new CommentItem(0, string, "지금", "진동하", dongHayaHI));
+
+		commentsListView.setAdapter(commentsListAdapter);
 	}
 
 	@Override
@@ -136,6 +151,18 @@ public class ContentsActivity extends Activity implements OnClickListener {
 
 		case R.id.contents_delete_btn:
 
+			break;
+
+		case R.id.button_comment_register:
+			final String commentText = commentEdit.getEditableText().toString();
+
+			if (commentText.equals("")) { // 아무 댓글 내용없이 등록하려고 할 경우
+
+			} else {
+				addComment(commentText);
+				commentsListView.setSelection(commentsListAdapter.getCount() - 1); // 가장 맨 아래에 스크롤이 내려오게 함
+				commentEdit.setText("");
+			}
 			break;
 
 		default:
