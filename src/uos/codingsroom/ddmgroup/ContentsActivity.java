@@ -52,6 +52,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 	private ContentItem tempItem;
 	
 	private String group_name;
+	private boolean mode;		// 공지사항, 일반 글 여부
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		tempItem.setBoardCategory(bundle.getInt("board_num"));
 		tempItem.setIndexNum(bundle.getInt("content_num"));
 		tempItem.setMemberNum(bundle.getInt("mem_num"));
+		mode = bundle.getBoolean("mode");		// 공지사항 여부
 		
 		initializeView();
 		
@@ -199,8 +201,6 @@ public class ContentsActivity extends Activity implements OnClickListener {
 
 	// View에 contentItem 집어넣는 함수
 	public void setContentView() {
-		Log.i("MyTag", "setContentView() >> ");
-		 
 		contentsReadCount.setText(Integer.toString(conItem.getReadCount()) + "명 읽음"); 
 		contentsReplyCount.setText(Integer.toString(conItem.getReplyCount()));
 		contentsGroupName.setText(group_name);
@@ -209,7 +209,8 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		contentsDate.setText(conItem.getDate());
 		contentsArticle.setText(conItem.getArticle());
 		
-		Log.i("MyTag", "setContentView() << ");
+		Log.i("MyTag", "Content title : " + conItem.getTitle() + " / mode : " + mode);
+		
 		// contentsImage;
 	}
 }

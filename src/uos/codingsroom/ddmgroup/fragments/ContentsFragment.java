@@ -3,20 +3,18 @@ package uos.codingsroom.ddmgroup.fragments;
 import java.util.HashSet;
 import java.util.Set;
 
-import uos.codingsroom.ddmgroup.ContentsActivity;
+import uos.codingsroom.ddmgroup.Content_intent;
 import uos.codingsroom.ddmgroup.MainActivity;
 import uos.codingsroom.ddmgroup.MakePreferences;
 import uos.codingsroom.ddmgroup.R;
 import uos.codingsroom.ddmgroup.item.ContentItem;
 import uos.codingsroom.ddmgroup.listview.ContentListAdapter;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.webkit.WebView.FindListener;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
@@ -160,13 +158,13 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 		boardListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-				final Intent intent = new Intent(getActivity(), ContentsActivity.class);
-				intent.putExtra("board_name", "테스트");
-				intent.putExtra("board_num", 1);
-				intent.putExtra("content_num", 9);
-				intent.putExtra("mem_num", 16);
-				
-				startActivity(intent);
+				Content_intent intent = new Content_intent(getActivity(),currentGroupName,
+															1,		// 게시판 번호
+															9,		// 글 번호
+															16,		// 회원 번호
+															false);	// 공지사항 여부
+
+				startActivity(intent.put_intent());
 			}
 		});
 
