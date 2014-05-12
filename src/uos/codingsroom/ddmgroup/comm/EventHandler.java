@@ -1,5 +1,6 @@
 package uos.codingsroom.ddmgroup.comm;
 
+import uos.codingsroom.ddmgroup.ContentsActivity;
 import uos.codingsroom.ddmgroup.MainActivity;
 import android.content.Context;
 import android.os.Handler;
@@ -49,6 +50,10 @@ public class EventHandler extends Handler {
 			}
 			else if (msg.what == 22){
 				Log.i("MyTag", "글 올리기 핸들러");
+			}
+			else if (msg.what == 24){
+				Log.i("MyTag", "글 얻어오기 핸들러");
+				((ContentsActivity) mcontext).setContentView();
 			}
 		} catch (Exception e) {
 		}

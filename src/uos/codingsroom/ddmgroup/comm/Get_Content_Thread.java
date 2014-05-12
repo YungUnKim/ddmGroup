@@ -2,13 +2,12 @@ package uos.codingsroom.ddmgroup.comm;
 
 import org.xmlpull.v1.XmlPullParser;
 
-import uos.codingsroom.ddmgroup.MainActivity;
-import uos.codingsroom.ddmgroup.item.GroupItem;
-import uos.codingsroom.ddmgroup.item.NewsFeedItem;
+import uos.codingsroom.ddmgroup.ContentsActivity;
+import uos.codingsroom.ddmgroup.item.ContentItem;
 import android.content.Context;
 import android.util.Log;
 
-public class Get_Newsfeed_Thread extends Communication_Thread {
+public class Get_Content_Thread extends Communication_Thread {
 	private String title;
 	private int num;
 	private int read_count;
@@ -16,10 +15,10 @@ public class Get_Newsfeed_Thread extends Communication_Thread {
 	private String date;
 	private int reply_count;
 
-	NewsFeedItem newsFeedItem;
+	ContentItem conItem;
 	
 	// 생성자
-	public Get_Newsfeed_Thread(Context context, int menu) {
+	public Get_Content_Thread(Context context, int menu) {
 		super(context,menu);
 //		Log.i("MyTag", "url >> " + url);
 	}
@@ -43,7 +42,9 @@ public class Get_Newsfeed_Thread extends Communication_Thread {
 		        		   || tagname.equals("CONTENT_REPLY") 
 		        		   || tagname.equals("CONTENT_DATE") 
 		        		   || tagname.equals("CONTENT_NOTICE") 
-		        		   || tagname.equals("CONTENT_READ") ) {
+		        		   || tagname.equals("CONTENT_READ")
+		        		   || tagname.equals("MEM_NAME")
+		        		   || tagname.equals("MEM_THUMBNAIL")) {
 		              ret = xpp.getText(); // id 태그에 해당되는 TEXT를 임시로 저장
 		           }
 		        } 
@@ -51,35 +52,48 @@ public class Get_Newsfeed_Thread extends Communication_Thread {
 		           // 태그가 닫히는 부분에서 임시 저장된 TEXT를 Array에 저장한다.
 		           tagname = xpp.getName();
 		           if (tagname.equals("CONTENT_NUM")) {
-		        	   num = Integer.parseInt(ret);
+		        	   conItem = new ContentItem();
+		        	   conItem.setIndexNum(Integer.parseInt(ret));
+		           }
+		           else if (tagname.equals("CONTENT_BOARD")) {
+		        	   conItem.setBoardCategory(Integer.parseInt(ret));
 		           } 
 		           else if (tagname.equals("CONTENT_TITLE")) {
-		        	   title = ret;
+		        	   conItem.setTitle(ret);
 		           } 
-		           else if (tagname.equals("CONTENT_MEM")) {		        	   
+		           else if (tagname.equals("CONTENT_MEM")) {
+		        	   conItem.setMemberNum(Integer.parseInt(ret));
 		           } 
-		           else if (tagname.equals("CONTENT_ARTICLE")) {	           
+		           else if (tagname.equals("CONTENT_ARTICLE")) {
+		        	   conItem.setArticle(ret);
 		           }
-		           else if (tagname.equals("CONTENT_IMG")) {	           
+		           else if (tagname.equals("CONTENT_IMG")) {
+		        	   conItem.setImgUrl(ret);
 		           }
 		           else if (tagname.equals("CONTENT_REPLY")) {
-		        	   reply_count = Integer.parseInt(ret);
+		        	   conItem.setReplyCount(Integer.parseInt(ret));
 		           }
 		           else if (tagname.equals("CONTENT_DATE")) {
-		        	   date = ret;	           
+		        	   conItem.setDate(ret);   
 		           }
-		           else if (tagname.equals("CONTENT_NOTICE")) {	           
+		           else if (tagname.equals("CONTENT_NOTICE")) {
+		        	   conItem.setNoticeCheck(Boolean.parseBoolean(ret));
 		           }
 		           else if (tagname.equals("CONTENT_READ")) {
-		        	   read_count = Integer.parseInt(ret);
-		        	   newsFeedItem = new NewsFeedItem(num, read_count, reply_count, title, group_name, date);
-		        	   ((MainActivity) mcontext).setNewsFeed(newsFeedItem);
-		        	   Log.i("MyTag", "newsfeed -> title : " + title + " / num : " + num );
+		        	   conItem.setReadCount(Integer.parseInt(ret));
+		           }
+		           else if (tagname.equals("MEM_NAME")) {
+		        	   conItem.setName(ret);
+		           }
+		           else if (tagname.equals("MEM_THUMBNAIL")) {
+		        	   conItem.setThumbnail(ret);
+		        	   ((ContentsActivity) mcontext).setContentItem(conItem);
+		        	   Log.i("MyTag", "Content title : " + conItem.getTitle() + " / num : " + conItem.getIndexNum());
 		           }
 		        }
 		        eventType = xpp.next();
 		     } // end while		     
-		     msg.what=12;
+		     msg.what = 24;
 		     mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다
 		  } 
 		  catch (Exception e) {

@@ -1,5 +1,6 @@
 package uos.codingsroom.ddmgroup;
 
+import uos.codingsroom.ddmgroup.item.ContentItem;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -31,6 +32,8 @@ public class ContentsActivity extends Activity implements OnClickListener {
 	private TextView menuEditButton;
 	private TextView menuDeleteButton;
 
+	private ContentItem conItem;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -105,6 +108,25 @@ public class ContentsActivity extends Activity implements OnClickListener {
 
 	}
 
+	// contentItem 세팅하는 함수
+	public void setContentItem(ContentItem mItem){
+		conItem = new ContentItem();
+		conItem = mItem;
+	}
+	
+	// View에 contentItem 집어넣는 함수
+	public void setContentView(){
+		/*
+		contentsReadCount;
+		contentsReplyCount;
+		contentsGroupName;
+		contentsTitle;
+		contentsName;
+		contentsDate;
+		contentsArticle;
+		 */
+//		contentsImage;
+	}
 	// @Override
 	// public void onClick(View v) {
 	// switch (v.getId()) {

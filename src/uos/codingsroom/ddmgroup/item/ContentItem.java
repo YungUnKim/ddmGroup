@@ -8,10 +8,15 @@ public class ContentItem {
 	private int read_count;
 	private String title;
 	private String name;
+	private String thumbnail;
 	private String article;
 	private String img_url;
 	private String date;
 	private Boolean notice_check;
+	
+	public ContentItem(){
+		
+	}
 	
 	public ContentItem(int index_num, int reply_count, int read_count, String title, String name, String date){
 		this.index_num = index_num;
@@ -35,7 +40,7 @@ public class ContentItem {
 	}
 
 	public ContentItem(int index_num, int board_category, int mem_num, int reply_count, int read_count,
-			String title, String name, String article, String img_url, String date, Boolean notice_check) {
+			String title, String name, String thumbnail,String article, String img_url, String date, Boolean notice_check) {
 
 		this.index_num = index_num;
 		this.board_category = board_category;
@@ -44,6 +49,7 @@ public class ContentItem {
 		this.read_count = read_count;
 		this.title = title;
 		this.name = name;
+		this.thumbnail = thumbnail;
 		this.article = article;
 		this.img_url = img_url;
 		this.date = date;
@@ -106,6 +112,14 @@ public class ContentItem {
 		this.name = name;
 	}
 
+	public String getThumbnail() {
+		return thumbnail;
+	}
+
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
+	}
+	
 	public String getArticle() {
 		return article;
 	}
