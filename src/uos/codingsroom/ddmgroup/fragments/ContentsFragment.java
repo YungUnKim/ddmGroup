@@ -161,6 +161,11 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 				final Intent intent = new Intent(getActivity(), ContentsActivity.class);
+				intent.putExtra("board_name", "테스트");
+				intent.putExtra("board_num", 1);
+				intent.putExtra("content_num", 9);
+				intent.putExtra("mem_num", 16);
+				
 				startActivity(intent);
 			}
 		});

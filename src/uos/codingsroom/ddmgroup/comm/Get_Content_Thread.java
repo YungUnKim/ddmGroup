@@ -8,18 +8,13 @@ import android.content.Context;
 import android.util.Log;
 
 public class Get_Content_Thread extends Communication_Thread {
-	private String title;
-	private int num;
-	private int read_count;
-	private String group_name;
-	private String date;
-	private int reply_count;
 
 	ContentItem conItem;
 	
 	// 생성자
-	public Get_Content_Thread(Context context, int menu) {
+	public Get_Content_Thread(Context context, int menu, int board_num, int content_num, int mem_num) {
 		super(context,menu);
+		url += "&board_num=" + board_num + "&content_num=" + content_num + "&mem_num=" + mem_num;
 //		Log.i("MyTag", "url >> " + url);
 	}
 
@@ -88,7 +83,7 @@ public class Get_Content_Thread extends Communication_Thread {
 		           else if (tagname.equals("MEM_THUMBNAIL")) {
 		        	   conItem.setThumbnail(ret);
 		        	   ((ContentsActivity) mcontext).setContentItem(conItem);
-		        	   Log.i("MyTag", "Content title : " + conItem.getTitle() + " / num : " + conItem.getIndexNum());
+		        	   Log.i("MyTag", "Thread title : " + conItem.getTitle() + " / num : " + conItem.getIndexNum());
 		           }
 		        }
 		        eventType = xpp.next();

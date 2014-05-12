@@ -1,10 +1,12 @@
 package uos.codingsroom.ddmgroup;
 
+import uos.codingsroom.ddmgroup.comm.Get_Content_Thread;
 import uos.codingsroom.ddmgroup.item.CommentItem;
 import uos.codingsroom.ddmgroup.item.ContentItem;
 import uos.codingsroom.ddmgroup.listview.CommentListAdapter;
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -47,15 +49,32 @@ public class ContentsActivity extends Activity implements OnClickListener {
 	private TextView commentRegister;
 
 	private ContentItem conItem;
-
+	private ContentItem tempItem;
+	
+	private String group_name;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_contents);
 
+		tempItem = new ContentItem();
+		
+		Bundle bundle = getIntent().getExtras();
+		group_name = bundle.getString("board_name");
+		tempItem.setBoardCategory(bundle.getInt("board_num"));
+		tempItem.setIndexNum(bundle.getInt("content_num"));
+		tempItem.setMemberNum(bundle.getInt("mem_num"));
+		
 		initializeView();
-		setListView();
-
+		
+		Get_Content_Thread mThread = new Get_Content_Thread(this,24,
+															tempItem.getBoardCategory(),
+															tempItem.getIndexNum(),
+															tempItem.getMemberNum());
+		mThread.start();		// 글 내용 받아오는 스레드
+		
+		setListView();	// 추후 이동
 	}
 
 	public void setListView() {
@@ -157,7 +176,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 			final String commentText = commentEdit.getEditableText().toString();
 
 			if (commentText.equals("")) { // 아무 댓글 내용없이 등록하려고 할 경우
-
+				Toast.makeText(this, "댓글 내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
 			} else {
 				addComment(commentText);
 				commentsListView.setSelection(commentsListAdapter.getCount() - 1); // 가장 맨 아래에 스크롤이 내려오게 함
@@ -175,13 +194,22 @@ public class ContentsActivity extends Activity implements OnClickListener {
 	public void setContentItem(ContentItem mItem) {
 		conItem = new ContentItem();
 		conItem = mItem;
+//		Log.i("MyTag", "Content title : " + conItem.getTitle() + " / num : " + conItem.getIndexNum());
 	}
 
 	// View에 contentItem 집어넣는 함수
 	public void setContentView() {
-		/*
-		 * contentsReadCount; contentsReplyCount; contentsGroupName; contentsTitle; contentsName; contentsDate; contentsArticle;
-		 */
+		Log.i("MyTag", "setContentView() >> ");
+		 
+		contentsReadCount.setText(Integer.toString(conItem.getReadCount()) + "명 읽음"); 
+		contentsReplyCount.setText(Integer.toString(conItem.getReplyCount()));
+		contentsGroupName.setText(group_name);
+		contentsTitle.setText(conItem.getTitle());
+		contentsName.setText(conItem.getName());
+		contentsDate.setText(conItem.getDate());
+		contentsArticle.setText(conItem.getArticle());
+		
+		Log.i("MyTag", "setContentView() << ");
 		// contentsImage;
 	}
 }
