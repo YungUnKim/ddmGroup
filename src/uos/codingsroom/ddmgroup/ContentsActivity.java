@@ -73,15 +73,15 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		tempItem.setIndexNum(bundle.getInt("content_num"));
 		tempItem.setMemberNum(bundle.getInt("mem_num"));
 		mode = bundle.getBoolean("mode");		// 공지사항 여부
-//		myNum = bundle.getInt("myNum");			// 자신의 회원번호
+//		myNum = bundle.getInt("myNum");		// 자신의 회원번호
 		myNum = 23;		// 임시로
 		
 		initializeView();
 		
 		Get_Content_Thread mThread = new Get_Content_Thread(this,24,
-															tempItem.getBoardCategory(),
-															tempItem.getIndexNum(),
-															tempItem.getMemberNum());
+									tempItem.getBoardCategory(),
+									tempItem.getIndexNum(),
+									tempItem.getMemberNum());
 		mThread.start();		// 글 내용 받아오는 스레드
 		
 		Get_Reply_Thread rThread = new Get_Reply_Thread(this,28,tempItem.getIndexNum());
@@ -208,13 +208,11 @@ public class ContentsActivity extends Activity implements OnClickListener {
 				Toast.makeText(this, "댓글 내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
 			} else {
 				Insert_Reply_Thread iThread = new Insert_Reply_Thread(this,27,
-														conItem.getIndexNum(),
-														myNum,
-														commentText);
-				iThread.start();
-				
-//				commentsListView.setSelection(commentsListAdapter.getCount() - 1); // 가장 맨 아래에 스크롤이 내려오게 함
-//				commentEdit.setText("");
+											conItem.getIndexNum(),
+											myNum,
+											commentText);
+				iThread.start();		// 댓글 삽입하는 스레드
+
 			}
 			break;
 
