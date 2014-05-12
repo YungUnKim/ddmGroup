@@ -55,6 +55,17 @@ public class EventHandler extends Handler {
 				Log.i("MyTag", "글 얻어오기 핸들러");
 				((ContentsActivity) mcontext).setContentView();
 			}
+			else if (msg.what == 27){
+				 ((ContentsActivity) mcontext).addComment();
+				Log.i("MyTag", "댓글 삽입 핸들러 성공");
+			}
+			else if (msg.what == -27){
+				Log.i("MyTag", "댓글 삽입 핸들러 실패");
+			}
+			else if (msg.what == 28){
+				Log.i("MyTag", "댓글 얻어오기 핸들러");
+				((ContentsActivity) mcontext).setListView();
+			}
 		} catch (Exception e) {
 		}
 		return;

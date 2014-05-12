@@ -15,6 +15,11 @@ public class CommentItem {
 		this.kakaoUrl = kakaoUrl;
 	}
 
+	// 기본 생성자
+	public CommentItem() {
+		
+	}
+
 	public int getIndexNum() {
 		return index_num;
 	}

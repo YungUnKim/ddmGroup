@@ -1,6 +1,10 @@
 package uos.codingsroom.ddmgroup;
 
+import java.util.ArrayList;
+
 import uos.codingsroom.ddmgroup.comm.Get_Content_Thread;
+import uos.codingsroom.ddmgroup.comm.Get_Reply_Thread;
+import uos.codingsroom.ddmgroup.comm.Insert_Reply_Thread;
 import uos.codingsroom.ddmgroup.item.CommentItem;
 import uos.codingsroom.ddmgroup.item.ContentItem;
 import uos.codingsroom.ddmgroup.listview.CommentListAdapter;
@@ -49,17 +53,19 @@ public class ContentsActivity extends Activity implements OnClickListener {
 	private TextView commentRegister;
 
 	private ContentItem conItem;
-	private ContentItem tempItem;
+	private ContentItem tempItem = new ContentItem();
 	
 	private String group_name;
+	private int myNum;			// 자신의 회원번호
 	private boolean mode;		// 공지사항, 일반 글 여부
+	
+	private ArrayList<CommentItem> comItem = new ArrayList<CommentItem>();	// 댓글 배열
+	private int com_cnt = 0;	// 댓글 개수
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_contents);
-
-		tempItem = new ContentItem();
 		
 		Bundle bundle = getIntent().getExtras();
 		group_name = bundle.getString("board_name");
@@ -67,6 +73,8 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		tempItem.setIndexNum(bundle.getInt("content_num"));
 		tempItem.setMemberNum(bundle.getInt("mem_num"));
 		mode = bundle.getBoolean("mode");		// 공지사항 여부
+//		myNum = bundle.getInt("myNum");			// 자신의 회원번호
+		myNum = 23;		// 임시로
 		
 		initializeView();
 		
@@ -76,20 +84,33 @@ public class ContentsActivity extends Activity implements OnClickListener {
 															tempItem.getMemberNum());
 		mThread.start();		// 글 내용 받아오는 스레드
 		
+		Get_Reply_Thread rThread = new Get_Reply_Thread(this,28,tempItem.getIndexNum());
+		rThread.start();		// 댓글 받아오는 스레드
+		
 		setListView();	// 추후 이동
 	}
 
+	// 댓글 아이템을 설정하는함수
+	public void setCommentItem(CommentItem mItem){
+		comItem.add(com_cnt++, mItem);
+	}
+	
+	// 댓글을 뷰에 보여주는 함수
 	public void setListView() {
-		commentsListAdapter.addItem(new CommentItem(0, "댓글입니다. 1", "방금 전", "진동하", dongHayaHI));
-		commentsListAdapter.addItem(new CommentItem(0, "댓글입니다. 2", "방금 전", "진동하", dongHayaHI));
-		commentsListAdapter.addItem(new CommentItem(0, "댓글입니다. 3", "방금 전", "진동하", dongHayaHI));
-		commentsListAdapter.addItem(new CommentItem(0, "댓글입니다. 4", "방금 전", "진동하", dongHayaHI));
-		commentsListAdapter.addItem(new CommentItem(0, "댓글입니다. 5", "방금 전", "진동하", dongHayaHI));
-		commentsListAdapter.addItem(new CommentItem(0, "댓글입니다. 6", "방금 전", "진동하", dongHayaHI));
-		commentsListAdapter.addItem(new CommentItem(0, "댓글입니다. 7", "방금 전", "진동하", dongHayaHI));
-		commentsListAdapter.addItem(new CommentItem(0, "댓글입니다. 8", "방금 전", "진동하", dongHayaHI));
-		commentsListAdapter.addItem(new CommentItem(0, "댓글입니다. 9", "방금 전", "진동하", dongHayaHI));
-		commentsListAdapter.addItem(new CommentItem(0, "댓글입니다. 10", "방금 전", "진동하", dongHayaHI));
+		for(int i=0;i<comItem.size();i++){
+			commentsListAdapter.addItem(comItem.get(i));
+		}
+		
+//		commentsListAdapter.addItem(new CommentItem(0, "댓글입니다. 1", "방금 전", "진동하", dongHayaHI));
+//		commentsListAdapter.addItem(new CommentItem(0, "댓글입니다. 2", "방금 전", "진동하", dongHayaHI));
+//		commentsListAdapter.addItem(new CommentItem(0, "댓글입니다. 3", "방금 전", "진동하", dongHayaHI));
+//		commentsListAdapter.addItem(new CommentItem(0, "댓글입니다. 4", "방금 전", "진동하", dongHayaHI));
+//		commentsListAdapter.addItem(new CommentItem(0, "댓글입니다. 5", "방금 전", "진동하", dongHayaHI));
+//		commentsListAdapter.addItem(new CommentItem(0, "댓글입니다. 6", "방금 전", "진동하", dongHayaHI));
+//		commentsListAdapter.addItem(new CommentItem(0, "댓글입니다. 7", "방금 전", "진동하", dongHayaHI));
+//		commentsListAdapter.addItem(new CommentItem(0, "댓글입니다. 8", "방금 전", "진동하", dongHayaHI));
+//		commentsListAdapter.addItem(new CommentItem(0, "댓글입니다. 9", "방금 전", "진동하", dongHayaHI));
+//		commentsListAdapter.addItem(new CommentItem(0, "댓글입니다. 10", "방금 전", "진동하", dongHayaHI));
 
 		commentsListView.setAdapter(commentsListAdapter);
 	}
@@ -137,10 +158,16 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		return header;
 	}
 
-	private void addComment(String string) {
-		commentsListAdapter.addItem(new CommentItem(0, string, "지금", "진동하", dongHayaHI));
-
+	public void addComment() {
+		CommentItem addItem = new CommentItem(conItem.getIndexNum(), commentEdit.getEditableText().toString(),
+				"지금", "진동하", dongHayaHI);		// 임시 객체
+		commentsListAdapter.addItem(addItem);
+		comItem.add(com_cnt++, addItem);
+		
 		commentsListView.setAdapter(commentsListAdapter);
+		
+		commentsListView.setSelection(commentsListAdapter.getCount() - 1); // 가장 맨 아래에 스크롤이 내려오게 함
+		commentEdit.setText("");
 	}
 
 	@Override
@@ -180,9 +207,14 @@ public class ContentsActivity extends Activity implements OnClickListener {
 			if (commentText.equals("")) { // 아무 댓글 내용없이 등록하려고 할 경우
 				Toast.makeText(this, "댓글 내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
 			} else {
-				addComment(commentText);
-				commentsListView.setSelection(commentsListAdapter.getCount() - 1); // 가장 맨 아래에 스크롤이 내려오게 함
-				commentEdit.setText("");
+				Insert_Reply_Thread iThread = new Insert_Reply_Thread(this,27,
+														conItem.getIndexNum(),
+														myNum,
+														commentText);
+				iThread.start();
+				
+//				commentsListView.setSelection(commentsListAdapter.getCount() - 1); // 가장 맨 아래에 스크롤이 내려오게 함
+//				commentEdit.setText("");
 			}
 			break;
 
