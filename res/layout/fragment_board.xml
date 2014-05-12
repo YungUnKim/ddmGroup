@@ -20,7 +20,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="1dp"
             android:drawableLeft="@drawable/icon_group"
-            android:textColor="@color/ddm_real_green"
+            android:textColor="@color/apple_blue"
             android:textSize="17sp"
             android:textStyle="bold" />
 
@@ -39,20 +39,19 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="7dp"
-            android:background="@color/ddm_real_green_n2"
-            android:padding="1dp" >
+            android:layout_marginTop="10dp"
+            android:padding="2dp"
+            android:background="@color/apple_blue" >
 
             <ListView
                 android:id="@+id/listview_board"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:divider="#eeeeee"
+                android:divider="@color/ddm_line_gray2"
                 android:dividerHeight="1dip"
                 android:fadingEdge="none"
                 android:scrollbars="none" >
+
             </ListView>
         </RelativeLayout>
 

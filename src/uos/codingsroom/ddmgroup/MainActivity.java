@@ -48,6 +48,7 @@ public class MainActivity extends FragmentActivity {
 	private TextView myNameText;
 	private ImageView settingButton;
 	private ImageView favoriteButton;
+	private ImageView noticeButton;
 	private ImageView ddmLogo;
 	private ImageView menuBackButton;
 
@@ -291,6 +292,13 @@ public class MainActivity extends FragmentActivity {
 					openFavorite();
 			}
 		});
+		noticeButton = (ImageView) findViewById(R.id.button_notice);
+		noticeButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				moveToNoticeActivity();
+			}
+		});
 
 		ddmLogo = (ImageView) findViewById(R.id.ddm_logo);
 		ddmLogo.setOnClickListener(new OnClickListener() {
@@ -367,6 +375,11 @@ public class MainActivity extends FragmentActivity {
 		intent.putExtra("myName", nickName);
 		intent.putExtra("myProfileUrl", profileBigImageURL);
 		intent.putExtra("myCode", kakaoCode);
+		startActivity(intent);
+	}
+	
+	private void moveToNoticeActivity() {
+		final Intent intent = new Intent(this, NoticeActivity.class);		
 		startActivity(intent);
 	}
 

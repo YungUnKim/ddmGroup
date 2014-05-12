@@ -4,14 +4,17 @@
 	<color name="ddm_end_blue">#aa151371</color>
 	
 	<color name="ddm_real_green">#016c6b</color>
-	<color name="ddm_real_green_n">#55016c6b</color>
-	<color name="ddm_real_green_n2">#aa016c6b</color>
+	<color name="ddm_real_green_n2">#569d9c</color>
+	
 	<color name="ddm_real_blue">#bb151371</color>
 	<color name="ddm_real_blue_n">#24b8e9</color>
 	
 	<color name="ddm_gray">#d9d9d9</color>
 	<color name="ddm_line_gray">#d0d0d0</color>
+	<color name="ddm_line_gray2">#e0e0e0</color>
 	<color name="ddm_text_gray">#b4b4b4</color>
+	
+	<color name="ddm_yellow">#ffc547</color>
 	
 	<color name="content_gray">#808080</color>
 	
@@ -23,5 +26,10 @@
 	<color name="ddm_black_1">#3b3d3c</color>
 	<color name="ddm_black_2">#454648</color>
 	<color name="ddm_black_3">#57585a</color>
+	
+	<color name="apple_green">#3efe8d</color>
+	<color name="apple_red">#fe6263</color>
+	<color name="apple_yellow">#ffc547</color>
+	<color name="apple_blue">#00affe</color>
 	
 </resources>

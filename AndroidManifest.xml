@@ -72,6 +72,10 @@
                     android:scheme="@string/kakao_scheme" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="uos.codingsroom.ddmgroup.NoticeActivity"
+            android:screenOrientation="portrait" >
+        </activity>
 
         <!-- 4 -->
         <activity
