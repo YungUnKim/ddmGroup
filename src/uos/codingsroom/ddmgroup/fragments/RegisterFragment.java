@@ -130,7 +130,13 @@ public class RegisterFragment extends Fragment {
 		}
 		Log.i("MyTag", Title + " >> " + Memo);
 		
-		Insert_Image_Thread iThread = new Insert_Image_Thread(this.getActivity(),100,ImgPath);
+		Insert_Image_Thread iThread = new Insert_Image_Thread(this.getActivity(),22,
+								MainActivity.getMyInfoItem().getMyMemNum(),
+								currentGroup,
+								Title,
+								Memo,
+								ImgPath);
+		
 		iThread.start();	// 이미지 업로드하는 스레드
 		
 //		Insert_Content_Thread mThread = new Insert_Content_Thread(this.getActivity(), 22,
