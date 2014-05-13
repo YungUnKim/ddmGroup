@@ -69,6 +69,7 @@ public class CommentListAdapter extends BaseAdapter {
 			itemView = (CommentView) convertView;
 
 //			itemView.setIcon(mItems.get(position).getIcon());
+			itemView.setProfileURL(mItems.get(position).getKakaoUrl());
 			itemView.setText(0, mItems.get(position).getKakaoName());
 			itemView.setText(1, mItems.get(position).getArticle());
 			itemView.setText(2, mItems.get(position).getDate());
