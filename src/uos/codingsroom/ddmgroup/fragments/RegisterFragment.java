@@ -25,6 +25,8 @@ public class RegisterFragment extends Fragment {
 	private static Integer currentGroup = 0;
 	private static String currentGroupName;
 
+	private Uri ImgUrl;
+	
 	EditText EditTitle;
 	EditText EditMemo;
 	Button BtnUpload;
@@ -102,7 +104,7 @@ public class RegisterFragment extends Fragment {
 	class innerforURI extends Activity {
 		public String getRealPathFromURI(Uri contentUri) {
 			String[] proj = { MediaStore.Images.Media.DATA };
-			Log.i("img", "contentUri = " + contentUri.toString() + "proj = " + proj.toString());
+			Log.i("MyTag", "contentUri = " + contentUri.toString() + "proj = " + proj.toString());
 			Cursor cursor = managedQuery(contentUri, proj, null, null, null);
 			int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
 			cursor.moveToFirst();
@@ -138,6 +140,9 @@ public class RegisterFragment extends Fragment {
 		SetImage setImage = new SetImage();
 		temp_img.setImageURI(data.getData());
 		temp_img.setVisibility(temp_img.VISIBLE);
+		
+		ImgUrl = data.getData();
+		Log.i("MyTag","result url >>" + data.getData());
 		/*
 		 * if (requestCode == REQUEST_CODE_IMAGE && resultCode == -1 && null != data) { Uri currImageURI = data.getData(); Log.i("img",currImageURI.toString()); innerforURI inner = new
 		 * innerforURI(); String imagePath = inner.getRealPathFromURI(currImageURI) ; // 찍은 사진을 이미지뷰에 보여준다.
