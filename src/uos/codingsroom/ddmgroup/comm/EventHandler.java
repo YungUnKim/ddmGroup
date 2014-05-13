@@ -71,6 +71,12 @@ public class EventHandler extends Handler {
 				Log.i("MyTag", "댓글 얻어오기 핸들러");
 				((ContentsActivity) mcontext).setListView();
 			}
+			else if (msg.what == 100){
+				Log.i("MyTag", "이미지 업로드 핸들러 성공");
+			}
+			else if (msg.what == -100){
+				Log.i("MyTag", "이미지 업로드 핸들러 실패");
+			}
 		} catch (Exception e) {
 		}
 		return;
