@@ -30,6 +30,8 @@ import android.widget.Toast;
 public class ContentsFragment extends Fragment implements OnClickListener {
 
 	private static Integer currentGroup = 0;
+	private static Integer end = -1;
+	private static Integer start = -1;
 	private static String currentGroupName;
 
 	private ListView boardListView;
@@ -100,13 +102,36 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 	public void setCurrentGroupNum(Integer num) {
 		currentGroup = num;
 	}
+	public int getCurrentGroupNum() {
+		return currentGroup;
+	}
+	//게시글 끝, 시작 넘버 알아오고 저장하는 함수들
+	public int getEndNum() {
+		return end;
+	}
+	public void setEndNum(int num){
+		end = num;
+	}
+	public int getStartNum() {
+		return start;
+	}
+	public void setStartNum(int num){
+		start = num;
+	}
+	
+	//게시글 아이템 삭제
+	public void cleanListview() {
+	    Log.i("MyTag", "게시글 아이템 삭제");
+		boardListAdapter.clearItem();		
+	}	
 
 	//게시글 1개씩 입력	
 	public void addListview(ContentItem contentItem) {
-	     Log.i("MyTag", "addListView");
-		boardListAdapter.addItem(contentItem);		
+	    Log.i("MyTag", "addListView");
+		boardListAdapter.addItem(contentItem);	
 	}
-
+	
+	//내용 출력
 	public void setListView() {
 		// Toast.makeText(getActivity(), "현재 그룹 번호는 " + currentGroup, Toast.LENGTH_SHORT).show();
 		favoriteStar.setSelected(false);
@@ -182,10 +207,10 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 			((MainActivity) getActivity()).showFragment(2, false);
 			break;
 		case R.id.button_board_prev:
-			
+			//이전
 			break;
 		case R.id.button_board_next:
-
+			//이후
 			break;
 		case R.id.board_star_favorite:
 			if (!favoriteThisGroup) {

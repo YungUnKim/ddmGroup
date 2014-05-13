@@ -3,6 +3,7 @@ package uos.codingsroom.ddmgroup.comm;
 import org.xmlpull.v1.XmlPullParser;
 
 import uos.codingsroom.ddmgroup.MainActivity;
+import uos.codingsroom.ddmgroup.fragments.ContentsFragment;
 import uos.codingsroom.ddmgroup.item.ContentItem;
 import android.content.Context;
 import android.util.Log;
@@ -15,12 +16,20 @@ public class Get_ContentList_Thread extends Communication_Thread {
 	private String date;
 	private int reply_count;
 
+	private int group_num;
+	private int end;
+	private int start;
+
 	ContentItem contentItem;
 	
 	// 생성자
 	public Get_ContentList_Thread(Context context, int menu) {
 		super(context,menu);
-		url += "&list_num=10&end=0&start=0&key_word=&board=1&is_down=false";
+		((MainActivity) mcontext).cleanListview();
+		group_num = ((MainActivity) mcontext).getGroupNum();
+		start = ((MainActivity) mcontext).getStartNum();
+		end = ((MainActivity) mcontext).getEndNum();
+		url += "&list_num=10&end="+end+"&start="+start+"&key_word=&board="+group_num;
 		Log.i("MyTag", "url 게시글 리스트 >> " + url);
 	}
 	
