@@ -4,11 +4,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import uos.codingsroom.ddmgroup.comm.Get_Groups_Thread;
-import uos.codingsroom.ddmgroup.comm.Get_Newsfeed_Thread;
 import uos.codingsroom.ddmgroup.comm.Login_Profile_Thread;
 import uos.codingsroom.ddmgroup.fragments.ContentsFragment;
 import uos.codingsroom.ddmgroup.fragments.NewsfeedFragment;
 import uos.codingsroom.ddmgroup.fragments.RegisterFragment;
+import uos.codingsroom.ddmgroup.item.ContentItem;
 import uos.codingsroom.ddmgroup.item.GroupItem;
 import uos.codingsroom.ddmgroup.item.NewsFeedItem;
 import uos.codingsroom.ddmgroup.listview.GroupListAdapter;
@@ -19,6 +19,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -92,7 +93,6 @@ public class MainActivity extends FragmentActivity {
 		readProfile(this);
 		// setProfile();
 		// setBigListView();
-		setNewsFeedView();// 뉴스피드 시작
 
 		myPreference = new MakePreferences(this);
 		favoriteStringSet = myPreference.getMyPreference().getStringSet("favoriteName", new HashSet<String>());
@@ -109,6 +109,10 @@ public class MainActivity extends FragmentActivity {
 		// }
 
 	}
+	
+	public Integer getMyMemberNum(){
+		return myMemNum;
+	}
 
 	public void setMyMemberNum(int myMemberNumber) {
 		myMemNum = myMemberNumber;
@@ -117,29 +121,50 @@ public class MainActivity extends FragmentActivity {
 	public void showMyMemNumber() {
 		Toast.makeText(getApplication(), "당신의 회원 번호는 " + myMemNum + " 입니다.", Toast.LENGTH_SHORT).show();
 	}
-
+	
+	//공지
+	//공지 아이템 추가
 	public void setNotice(int index, String title, int num) {
 		((NewsfeedFragment) fragments[NEWSFEED]).setNotice(index, title, num);
 	}
-
+	//공지 아이템 갱신
 	public void setNoticeTitle() {
 		((NewsfeedFragment) fragments[NEWSFEED]).setNoticeTitle();
 	}
 
+	//뉴스피드
+	//뉴스피드 아이템 추가
 	public void setNewsFeed(NewsFeedItem newsFeedItem) {
 		((NewsfeedFragment) fragments[NEWSFEED]).setNewsFeed(newsFeedItem);
 	}
-
+	//뉴스피드 아이템 갱신
 	public void setNewsFeedTitle() {
 		((NewsfeedFragment) fragments[NEWSFEED]).setNewsFeedTitle();
 	}
-
+	/*
 	// 뉴스피드 스레드 실행
 	public void setNewsFeedView() {
 		Get_Newsfeed_Thread mThread = new Get_Newsfeed_Thread(MainActivity.this, 12);
 		mThread.start();
 	}
+	 
+	 */
 
+	//게시글
+	//게시글 리스트 아이템 추가
+	public void addContent(ContentItem contentItem) {
+ 	     Log.i("MyTag", "addContent start");
+		((ContentsFragment) fragments[BOARD]).addListview(contentItem);
+	     Log.i("MyTag", "addContent end");
+	}
+	//게시글 리스트 실행
+	public void setContent() {
+	     Log.i("MyTag", "setContent start");
+		((ContentsFragment) fragments[BOARD]).setListView();
+	     Log.i("MyTag", "setContent end");
+	}
+	
+	
 	public void addGroupItem(GroupItem mItem) {
 		groupAdapter.addItem(mItem);
 	}
@@ -168,7 +193,7 @@ public class MainActivity extends FragmentActivity {
 					GroupItem curItem = (GroupItem) groupAdapter.getItem(position);
 					((ContentsFragment) fragments[BOARD]).setCurrentGroupNum(curItem.getIndexNum());
 					((ContentsFragment) fragments[BOARD]).setTitleLabel(curItem.getTitle());
-					((ContentsFragment) fragments[BOARD]).setListView();
+					((ContentsFragment) fragments[BOARD]).contentFragmentStart();
 					((RegisterFragment) fragments[REGISTER]).setCurrentGroupNum(curItem.getIndexNum());
 					((RegisterFragment) fragments[REGISTER]).setTitleLabel(curItem.getTitle());
 					showFragment(BOARD, false);
@@ -405,4 +430,5 @@ public class MainActivity extends FragmentActivity {
 			super.onBackPressed();
 		}
 	}
+
 }

@@ -43,6 +43,11 @@ public class EventHandler extends Handler {
 				((MainActivity) mcontext).setNewsFeedTitle();
 			//	Log.i("MyTag", "핸들러 접근 성공");
 			}
+			else if (msg.what == 13) { //게시글
+				 Log.i("MyTag","Handler 게시글 13 >> " + msg);
+					((MainActivity) mcontext).setContent();
+				//	Log.i("MyTag", "핸들러 접근 성공");
+			}
 			else if (msg.what == 20) { 
 			// Log.i("MyTag","Handler 10 >> " + msg);
 				((MainActivity) mcontext).setLittleListView();

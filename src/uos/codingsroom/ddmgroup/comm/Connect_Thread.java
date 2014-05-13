@@ -123,8 +123,12 @@ public class Connect_Thread extends Thread {
 			} else if (menu == 11) { // 공지 받아오기
 
 			} else if (menu == 12) { // 뉴스피드 받아오기
+				
+			} else if (menu == 13) { // 게시글 목록 받아오기
+				url += "&list_num=10&end=0&start=0&key_word=&board=1&is_down=false";
 
 			} else if (menu == 20) { // 소분류 받아오기
+				
 				url += "&category=" + category;
 			} else if (menu == 22) {
 				url += "&mem_num=" + myNum + "&board_num=" + board_num +
