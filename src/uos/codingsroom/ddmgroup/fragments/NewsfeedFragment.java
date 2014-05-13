@@ -41,6 +41,7 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 	public void onResume() {
 		super.onResume();
 
+		newsfeedAdapter.clearItem();
 		Get_Notice_Three_Thread mThread = new Get_Notice_Three_Thread(this.getActivity(), 11);
 		mThread.start();
 		

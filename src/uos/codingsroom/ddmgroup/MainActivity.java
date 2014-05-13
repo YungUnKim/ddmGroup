@@ -68,7 +68,7 @@ public class MainActivity extends FragmentActivity {
 
 	GroupItem groupItem;
 	
-	private MyInfoItem myInfoItem;
+	private static MyInfoItem myInfoItem;
 
 	Set<String> favoriteStringSet;
 
@@ -113,7 +113,7 @@ public class MainActivity extends FragmentActivity {
 
 	}
 	
-	public MyInfoItem getMyInfoItem(){
+	public static MyInfoItem getMyInfoItem(){
 		return myInfoItem;
 	}
 

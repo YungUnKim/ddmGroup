@@ -189,7 +189,7 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 				ContentIntent intent = new ContentIntent(getActivity(),currentGroupName,
 															1,		// 게시판 번호
 															9,		// 글 번호
-															16,		// 회원 번호
+															21,		// 회원 번호
 															false);	// 공지사항 여부
 
 				startActivity(intent.put_intent(ContentsActivity.class));
