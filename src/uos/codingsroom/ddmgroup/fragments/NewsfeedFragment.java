@@ -5,6 +5,7 @@ import uos.codingsroom.ddmgroup.ContentsActivity;
 import uos.codingsroom.ddmgroup.R;
 import uos.codingsroom.ddmgroup.comm.Get_Newsfeed_Thread;
 import uos.codingsroom.ddmgroup.comm.Get_Notice_Three_Thread;
+import uos.codingsroom.ddmgroup.item.GroupItem;
 import uos.codingsroom.ddmgroup.item.NewsFeedItem;
 import uos.codingsroom.ddmgroup.listview.NewsFeedListAdapter;
 import android.os.Bundle;
@@ -101,6 +102,7 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 		newsfeedListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+				NewsFeedItem curItem = (NewsFeedItem) newsfeedAdapter.getItem(position);
 				moveToConetentsActivity();
 			}
 		});

@@ -149,15 +149,12 @@ public class MainActivity extends FragmentActivity {
 	//게시글
 	//게시글 리스트 아이템 추가
 	public void addContent(ContentItem contentItem) {
- 	     Log.i("MyTag", "addContent start");
 		((ContentsFragment) fragments[BOARD]).addListview(contentItem);
-	     Log.i("MyTag", "addContent end");
+
 	}
 	//게시글 리스트 실행
 	public void setContent() {
-	     Log.i("MyTag", "setContent start");
 		((ContentsFragment) fragments[BOARD]).setListView();
-	     Log.i("MyTag", "setContent end");
 	}
 	//게시글에서 어느 게시판인지 알아오기
 	public int getGroupNum() {

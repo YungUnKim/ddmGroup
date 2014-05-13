@@ -11,7 +11,7 @@ import android.util.Log;
 public class Get_ContentList_Thread extends Communication_Thread {
 	private String title;
 	private int num;
-	private String mem;
+	private int mem;
 	private int read_count;
 	private String date;
 	private int reply_count;
@@ -30,7 +30,7 @@ public class Get_ContentList_Thread extends Communication_Thread {
 		start = ((MainActivity) mcontext).getStartNum();
 		end = ((MainActivity) mcontext).getEndNum();
 		url += "&list_num=10&end="+end+"&start="+start+"&key_word=&board="+group_num;
-		Log.i("MyTag", "url 게시글 리스트 >> " + url);
+//		Log.i("MyTag", "url 게시글 리스트 >> " + url);
 	}
 	
 
@@ -63,38 +63,38 @@ public class Get_ContentList_Thread extends Communication_Thread {
 		           tagname = xpp.getName();
 		           if (tagname.equals("CONTENT_NUM")) {
 		        	   num = Integer.parseInt(ret);
-		        	   Log.i("MyTag", "content_list -> 1. num : " + num );
+//		        	   Log.i("MyTag", "content_list -> 1. num : " + num );
 		           } 
 		           else if (tagname.equals("CONTENT_TITLE")) {
 		        	   title = ret;
-		        	   Log.i("MyTag", "content_list -> 2. title : " + title);
+//		        	   Log.i("MyTag", "content_list -> 2. title : " + title);
 		           } 
 		           else if (tagname.equals("CONTENT_MEM")) {
-		        	   mem = ret;		        	   
-		        	   Log.i("MyTag", "content_list -> 3. mem : " + mem);
+		        	   mem = Integer.parseInt(ret);	        	   
+//		        	   Log.i("MyTag", "content_list -> 3. mem : " + mem);
 		           } 
 		           else if (tagname.equals("CONTENT_ARTICLE")) {	
-		        	   Log.i("MyTag", "content_list -> 4. article : " + ret);           
+//		        	   Log.i("MyTag", "content_list -> 4. article : " + ret);           
 		           }
 		           else if (tagname.equals("CONTENT_IMG")) {	
-		        	   Log.i("MyTag", "content_list -> 5. img : " + ret);           
+//		        	   Log.i("MyTag", "content_list -> 5. img : " + ret);           
 		           }
 		           else if (tagname.equals("CONTENT_REPLY")) {
 		        	   reply_count = Integer.parseInt(ret);
-		        	   Log.i("MyTag", "content_list -> 6. reply : " + reply_count);
+//		        	   Log.i("MyTag", "content_list -> 6. reply : " + reply_count);
 		           }
 		           else if (tagname.equals("CONTENT_DATE")) {
 		        	   date = ret;	           
-		        	   Log.i("MyTag", "content_list -> 7. date : " + date);
+//		        	   Log.i("MyTag", "content_list -> 7. date : " + date);
 		           }
 		           else if (tagname.equals("CONTENT_NOTICE")) {	    
-		        	   Log.i("MyTag", "content_list -> 8. notice"); 
+//		        	   Log.i("MyTag", "content_list -> 8. notice"); 
 		           }
 		           else if (tagname.equals("CONTENT_READ")) {
 		        	   read_count = Integer.parseInt(ret);
-		        	   contentItem = new ContentItem(num, read_count, reply_count, title, mem, date);
+		        	   contentItem = new ContentItem(num, reply_count, read_count, mem, title, Integer.toString(mem), date);
 		        	   ((MainActivity) mcontext).addContent(contentItem);
-		        	   Log.i("MyTag", "content_list -> 9. read : " + read_count);
+//		        	   Log.i("MyTag", "content_list -> 9. read : " + read_count);
 		           }
 		        }
 		        eventType = xpp.next();

@@ -15,7 +15,7 @@ public class Get_Reply_Thread extends Communication_Thread {
 	public Get_Reply_Thread(Context context, int menu, int content_num) {
 		super(context, menu);
 		url += "&content_num=" + content_num;
-		Log.i("MyTag", "url >> " + url);
+		Log.i("MyTag2", "replyRrl >> " + url);
 	}
 
 	// 최신글 20개 받아오는 함수
@@ -49,7 +49,6 @@ public class Get_Reply_Thread extends Communication_Thread {
 					} else if (tagname.equals("date")) {
 						comItem.setDate(new TimeFormat().timeDelay(ret));
 						((ContentsActivity) mcontext).setCommentItem(comItem);
-//						Log.i("MyTag", "댓글 - " + comItem.getArticle() + " // " + comItem.getKakaoUrl());
 					}
 				}
 				eventType = xpp.next();

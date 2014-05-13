@@ -27,6 +27,16 @@ public class ContentItem {
 		this.date = date;
 	}
 	
+	public ContentItem(int index_num, int reply_count, int read_count, int mem_num, String title, String name, String date){
+		this.index_num = index_num;
+		this.mem_num = mem_num;
+		this.reply_count = reply_count;
+		this.read_count = read_count;
+		this.title = title;
+		this.name = name;
+		this.date = date;
+	}
+	
 	public ContentItem(int index_num, int board_category, int mem_num, int reply_count, int read_count,
 			String title, String name, String date){
 		this.index_num = index_num;

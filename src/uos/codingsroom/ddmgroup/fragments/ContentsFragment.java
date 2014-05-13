@@ -10,7 +10,9 @@ import uos.codingsroom.ddmgroup.MakePreferences;
 import uos.codingsroom.ddmgroup.R;
 import uos.codingsroom.ddmgroup.comm.Get_ContentList_Thread;
 import uos.codingsroom.ddmgroup.item.ContentItem;
+import uos.codingsroom.ddmgroup.item.GroupItem;
 import uos.codingsroom.ddmgroup.listview.ContentListAdapter;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -90,7 +92,6 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 	}
 	
 	public void contentFragmentStart(){
-		Log.i("MyTag", "connect resume함수시작 >> ");
 		Get_ContentList_Thread mThread = new Get_ContentList_Thread(this.getActivity(), 13);
 		mThread.start();
 	}
@@ -122,13 +123,11 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 	
 	//게시글 아이템 삭제
 	public void cleanListview() {
-	    Log.i("MyTag", "게시글 아이템 삭제");
 		boardListAdapter.clearItem();		
 	}	
 
 	//게시글 1개씩 입력	
 	public void addListview(ContentItem contentItem) {
-	    Log.i("MyTag", "addListView");
 		boardListAdapter.addItem(contentItem);	
 	}
 	
@@ -186,16 +185,19 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 		boardListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-				ContentIntent intent = new ContentIntent(getActivity(),currentGroupName,
-															1,		// 게시판 번호
-															9,		// 글 번호
-															21,		// 회원 번호
-															false);	// 공지사항 여부
-
-				startActivity(intent.put_intent(ContentsActivity.class));
+				ContentItem curItem = (ContentItem) boardListAdapter.getItem(position);
+				moveToContentsActivity(curItem.getIndexNum());				
 			}
 		});
 
+	}
+	
+	public void moveToContentsActivity(Integer contentNum){
+		Intent intent = new Intent(this.getActivity(),ContentsActivity.class);
+		intent.putExtra("content_num", contentNum);
+		intent.putExtra("group_name", currentGroupName);
+		intent.putExtra("mode", false);
+		startActivity(intent);
 	}
 
 	@Override

@@ -12,10 +12,10 @@ public class Get_Content_Thread extends Communication_Thread {
 	ContentItem conItem;
 	
 	// 생성자
-	public Get_Content_Thread(Context context, int menu, int board_num, int content_num, int mem_num) {
+	public Get_Content_Thread(Context context, int menu, int content_num) {
 		super(context,menu);
-		url += "&board_num=" + board_num + "&content_num=" + content_num + "&mem_num=" + mem_num;
-//		Log.i("MyTag", "url >> " + url);
+		url += "&content_num=" + content_num;
+		Log.i("MyTag2", "url >> " + url);
 	}
 
 	//최신글 20개 받아오는 함수
@@ -83,7 +83,6 @@ public class Get_Content_Thread extends Communication_Thread {
 		           else if (tagname.equals("MEM_THUMBNAIL")) {
 		        	   conItem.setThumbnail(ret);
 		        	   ((ContentsActivity) mcontext).setContentItem(conItem);
-		        	   Log.i("MyTag", "Thread title : " + conItem.getTitle() + " / num : " + conItem.getIndexNum());
 		           }
 		        }
 		        eventType = xpp.next();
