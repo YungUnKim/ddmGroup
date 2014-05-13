@@ -76,6 +76,10 @@
             android:name="uos.codingsroom.ddmgroup.NoticeActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="uos.codingsroom.ddmgroup.ModifyActivity"
+            android:screenOrientation="portrait" >
+        </activity>
 
         <!-- 4 -->
         <activity

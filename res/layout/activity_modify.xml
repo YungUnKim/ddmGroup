@@ -5,116 +5,168 @@
     android:background="#ffffff"
     android:orientation="vertical" >
 
-    <LinearLayout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_margin="10dp" >
+
+        <ImageView
+            android:id="@+id/button_modify_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/icon_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/button_modify_back"
+            android:gravity="center"
+            android:text="수정하기"
+            android:textColor="@color/content_gray"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ddmlogo2" />
+    </RelativeLayout>
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:orientation="vertical" >
+        android:layout_marginRight="10dp" >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal" >
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="그룹 이름 "
-                android:textSize="13sp" />
-
-            <TextView
-                android:id="@+id/text_register_groupname_modify"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:text="Codingsroom"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="그룹 이름 "
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/text_register_groupname_modify"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/editTitle_modify"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_white_box"
+                android:hint="제목"
+                android:maxLength="100"
+                android:maxLines="2"
+                android:padding="8dp"
+                android:textSize="13sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/temp_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="100dp"
+                    android:visibility="gone" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <Button
+                        android:id="@+id/button_img_modify"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/setting_box"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="사진 수정"
+                        android:textSize="13sp" />
+
+                    <Button
+                        android:id="@+id/button_img_remove"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:layout_toLeftOf="@id/button_img_modify"
+                        android:background="@drawable/setting_box"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="사진 삭제"
+                        android:textSize="13sp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/editMemo_modify"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_white_box"
+                android:hint="내용을 입력하세요."
+                android:maxLength="1000"
+                android:minLines="7"
+                android:padding="8dp"
+                android:scrollbarAlwaysDrawVerticalTrack="true"
+                android:scrollbarStyle="outsideOverlay"
+                android:scrollbars="vertical"
+                android:selectAllOnFocus="true"
+                android:textSize="13sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" >
+
+                <Button
+                    android:id="@+id/button_content_modify"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/setting_box"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="수정하기"
+                    android:textSize="13sp" />
+
+                <Button
+                    android:id="@+id/button_content_back_modify"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@id/button_content_modify"
+                    android:background="@drawable/setting_box"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="돌아가기"
+                    android:textSize="13sp" />
+            </RelativeLayout>
         </LinearLayout>
-
-        <EditText
-            android:id="@+id/editTitle_modify"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/rounded_white_box"
-            android:hint="제목"
-            android:maxLength="100"
-            android:maxLines="2"
-            android:padding="8dp"
-            android:textSize="13sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal" >
-
-            <ImageView
-                android:id="@+id/temp_img"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:visibility="gone" />
-
-            <Button
-                android:id="@+id/button_img_modify"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/setting_box"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text="이미지 수정"
-                android:textSize="13sp" />
-        </LinearLayout>
-
-        <EditText
-            android:id="@+id/editMemo_modify"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/rounded_white_box"
-            android:hint="내용을 입력하세요."
-            android:maxLength="1000"
-            android:minLines="7"
-            android:padding="8dp"
-            android:scrollbarAlwaysDrawVerticalTrack="true"
-            android:scrollbarStyle="outsideOverlay"
-            android:scrollbars="vertical"
-            android:selectAllOnFocus="true"
-            android:textSize="13sp" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp" >
-
-            <Button
-                android:id="@+id/button_content_register_modify"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/setting_box"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text="수정하기"
-                android:textSize="13sp" />
-
-            <Button
-                android:id="@+id/button_content_back_modify"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:layout_toLeftOf="@id/button_content_register_modify"
-                android:background="@drawable/setting_box"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text="돌아가기"
-                android:textSize="13sp" />
-        </RelativeLayout>
-    </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
