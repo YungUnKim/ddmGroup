@@ -297,11 +297,11 @@ public class ContentsActivity extends Activity implements OnClickListener {
 			break;
 
 		case R.id.contents_edit_btn:
-
+			editThisContent();
 			break;
 
 		case R.id.contents_delete_btn:
-
+			
 			break;
 
 		case R.id.button_comment_register:
@@ -323,6 +323,16 @@ public class ContentsActivity extends Activity implements OnClickListener {
 			break;
 		}
 
+	}
+	
+	public void editThisContent(){
+		ContentIntent contentIntent = new ContentIntent(this, group_name, conItem.getBoardCategory(), 
+				conItem.getIndexNum(), conItem.getMemberNum(), mode); 
+		
+		startActivity(contentIntent.put_intent(ModifyActivity.class));
+		
+		menuLayout.setVisibility(View.GONE);
+		menuHelperLayout.setVisibility(View.GONE);
 	}
 
 	// contentItem 세팅하는 함수

@@ -1,6 +1,7 @@
 package uos.codingsroom.ddmgroup.fragments;
 
-import uos.codingsroom.ddmgroup.Content_intent;
+import uos.codingsroom.ddmgroup.ContentIntent;
+import uos.codingsroom.ddmgroup.ContentsActivity;
 import uos.codingsroom.ddmgroup.R;
 import uos.codingsroom.ddmgroup.comm.Get_Newsfeed_Thread;
 import uos.codingsroom.ddmgroup.comm.Get_Notice_Three_Thread;
@@ -123,14 +124,14 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 	}
 	
 	public void moveToConetentsActivity(){
-		Content_intent intent = new Content_intent(getActivity(),
+		ContentIntent intent = new ContentIntent(getActivity(),
 				"예시",		// 게시판 이름
 				1,		// 게시판 번호
 				9,		// 글 번호
 				16,		// 회원 번호
 				false);	// 공지사항 여부
 
-		startActivity(intent.put_intent());
+		startActivity(intent.put_intent(ContentsActivity.class));
 	}
 
 }

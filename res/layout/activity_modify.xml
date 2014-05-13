@@ -44,6 +44,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -85,23 +87,37 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:orientation="vertical" >
-
-                <ImageView
-                    android:id="@+id/temp_img"
-                    android:layout_width="wrap_content"
-                    android:layout_height="100dp"
-                    android:visibility="gone" />
+                android:orientation="horizontal"
+                android:weightSum="10" >
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7.5" >
+
+                    <ImageView
+                        android:id="@+id/img_need_modify"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/ddmlogo" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5" />
+
+                <LinearLayout
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:orientation="vertical" >
 
                     <Button
                         android:id="@+id/button_img_modify"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
                         android:background="@drawable/setting_box"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
@@ -110,16 +126,15 @@
 
                     <Button
                         android:id="@+id/button_img_remove"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:layout_toLeftOf="@id/button_img_modify"
+                        android:layout_marginTop="5dp"
                         android:background="@drawable/setting_box"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
                         android:text="사진 삭제"
                         android:textSize="13sp" />
-                </RelativeLayout>
+                </LinearLayout>
             </LinearLayout>
 
             <EditText

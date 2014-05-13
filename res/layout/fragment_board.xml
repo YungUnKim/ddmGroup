@@ -38,7 +38,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
@@ -48,7 +48,7 @@
             <ListView
                 android:id="@+id/listview_board"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:divider="@color/ddm_line_gray2"
                 android:dividerHeight="1dip"
                 android:fadingEdge="none"

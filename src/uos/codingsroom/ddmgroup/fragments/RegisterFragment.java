@@ -1,11 +1,14 @@
 package uos.codingsroom.ddmgroup.fragments;
 
+import java.io.File;
+
 import uos.codingsroom.ddmgroup.MainActivity;
 import uos.codingsroom.ddmgroup.R;
-import uos.codingsroom.ddmgroup.comm.Insert_Image_Thread;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -85,7 +88,9 @@ public class RegisterFragment extends Fragment {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.button_img_upload: // 이미지 업로드
-				Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+				Intent intent = new Intent(Intent.ACTION_PICK);
+				intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+				intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 				startActivityForResult(intent, REQUEST_CODE_IMAGE);
 				break;
 			case R.id.button_content_register: // 글 업로드 버튼
@@ -142,8 +147,34 @@ public class RegisterFragment extends Fragment {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		SetImage setImage = new SetImage();
-		temp_img.setImageURI(data.getData());
-		temp_img.setVisibility(temp_img.VISIBLE);
+//		Bitmap bitmap;
+//		try {
+//			bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), data.getData());
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inSampleSize = 8;
+		
+		Cursor c = getActivity().getContentResolver().query(Uri.parse(data.getDataString()), null,null,null,null);
+		c.moveToNext();
+		String path = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
+		Uri uri = Uri.fromFile(new File(path));
+		Log.e("flag", uri.toString() + "\n" + path);
+		c.close();
+
+		
+		final Bitmap b = BitmapFactory.decodeFile(path, options);
+//		Log.i("flag", data.getData().toString());
+		
+//		temp_img.setImageURI(data.getData());
+		temp_img.setImageBitmap(b);
+		temp_img.setVisibility(View.VISIBLE);
 		
 		ImgUrl = data.getData();
 		Log.i("MyTag","result url >>" + data.getData());

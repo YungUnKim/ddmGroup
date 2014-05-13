@@ -3,7 +3,7 @@ package uos.codingsroom.ddmgroup;
 import android.content.Context;
 import android.content.Intent;
 
-public class Content_intent extends Intent{
+public class ContentIntent extends Intent{
 	public Context mcontext;		// 액티비티 객체
 	public String GroupName;
 	public int board_num;
@@ -12,7 +12,7 @@ public class Content_intent extends Intent{
 	public boolean mode;
 	
 	// 생성자
-	public Content_intent(Context context,String GroupName, int board_num, int content_num, int mem_num, boolean mode){
+	public ContentIntent(Context context,String GroupName, int board_num, int content_num, int mem_num, boolean mode){
 		this.mcontext = context;
 		this.GroupName = GroupName;
 		this.board_num = board_num;
@@ -21,8 +21,8 @@ public class Content_intent extends Intent{
 		this.mode = mode;
 	}
 	
-	public Intent put_intent(){
-		final Intent intent = new Intent(mcontext, ContentsActivity.class);
+	public Intent put_intent(Class targetActivity){
+		final Intent intent = new Intent(mcontext, targetActivity);
 		
 		intent.putExtra("board_name", GroupName);
 		intent.putExtra("board_num", board_num);

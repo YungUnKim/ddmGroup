@@ -1,5 +1,6 @@
 package uos.codingsroom.ddmgroup;
 
+import uos.codingsroom.ddmgroup.util.UrlImageDownloadTask;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Application;
@@ -33,17 +34,27 @@ public class ModifyActivity extends Activity implements OnClickListener {
 	TextView groupNameText;
 	EditText titleText;
 	EditText articleText;
+	ImageView myImage;
 
 	Button imageRemoveButton;
 	Button imageModifyButton;
 	Button backButton2;
 	Button modifyButton;
 
+	private String imageUrl;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		initializeView();
+
+		imageUrl = "http://codingsroom.com/ddmgroup/image/sshot.png";
+
+		if (!imageUrl.equals("")) {
+			new UrlImageDownloadTask(myImage).execute(imageUrl);
+			myImage.setVisibility(View.VISIBLE);
+		}
 	}
 
 	@Override
@@ -56,7 +67,7 @@ public class ModifyActivity extends Activity implements OnClickListener {
 			finish();
 			break;
 		case R.id.button_img_remove:
-
+			myImage.setImageBitmap(null);
 			break;
 		case R.id.button_img_modify:
 
@@ -81,6 +92,7 @@ public class ModifyActivity extends Activity implements OnClickListener {
 		groupNameText = (TextView) findViewById(R.id.text_register_groupname_modify);
 		titleText = (EditText) findViewById(R.id.editTitle_modify);
 		articleText = (EditText) findViewById(R.id.editMemo_modify);
+		myImage = (ImageView) findViewById(R.id.img_need_modify);
 
 		imageRemoveButton = (Button) findViewById(R.id.button_img_remove);
 		imageRemoveButton.setOnClickListener(this);
