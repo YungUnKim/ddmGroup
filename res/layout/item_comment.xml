@@ -4,14 +4,14 @@
     android:layout_height="wrap_content"
     android:background="@drawable/listview_box2"
     android:orientation="horizontal"
-    android:padding="6dp"
-    android:weightSum="10" >
+    android:padding="6dp" >
 
     <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/comment_profile"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="2dp"
         android:background="@drawable/kakao_default_profile_image"
         android:scaleType="centerCrop" />
 
@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="25dp"
-            android:autoLink="web|phone"
+            android:autoLink="web"
             android:textColor="@color/content_gray" />
 
         <TextView

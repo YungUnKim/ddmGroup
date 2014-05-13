@@ -11,7 +11,8 @@ public class SystemValue {
 	public static final Boolean test = false;
 
 	// public static final String conn = "http://14.63.199.3/security_map/security_map.php?menu=";
-	public static final String conn = "http://14.63.199.182/ddmgroup/ddmgroup.php?menu=";
+	public static final String conn = "http://codingsroom.com/ddmgroup/ddmgroup.php?menu=";
+	public static final String imageConn = "http://codingsroom.com/ddmgroup/image/";
 
 	public static final String FBPageID = "601134919906627";
 }

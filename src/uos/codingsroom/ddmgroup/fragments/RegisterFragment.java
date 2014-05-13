@@ -31,7 +31,7 @@ public class RegisterFragment extends Fragment {
 
 	private Uri ImgUrl;
 	private String ImgPath;
-	
+
 	EditText EditTitle;
 	EditText EditMemo;
 	Button BtnUpload;
@@ -107,18 +107,6 @@ public class RegisterFragment extends Fragment {
 
 	}
 
-	// 사진 경로 구하는 클래스
-	class innerforURI extends Activity {
-		public String getRealPathFromURI(Uri contentUri) {
-			String[] proj = { MediaStore.Images.Media.DATA };
-			Log.i("MyTag", "contentUri = " + contentUri.toString() + "proj = " + proj.toString());
-			Cursor cursor = managedQuery(contentUri, proj, null, null, null);
-			int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-			cursor.moveToFirst();
-			return cursor.getString(column_index);
-		}
-	}
-
 	public void registerContent() {
 		String Title = EditTitle.getText().toString();
 		String Memo = EditMemo.getText().toString();
@@ -129,19 +117,15 @@ public class RegisterFragment extends Fragment {
 			return;
 		}
 		Log.i("MyTag", Title + " >> " + Memo);
-		
-		Insert_Image_Thread iThread = new Insert_Image_Thread(this.getActivity(),22,
-								MainActivity.getMyInfoItem().getMyMemNum(),
-								currentGroup,
-								Title,
-								Memo,
-								ImgPath);
-		
-		iThread.start();	// 이미지 업로드하는 스레드
-		
-//		Insert_Content_Thread mThread = new Insert_Content_Thread(this.getActivity(), 22,
-//				16, 1, Title, Memo); // 회원번호, 소분류 번호 임시로 넣음
-//		mThread.start();
+
+		Insert_Image_Thread iThread = new Insert_Image_Thread(this.getActivity(), 22, MainActivity.getMyInfoItem()
+				.getMyMemNum(), currentGroup, Title, Memo, ImgPath);
+
+		iThread.start(); // 이미지 업로드하는 스레드
+
+		// Insert_Content_Thread mThread = new Insert_Content_Thread(this.getActivity(), 22,
+		// 16, 1, Title, Memo); // 회원번호, 소분류 번호 임시로 넣음
+		// mThread.start();
 
 		// rDialog = createRegisterDialog();
 		// rDialog.show();
@@ -154,47 +138,29 @@ public class RegisterFragment extends Fragment {
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		SetImage setImage = new SetImage();
-//		Bitmap bitmap;
-//		try {
-//			bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), data.getData());
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
-		BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inSampleSize = 8;
-		
-		Cursor c = getActivity().getContentResolver().query(Uri.parse(data.getDataString()), null,null,null,null);
-		c.moveToNext();
-		ImgPath = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
-		Uri uri = Uri.fromFile(new File(ImgPath));
-		Log.e("flag", uri.toString() + "\n" + ImgPath);
-		c.close();
 
-		
-		final Bitmap b = BitmapFactory.decodeFile(ImgPath, options);
-//		Log.i("flag", data.getData().toString());
-		
-//		temp_img.setImageURI(data.getData());
-		temp_img.setImageBitmap(b);
-		temp_img.setVisibility(View.VISIBLE);
-		
-		ImgUrl = data.getData();
-		Log.i("MyTag","result url >>" + data.getData());
-		/*
-		 * if (requestCode == REQUEST_CODE_IMAGE && resultCode == -1 && null != data) { Uri currImageURI = data.getData(); Log.i("img",currImageURI.toString()); innerforURI inner = new
-		 * innerforURI(); String imagePath = inner.getRealPathFromURI(currImageURI) ; // 찍은 사진을 이미지뷰에 보여준다.
-		 * 
-		 * final Bitmap bitmap = BitmapFactory.decodeFile(imagePath); setImage.setAlbumImageDrawble(imagePath, temp_img) ;
-		 * 
-		 * 
-		 * }//end if
-		 */
+		try {
+			BitmapFactory.Options options = new BitmapFactory.Options();
+			options.inSampleSize = 8;
+
+			Cursor c = getActivity().getContentResolver()
+					.query(Uri.parse(data.getDataString()), null, null, null, null);
+			c.moveToNext();
+			ImgPath = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
+			Uri uri = Uri.fromFile(new File(ImgPath));
+			Log.e("flag", uri.toString() + "\n" + ImgPath);
+			c.close();
+
+			final Bitmap b = BitmapFactory.decodeFile(ImgPath, options);
+			// Log.i("flag", data.getData().toString());
+
+			// temp_img.setImageURI(data.getData());
+			temp_img.setImageBitmap(b);
+			temp_img.setVisibility(View.VISIBLE);
+		} catch (Exception e) {
+
+		}
+
 	}// end onActivityResult Method
 
 }

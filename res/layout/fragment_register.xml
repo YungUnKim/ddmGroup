@@ -50,6 +50,7 @@
                 android:hint="제목"
                 android:maxLength="100"
                 android:maxLines="2"
+                android:inputType="text"
                 android:padding="8dp"
                 android:textSize="13sp" />
 
@@ -96,10 +97,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_white_box"
-                android:hint="내용을 입력하세요."
+                android:hint="내용을 입력하시고 \n취소 버튼을 누르셔서 키보드를 내려주세요."
                 android:maxLength="1000"
                 android:minLines="7"
                 android:padding="8dp"
+                android:inputType="textMultiLine"
+                android:imeOptions="actionDone"
                 android:scrollbarAlwaysDrawVerticalTrack="true"
                 android:scrollbarStyle="outsideOverlay"
                 android:scrollbars="vertical"

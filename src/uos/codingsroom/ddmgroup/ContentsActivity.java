@@ -2,6 +2,9 @@ package uos.codingsroom.ddmgroup;
 
 import java.util.ArrayList;
 
+import com.android.volley.toolbox.NetworkImageView;
+import com.kakao.GlobalApplication;
+
 import uos.codingsroom.ddmgroup.comm.Get_Content_Thread;
 import uos.codingsroom.ddmgroup.comm.Get_Reply_Thread;
 import uos.codingsroom.ddmgroup.comm.Insert_Reply_Thread;
@@ -9,8 +12,11 @@ import uos.codingsroom.ddmgroup.item.CommentItem;
 import uos.codingsroom.ddmgroup.item.ContentItem;
 import uos.codingsroom.ddmgroup.item.MyInfoItem;
 import uos.codingsroom.ddmgroup.listview.CommentListAdapter;
+import uos.codingsroom.ddmgroup.util.SystemValue;
+import uos.codingsroom.ddmgroup.util.UrlImageDownloadTask;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Application;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -42,6 +48,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 	private TextView contentsName;
 	private TextView contentsDate;
 	private TextView contentsArticle;
+	private NetworkImageView contentsProfile;
 
 	private ImageView contentsImage;
 
@@ -87,8 +94,8 @@ public class ContentsActivity extends Activity implements OnClickListener {
 
 		Get_Content_Thread mThread = new Get_Content_Thread(this, 24, currentContentNum);
 		mThread.start(); // 글 내용 받아오는 스레드
-		
-//		setListView();
+
+		// setListView();
 	}
 
 	// 댓글 아이템을 설정하는함수
@@ -138,6 +145,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		contentsName = (TextView) findViewById(R.id.contents_name);
 		contentsDate = (TextView) findViewById(R.id.contents_date);
 		contentsArticle = (TextView) findViewById(R.id.contents_article);
+		contentsProfile = (NetworkImageView) findViewById(R.id.contents_profile);
 
 		contentsImage = (ImageView) findViewById(R.id.contents_image);
 		contentsLogo = (ImageView) findViewById(R.id.contents_logo_img);
@@ -340,10 +348,22 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		contentsName.setText(conItem.getName());
 		contentsDate.setText(conItem.getDate());
 		contentsArticle.setText(conItem.getArticle());
-		
+		setProfileURL(conItem.getThumbnail());
+		if (conItem.getImgUrl() != null) {
+			new UrlImageDownloadTask(contentsImage).execute(SystemValue.imageConn + "" + conItem.getImgUrl());
+		}
 		Get_Reply_Thread rThread = new Get_Reply_Thread(this, 28, currentContentNum);
 		rThread.start(); // 댓글 받아오는 스레드
 
 		// contentsImage;
+	}
+
+	public void setProfileURL(final String profileImageURL) {
+		if (contentsProfile != null && profileImageURL != null) {
+			Application app = GlobalApplication.getGlobalApplicationContext();
+			if (app == null)
+				throw new UnsupportedOperationException("needs com.kakao.GlobalApplication in order to use ImageLoader");
+			contentsProfile.setImageUrl(profileImageURL, ((GlobalApplication) app).getImageLoader());
+		}
 	}
 }
