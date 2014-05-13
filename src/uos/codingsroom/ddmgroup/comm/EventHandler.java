@@ -44,7 +44,7 @@ public class EventHandler extends Handler {
 			//	Log.i("MyTag", "핸들러 접근 성공");
 			}
 			else if (msg.what == 13) { //게시글
-				 Log.i("MyTag","Handler 게시글 13 >> " + msg);
+				 Log.i("MyTag2","Handler 게시글 13 >> " + msg);
 					((MainActivity) mcontext).setContent();
 				//	Log.i("MyTag", "핸들러 접근 성공");
 			}
@@ -57,7 +57,7 @@ public class EventHandler extends Handler {
 				Log.i("MyTag", "글 올리기 핸들러");
 			}
 			else if (msg.what == 24){
-				Log.i("MyTag", "글 얻어오기 핸들러");
+//				Log.i("MyTag", "글 얻어오기 핸들러");
 				((ContentsActivity) mcontext).setContentView();
 			}
 			else if (msg.what == 27){
@@ -68,7 +68,7 @@ public class EventHandler extends Handler {
 				Log.i("MyTag", "댓글 삽입 핸들러 실패");
 			}
 			else if (msg.what == 28){
-				Log.i("MyTag", "댓글 얻어오기 핸들러");
+//				Log.i("MyTag", "댓글 얻어오기 핸들러");
 				((ContentsActivity) mcontext).setListView();
 			} else if (msg.what == 29){
 				

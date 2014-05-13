@@ -156,22 +156,6 @@ public class MainActivity extends FragmentActivity {
 	public void setContent() {
 		((ContentsFragment) fragments[BOARD]).setListView();
 	}
-	//게시글에서 어느 게시판인지 알아오기
-	public int getGroupNum() {
-		return ((ContentsFragment) fragments[BOARD]).getCurrentGroupNum();
-	}
-	//게시글에서 start 알아오기
-	public int getStartNum() {
-		return ((ContentsFragment) fragments[BOARD]).getStartNum();
-	}
-	//게시글에서 end 알아오기
-	public int getEndNum() {
-		return ((ContentsFragment) fragments[BOARD]).getEndNum();
-	}
-	public void cleanListview(){
-		((ContentsFragment) fragments[BOARD]).cleanListview();
-	}
-	
 	
 	public void addGroupItem(GroupItem mItem) {
 		groupAdapter.addItem(mItem);

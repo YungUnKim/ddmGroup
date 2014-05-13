@@ -24,7 +24,7 @@ public class ContentView extends LinearLayout {
 		inflater.inflate(R.layout.item_board, this, true);
 
 		mText01 = (TextView) findViewById(R.id.board_read_count);
-		mText01.setText(Integer.toString(aItem.getReadCount()));
+		mText01.setText("조회 " + Integer.toString(aItem.getReadCount()));
 
 		mText02 = (TextView) findViewById(R.id.board_title);
 		mText02.setText(aItem.getTitle());

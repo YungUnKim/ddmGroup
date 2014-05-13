@@ -90,9 +90,10 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 
 		return view;
 	}
-	
-	public void contentFragmentStart(){
-		Get_ContentList_Thread mThread = new Get_ContentList_Thread(this.getActivity(), 13);
+
+	public void contentFragmentStart() {
+		boardListAdapter.clearItem();
+		Get_ContentList_Thread mThread = new Get_ContentList_Thread(this.getActivity(), 13, currentGroup);
 		mThread.start();
 	}
 
@@ -104,34 +105,34 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 	public void setCurrentGroupNum(Integer num) {
 		currentGroup = num;
 	}
+
 	public int getCurrentGroupNum() {
 		return currentGroup;
 	}
-	//게시글 끝, 시작 넘버 알아오고 저장하는 함수들
+
+	// 게시글 끝, 시작 넘버 알아오고 저장하는 함수들
 	public int getEndNum() {
 		return end;
 	}
-	public void setEndNum(int num){
+
+	public void setEndNum(int num) {
 		end = num;
 	}
+
 	public int getStartNum() {
 		return start;
 	}
-	public void setStartNum(int num){
+
+	public void setStartNum(int num) {
 		start = num;
 	}
-	
-	//게시글 아이템 삭제
-	public void cleanListview() {
-		boardListAdapter.clearItem();		
-	}	
 
-	//게시글 1개씩 입력	
+	// 게시글 1개씩 입력
 	public void addListview(ContentItem contentItem) {
-		boardListAdapter.addItem(contentItem);	
+		boardListAdapter.addItem(contentItem);
 	}
-	
-	//내용 출력
+
+	// 내용 출력
 	public void setListView() {
 		// Toast.makeText(getActivity(), "현재 그룹 번호는 " + currentGroup, Toast.LENGTH_SHORT).show();
 		favoriteStar.setSelected(false);
@@ -146,10 +147,10 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 				break;
 			}
 		}
-/*
-		boardListAdapter.clearItem();
-		boardListAdapter.addItem(new ContentItem(0, 10, 10, "제목 입니다.", "재영박", "08/03/1988"));
-*/
+		/*
+		 * boardListAdapter.clearItem(); boardListAdapter.addItem(new ContentItem(0, 10, 10, "제목 입니다.", "재영박",
+		 * "08/03/1988"));
+		 */
 		boardListView.setAdapter(boardListAdapter);
 
 		boardListView.setOnScrollListener(new OnScrollListener() {
@@ -186,14 +187,14 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 				ContentItem curItem = (ContentItem) boardListAdapter.getItem(position);
-				moveToContentsActivity(curItem.getIndexNum());				
+				moveToContentsActivity(curItem.getIndexNum());
 			}
 		});
 
 	}
-	
-	public void moveToContentsActivity(Integer contentNum){
-		Intent intent = new Intent(this.getActivity(),ContentsActivity.class);
+
+	public void moveToContentsActivity(Integer contentNum) {
+		Intent intent = new Intent(this.getActivity(), ContentsActivity.class);
 		intent.putExtra("content_num", contentNum);
 		intent.putExtra("group_name", currentGroupName);
 		intent.putExtra("mode", false);
@@ -210,10 +211,10 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 			((MainActivity) getActivity()).showFragment(2, false);
 			break;
 		case R.id.button_board_prev:
-			//이전
+			// 이전
 			break;
 		case R.id.button_board_next:
-			//이후
+			// 이후
 			break;
 		case R.id.board_star_favorite:
 			if (!favoriteThisGroup) {

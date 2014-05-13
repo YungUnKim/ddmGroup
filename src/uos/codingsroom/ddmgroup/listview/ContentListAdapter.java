@@ -68,7 +68,7 @@ public class ContentListAdapter extends BaseAdapter {
 			itemView = (ContentView) convertView;
 
 //			itemView.setIcon(mItems.get(position).getIcon());
-			itemView.setText(0, Integer.toString(mItems.get(position).getReadCount()));
+			itemView.setText(0, "조회 " + Integer.toString(mItems.get(position).getReadCount()));
 			itemView.setText(1, mItems.get(position).getTitle());
 			itemView.setText(2, mItems.get(position).getName());
 			itemView.setText(3, mItems.get(position).getDate());
