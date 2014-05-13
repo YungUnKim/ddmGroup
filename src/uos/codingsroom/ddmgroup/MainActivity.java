@@ -10,6 +10,7 @@ import uos.codingsroom.ddmgroup.fragments.NewsfeedFragment;
 import uos.codingsroom.ddmgroup.fragments.RegisterFragment;
 import uos.codingsroom.ddmgroup.item.ContentItem;
 import uos.codingsroom.ddmgroup.item.GroupItem;
+import uos.codingsroom.ddmgroup.item.MyInfoItem;
 import uos.codingsroom.ddmgroup.item.NewsFeedItem;
 import uos.codingsroom.ddmgroup.listview.GroupListAdapter;
 import android.content.Context;
@@ -66,6 +67,8 @@ public class MainActivity extends FragmentActivity {
 	MakePreferences myPreference;
 
 	GroupItem groupItem;
+	
+	private MyInfoItem myInfoItem;
 
 	Set<String> favoriteStringSet;
 
@@ -110,12 +113,13 @@ public class MainActivity extends FragmentActivity {
 
 	}
 	
-	public Integer getMyMemberNum(){
-		return myMemNum;
+	public MyInfoItem getMyInfoItem(){
+		return myInfoItem;
 	}
 
 	public void setMyMemberNum(int myMemberNumber) {
 		myMemNum = myMemberNumber;
+		myInfoItem = new MyInfoItem(myMemNum, profileImageURL, nickName);		
 	}
 
 	public void showMyMemNumber() {
