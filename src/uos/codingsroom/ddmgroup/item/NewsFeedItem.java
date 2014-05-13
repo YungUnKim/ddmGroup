@@ -1,20 +1,31 @@
 package uos.codingsroom.ddmgroup.item;
 
 public class NewsFeedItem {
-	private int num;
+	private int index_num;
 	private int read_count;
 	private int reply_count;
 	private String title;
 	private String group_name;
 	private String date;
+	
+	public NewsFeedItem() {
+	}
 
-	public NewsFeedItem(int num, int read_count, int reply_count, String title, String group_name, String date) {
-		this.num = num;
+	public NewsFeedItem(int index_num, int read_count, int reply_count, String title, String group_name, String date) {
+		this.index_num = index_num;
 		this.read_count = read_count;
 		this.reply_count = reply_count;
 		this.title = title;
 		this.group_name = group_name;
 		this.date = date;
+	}
+	
+	public int getIndexNum(){
+		return index_num;
+	}
+	
+	public void setIndexNum(int index_num){
+		this.index_num = index_num;
 	}
 
 	public int getReadCount() {

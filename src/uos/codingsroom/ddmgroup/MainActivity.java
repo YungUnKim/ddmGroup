@@ -142,8 +142,8 @@ public class MainActivity extends FragmentActivity {
 		((NewsfeedFragment) fragments[NEWSFEED]).setNewsFeed(newsFeedItem);
 	}
 	//뉴스피드 아이템 갱신
-	public void setNewsFeedTitle() {
-		((NewsfeedFragment) fragments[NEWSFEED]).setNewsFeedTitle();
+	public void setNewsFeedList() {
+		((NewsfeedFragment) fragments[NEWSFEED]).setNewsFeedList();
 	}
 
 	//게시글

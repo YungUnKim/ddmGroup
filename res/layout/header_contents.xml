@@ -17,7 +17,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:text="Codingsroom"
-            android:textColor="@color/ddm_real_green"
+            android:textColor="@color/ddm_real_green_n2"
             android:textSize="18sp" />
 
         <TextView

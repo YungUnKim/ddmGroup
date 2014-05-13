@@ -8,6 +8,7 @@ import uos.codingsroom.ddmgroup.comm.Get_Notice_Three_Thread;
 import uos.codingsroom.ddmgroup.item.GroupItem;
 import uos.codingsroom.ddmgroup.item.NewsFeedItem;
 import uos.codingsroom.ddmgroup.listview.NewsFeedListAdapter;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -45,7 +46,7 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 		newsfeedAdapter.clearItem();
 		Get_Notice_Three_Thread mThread = new Get_Notice_Three_Thread(this.getActivity(), 11);
 		mThread.start();
-		
+
 		Get_Newsfeed_Thread mThread1 = new Get_Newsfeed_Thread(this.getActivity(), 12);
 		mThread1.start();
 
@@ -54,7 +55,7 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View view = inflater.inflate(R.layout.fragment_newsfeed, container, false);
-		
+
 		noticeLayout = (LinearLayout) view.findViewById(R.id.notice_layout);
 
 		noticeTitleText[0] = (TextView) view.findViewById(R.id.notice_1);
@@ -68,8 +69,6 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 		newsfeedListView = (ListView) view.findViewById(R.id.listview_newsfeed);
 		newsfeedAdapter = new NewsFeedListAdapter(this.getActivity());
 
-		// setNewsfeedListView();
-
 		return view;
 	}
 
@@ -82,7 +81,6 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 
 	// 공지사항 출력 (3개)
 	public void setNoticeTitle() {
-		Log.i("MyTag", "공지사항 입력된다." + noticeCount);
 		for (int i = 0; i < noticeCount; i++) {
 			noticeTitleText[i].setText(noticeTitle[i]);
 			noticeTitleText[i].setVisibility(View.VISIBLE);
@@ -96,14 +94,14 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 	}
 
 	// 뉴스피드 출력(20개)
-	public void setNewsFeedTitle() {
+	public void setNewsFeedList() {
 		// Log.i("MyTag", "뉴스피드입력된다." + noticeCount);
 		newsfeedListView.setAdapter(newsfeedAdapter);
 		newsfeedListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 				NewsFeedItem curItem = (NewsFeedItem) newsfeedAdapter.getItem(position);
-				moveToConetentsActivity();
+				moveToContentsActivity(curItem.getIndexNum(), curItem.getGroupName());
 			}
 		});
 	}
@@ -112,29 +110,26 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.notice_1:
-			moveToConetentsActivity();
+//			moveToConetentsActivity();
 			break;
 		case R.id.notice_2:
-			moveToConetentsActivity();
+//			moveToConetentsActivity();
 			break;
 		case R.id.notice_3:
-			moveToConetentsActivity();
+//			moveToConetentsActivity();
 			break;
 
 		default:
 			break;
 		}
 	}
-	
-	public void moveToConetentsActivity(){
-		ContentIntent intent = new ContentIntent(getActivity(),
-				"예시",		// 게시판 이름
-				1,		// 게시판 번호
-				9,		// 글 번호
-				16,		// 회원 번호
-				false);	// 공지사항 여부
 
-		startActivity(intent.put_intent(ContentsActivity.class));
+	public void moveToContentsActivity(Integer contentNum, String groupName) {
+		Intent intent = new Intent(this.getActivity(), ContentsActivity.class);
+		intent.putExtra("content_num", contentNum);
+		intent.putExtra("group_name", groupName);
+		intent.putExtra("mode", false);
+		startActivity(intent);
 	}
 
 }

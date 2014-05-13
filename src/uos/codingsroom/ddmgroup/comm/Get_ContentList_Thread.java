@@ -17,7 +17,6 @@ public class Get_ContentList_Thread extends Communication_Thread {
 	public Get_ContentList_Thread(Context context, int menu, int group_num) {
 		super(context, menu);
 		url += "&list_num=15" + "&key_word=&board=" + group_num;
-		Log.i("MyTag2", "url 게시글 리스트 >> " + url);
 	}
 
 	// 게시글 읽어오는 함수

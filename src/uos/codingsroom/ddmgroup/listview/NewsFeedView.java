@@ -34,7 +34,7 @@ public class NewsFeedView extends LinearLayout {
 		mText03.setText(aItem.getDate());
 
 		mText04 = (TextView) findViewById(R.id.newsfeed_read_count);
-		mText04.setText(Integer.toString(aItem.getReadCount()));
+		mText04.setText("조회 " + Integer.toString(aItem.getReadCount()));
 
 		mText05 = (TextView) findViewById(R.id.newsfeed_reply_count);
 		mText05.setText(Integer.toString(aItem.getReplyCount()));

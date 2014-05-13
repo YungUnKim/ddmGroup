@@ -23,8 +23,8 @@ public class NewsFeedListAdapter extends BaseAdapter {
 	public void addItem(NewsFeedItem it) {
 		mItems.add(it);
 	}
-	
-	public void clearItem(){
+
+	public void clearItem() {
 		mItems.clear();
 	}
 
@@ -48,13 +48,13 @@ public class NewsFeedListAdapter extends BaseAdapter {
 		return false;
 	}
 
-//	public boolean isSelectable(int position) {
-//		try {
-//			return mItems.get(position).isSelectable();
-//		} catch (IndexOutOfBoundsException ex) {
-//			return false;
-//		}
-//	}
+	// public boolean isSelectable(int position) {
+	// try {
+	// return mItems.get(position).isSelectable();
+	// } catch (IndexOutOfBoundsException ex) {
+	// return false;
+	// }
+	// }
 
 	public long getItemId(int position) {
 		return position;
@@ -67,11 +67,11 @@ public class NewsFeedListAdapter extends BaseAdapter {
 		} else {
 			itemView = (NewsFeedView) convertView;
 
-//			itemView.setIcon(mItems.get(position).getIcon());
+			// itemView.setIcon(mItems.get(position).getIcon());
 			itemView.setText(0, mItems.get(position).getTitle());
 			itemView.setText(1, mItems.get(position).getGroupName());
 			itemView.setText(2, mItems.get(position).getDate());
-			itemView.setText(3, Integer.toString(mItems.get(position).getReadCount()));
+			itemView.setText(3, "조회 " + Integer.toString(mItems.get(position).getReadCount()));
 			itemView.setText(4, Integer.toString(mItems.get(position).getReplyCount()));
 
 		}

@@ -15,7 +15,6 @@ public class Get_Reply_Thread extends Communication_Thread {
 	public Get_Reply_Thread(Context context, int menu, int content_num) {
 		super(context, menu);
 		url += "&content_num=" + content_num;
-		Log.i("MyTag2", "replyRrl >> " + url);
 	}
 
 	// 최신글 20개 받아오는 함수
