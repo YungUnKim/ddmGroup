@@ -65,6 +65,8 @@ public class EventHandler extends Handler {
 			else if (msg.what == 28){
 				Log.i("MyTag", "댓글 얻어오기 핸들러");
 				((ContentsActivity) mcontext).setListView();
+			} else if (msg.what == 29){
+				
 			}
 		} catch (Exception e) {
 		}

@@ -1,5 +1,7 @@
 package uos.codingsroom.ddmgroup;
 
+import uos.codingsroom.ddmgroup.comm.Get_Notice_Thread;
+import uos.codingsroom.ddmgroup.comm.Get_Notice_Three_Thread;
 import uos.codingsroom.ddmgroup.item.NoticeItem;
 import uos.codingsroom.ddmgroup.listview.NoticeListAdapter;
 import android.app.Activity;
@@ -28,6 +30,9 @@ public class NoticeActivity extends Activity implements OnClickListener {
 		backButton.setOnClickListener(this);
 
 //		new UrlImageDownloadTask(testImage).execute("http://joongangdaily.joins.com/_data/photo/2010/01/25080514.jpg");
+		
+		Get_Notice_Thread mThread = new Get_Notice_Thread(this, 11);
+		mThread.start();
 
 		setListView();
 	}	
