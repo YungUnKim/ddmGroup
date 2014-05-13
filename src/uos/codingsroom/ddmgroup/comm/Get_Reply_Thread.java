@@ -49,7 +49,7 @@ public class Get_Reply_Thread extends Communication_Thread {
 					} else if (tagname.equals("date")) {
 						comItem.setDate(new TimeFormat().timeDelay(ret));
 						((ContentsActivity) mcontext).setCommentItem(comItem);
-						Log.i("MyTag", "댓글 - " + comItem.getIndexNum() + " / 내용 : " + comItem.getArticle());
+//						Log.i("MyTag", "댓글 - " + comItem.getArticle() + " // " + comItem.getKakaoUrl());
 					}
 				}
 				eventType = xpp.next();

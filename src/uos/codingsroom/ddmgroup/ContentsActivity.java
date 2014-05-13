@@ -99,6 +99,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 	public void setListView() {
 		for(int i=0;i<comItem.size();i++){
 			commentsListAdapter.addItem(comItem.get(i));
+			Log.i("MyTag",i + "번째 댓글 >> " + comItem.get(i).getKakaoUrl());
 		}
 		
 //		commentsListAdapter.addItem(new CommentItem(0, "댓글입니다. 1", "방금 전", "진동하", dongHayaHI));
