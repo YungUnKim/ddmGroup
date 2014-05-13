@@ -87,6 +87,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:autoLink="web|phone"
             android:lineSpacingExtra="10dip"
             android:text="‘룸메이트’에 출연하는 송가연의 몸매가 화제다. 
 
