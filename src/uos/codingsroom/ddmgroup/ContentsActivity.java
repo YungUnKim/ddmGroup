@@ -11,6 +11,7 @@ import uos.codingsroom.ddmgroup.listview.CommentListAdapter;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -77,6 +78,8 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_contents);
 		
+		imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		
 		Bundle bundle = getIntent().getExtras();
 		group_name = bundle.getString("board_name");
 		tempItem.setBoardCategory(bundle.getInt("board_num"));
@@ -111,29 +114,18 @@ public class ContentsActivity extends Activity implements OnClickListener {
 			commentsListAdapter.addItem(comItem.get(i));
 			Log.i("MyTag",i + "번째 댓글 >> " + comItem.get(i).getKakaoUrl());
 		}
-		
-//		commentsListAdapter.addItem(new CommentItem(0, "댓글입니다. 1", "방금 전", "진동하", dongHayaHI));
-//		commentsListAdapter.addItem(new CommentItem(0, "댓글입니다. 2", "방금 전", "진동하", dongHayaHI));
-//		commentsListAdapter.addItem(new CommentItem(0, "댓글입니다. 3", "방금 전", "진동하", dongHayaHI));
-//		commentsListAdapter.addItem(new CommentItem(0, "댓글입니다. 4", "방금 전", "진동하", dongHayaHI));
-//		commentsListAdapter.addItem(new CommentItem(0, "댓글입니다. 5", "방금 전", "진동하", dongHayaHI));
-//		commentsListAdapter.addItem(new CommentItem(0, "댓글입니다. 6", "방금 전", "진동하", dongHayaHI));
-//		commentsListAdapter.addItem(new CommentItem(0, "댓글입니다. 7", "방금 전", "진동하", dongHayaHI));
-//		commentsListAdapter.addItem(new CommentItem(0, "댓글입니다. 8", "방금 전", "진동하", dongHayaHI));
-//		commentsListAdapter.addItem(new CommentItem(0, "댓글입니다. 9", "방금 전", "진동하", dongHayaHI));
-//		commentsListAdapter.addItem(new CommentItem(0, "댓글입니다. 10", "방금 전", "진동하", dongHayaHI));
 
 		commentsListView.setAdapter(commentsListAdapter);
 		commentsListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-//				select_board_num = arg2-1;
+				int select_reply_num = arg2-1;	// 댓글의 인덱스
 				/*
-				if(!mItem.get(select_board_num).getFBCode().equals(myfbId)){		// 해당 댓글의 주인이 아닐 경우
+				if(!comItem.get(select_reply_num).get){		// 해당 댓글의 주인이 아닐 경우
 					return;
 				}
 				*/
-				replyDialog = createReplyDialog(100);
+				replyDialog = createReplyDialog(select_reply_num);
 				replyDialog.show();
 			}
 		});
@@ -201,14 +193,19 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		String[] kinds = { "수정하기" , "삭제하기"};
 		ab.setTitle("댓글");
 
+		Log.i("MyTag","댓글 위치 : " + what);
 		ab.setItems(kinds, new DialogInterface.OnClickListener() {
-
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 //				kind = which + 1;
-
-				showEditTextDialog(100);		// 댓글 수정하는 다이얼로그 생성
-
+				if(which == 0){
+					showEditTextDialog(100);		// 댓글 수정하는 다이얼로그 생성
+					// 댓글 내용, 위치 넘겨야 함
+				}
+				else if(which == 1){
+					Log.i("MyTag","삭제하기");
+					// 삭제 통신 스레드 삽입
+				}
 				setDismiss(replyDialog);
 			}
 		});
@@ -250,7 +247,9 @@ public class ContentsActivity extends Activity implements OnClickListener {
 							Toast.makeText(getApplicationContext(), "내용을 입력해주세요!", Toast.LENGTH_SHORT).show();
 						} else {
 //							Connect_Thread mThread = new Connect_Thread(MapActivity.this, 12, tItem);
-//							mThread.start(); // 댓글 수정하는 스레드
+//							mThread.start(); 
+							
+							// 댓글 수정하는 스레드 삽입
 						}
 						CloseKeyboard();
 					}
