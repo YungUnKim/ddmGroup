@@ -34,22 +34,46 @@
             android:src="@drawable/ddmlogo2" />
     </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
         android:background="@color/ddm_yellow"
-        android:padding="2dp" >
+        android:orientation="vertical" >
 
-        <ListView
-            android:id="@+id/listview_notice"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:divider="@color/ddm_line_gray2"
-            android:dividerHeight="1dip"
-            android:fadingEdge="none"
-            android:scrollbars="none" >
-        </ListView>
-    </RelativeLayout>
+            android:background="#11000000"
+            android:drawableLeft="@drawable/icon_notice2"
+            android:gravity="center_vertical"
+            android:paddingBottom="3dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="3dp"
+            android:text="동대문 알림"
+            android:textColor="#ffffff"
+            android:textSize="15sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="2dp"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp" >
+
+            <ListView
+                android:id="@+id/listview_notice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@color/ddm_line_gray2"
+                android:dividerHeight="1dip"
+                android:fadingEdge="none"
+                android:scrollbars="none" >
+            </ListView>
+        </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

@@ -9,92 +9,105 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="6dp"
-            android:drawableLeft="@drawable/icon_notice3"
-            android:gravity="center_vertical"
-            android:text="@string/notice_text"
-            android:textColor="@color/ddm_black_1"
-            android:textSize="15sp" />
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="85dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
             android:background="@color/ddm_black_0"
-            android:orientation="horizontal"
-            android:padding="2dp"
-            android:weightSum="3" >
+            android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/notice_1"
-                android:layout_width="0dip"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/notice_box"
-                android:gravity="center"
-                android:padding="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#22000000"
+                android:drawableLeft="@drawable/icon_notice2"
+                android:gravity="center_vertical"
+                android:paddingBottom="3dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="3dp"
+                android:text="@string/notice_text"
                 android:textColor="#ffffff"
-                android:textSize="13sp"
-                android:visibility="visible" />
+                android:textSize="15sp" />
 
-            <TextView
-                android:id="@+id/notice_2"
-                android:layout_width="0dip"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/notice_box2"
-                android:gravity="center"
-                android:padding="5dp"
-                android:textColor="#ffffff"
-                android:textSize="13sp"
-                android:visibility="visible" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="85dp"
+                android:orientation="horizontal"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:paddingBottom="2dp"
+                android:weightSum="3" >
 
-            <TextView
-                android:id="@+id/notice_3"
-                android:layout_width="0dip"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/notice_box3"
-                android:gravity="center"
-                android:padding="5dp"
-                android:textColor="#ffffff"
-                android:textSize="13sp"
-                android:visibility="visible" />
+                <TextView
+                    android:id="@+id/notice_1"
+                    android:layout_width="0dip"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/notice_box"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:textColor="#ffffff"
+                    android:textSize="13sp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/notice_2"
+                    android:layout_width="0dip"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/notice_box2"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:textColor="#ffffff"
+                    android:textSize="13sp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/notice_3"
+                    android:layout_width="0dip"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/notice_box3"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:textColor="#ffffff"
+                    android:textSize="13sp"
+                    android:visibility="visible" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/apple_red"
         android:orientation="vertical" >
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:drawableLeft="@drawable/icon_newsfeed"
+            android:background="#11000000"
+            android:drawableLeft="@drawable/icon_newsfeed2"
             android:gravity="center_vertical"
+            android:paddingBottom="3dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="3dp"
             android:text="@string/notice_newsfeed"
-            android:textColor="@color/ddm_real_green"
+            android:textColor="#ffffff"
             android:textSize="15sp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/ddm_real_green_n2"
-            android:paddingLeft="2dp"
-            android:paddingRight="2dp"
-            android:paddingTop="2dp" >
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp" >
 
             <ListView
                 android:id="@+id/listview_newsfeed"

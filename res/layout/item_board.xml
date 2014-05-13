@@ -21,13 +21,13 @@
             android:layout_marginLeft="1dp"
             android:gravity="center_vertical"
             android:text="새글 입니다."
-            android:textSize="16sp"
+            android:textSize="15sp"
             android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="2dp"
             android:orientation="horizontal" >
 
             <TextView
@@ -81,7 +81,7 @@
         android:gravity="center"
         android:text="10"
         android:textColor="#ffffff"
-        android:textSize="16sp"
+        android:textSize="15sp"
         android:textStyle="bold" />
 
 </LinearLayout>

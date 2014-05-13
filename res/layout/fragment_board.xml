@@ -7,7 +7,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginRight="25dp"
         android:layout_marginTop="10dp"
         android:orientation="horizontal" >
@@ -39,9 +39,11 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
-            android:padding="2dp"
-            android:background="@color/apple_blue" >
+            android:background="@color/apple_blue"
+            android:padding="1.5dp" >
 
             <ListView
                 android:id="@+id/listview_board"
@@ -51,7 +53,6 @@
                 android:dividerHeight="1dip"
                 android:fadingEdge="none"
                 android:scrollbars="none" >
-
             </ListView>
         </RelativeLayout>
 
