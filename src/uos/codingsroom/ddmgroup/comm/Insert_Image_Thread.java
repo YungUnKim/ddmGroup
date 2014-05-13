@@ -9,19 +9,26 @@ import java.net.URL;
 
 import org.xmlpull.v1.XmlPullParser;
 
+import uos.codingsroom.ddmgroup.util.SystemValue;
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 public class Insert_Image_Thread extends Communication_Thread {
 	String upLoadServerUri = null;
 	     
 	/**********  File Path *************/
-	final String uploadFilePath = "/mnt/sdcard/";
-	final String uploadFileName = "service_lifecycle.png";
-
+//	private String uploadFilePath = "/mnt/sdcard/";
+//	private String uploadFileName = "service_lifecycle.png";
+	private String uploadFilePath;
+	
 	int serverResponseCode = 0;
 	
+	// 테스트 생성자
+	public Insert_Image_Thread(Context context, int menu, String path) {
+		super(context,menu);
+		this.uploadFilePath = path;
+		Log.i("MyTag", "url >> " + url);
+	}
 	// 생성자
 	public Insert_Image_Thread(Context context, int menu, int board_num, int content_num, int mem_num) {
 		super(context,menu);
@@ -33,8 +40,9 @@ public class Insert_Image_Thread extends Communication_Thread {
 	@Override
 	public void run() {
 		try {
-			uploadFile(uploadFilePath + "" + uploadFileName);
-			xmlParser(connect(url));	// XML 파싱 함수
+//			uploadFile(uploadFilePath + "" + uploadFileName);
+			uploadFile(uploadFilePath);
+//			xmlParser(connect(url));	// XML 파싱 함수
 			
 		} catch (Exception e) {
 			e.getMessage();
@@ -43,7 +51,7 @@ public class Insert_Image_Thread extends Communication_Thread {
 	
 	public int uploadFile(String sourceFileUri) {
 	          String fileName = sourceFileUri;
-	  
+	          Log.i("MyTag","Path >> " + fileName);
 	          HttpURLConnection conn = null;
 	          DataOutputStream dos = null;  
 	          String lineEnd = "\r\n";
@@ -56,37 +64,37 @@ public class Insert_Image_Thread extends Communication_Thread {
 	           
 	          if (!sourceFile.isFile()) {
 	          	// 파일이 없을 경우
-	          	Log.i("MyTag", "Source File not exist :" +uploadFilePath + "" + uploadFileName);
-	          	
+//	          	Log.i("MyTag", "Source File not exist :" +uploadFilePath + "" + uploadFileName);
+	          	Log.i("MyTag", "Source File not exist :" +uploadFilePath);
 	          	return 0;
 	          }
 	          else
 	          {
 	          	try {   
 	          		/************* php script path ****************/
-	          		upLoadServerUri = "http://www.androidexample.com/media/UploadToServer.php";
+	          		upLoadServerUri = "http://14.63.199.182/ddmgroup/UploadToServer.php";
 	          		
 	          		// open a URL connection to the Servlet
 	          		FileInputStream fileInputStream = new FileInputStream(sourceFile);
 	          		URL url = new URL(upLoadServerUri);
 	                    
 	          		// Open a HTTP  connection to  the URL
-		                   conn = (HttpURLConnection) url.openConnection(); 
-		                   conn.setDoInput(true); // Allow Inputs
-		                   conn.setDoOutput(true); // Allow Outputs
-		                   conn.setUseCaches(false); // Don't use a Cached Copy
-		                   conn.setRequestMethod("POST");
-		                   conn.setRequestProperty("Connection", "Keep-Alive");
-		                   conn.setRequestProperty("ENCTYPE", "multipart/form-data");
-		                   conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
-		                   conn.setRequestProperty("uploaded_file", fileName); 
+	          		conn = (HttpURLConnection) url.openConnection(); 
+	          		conn.setDoInput(true); // Allow Inputs
+	          		conn.setDoOutput(true); // Allow Outputs
+	          		conn.setUseCaches(false); // Don't use a Cached Copy
+	          		conn.setRequestMethod("POST");
+	          		conn.setRequestProperty("Connection", "Keep-Alive");
+	          		conn.setRequestProperty("ENCTYPE", "multipart/form-data");
+	          		conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+	          		conn.setRequestProperty("uploaded_file", fileName); 
 	                    
-		                   dos = new DataOutputStream(conn.getOutputStream());
+	          		dos = new DataOutputStream(conn.getOutputStream());
 	          
-		                   dos.writeBytes(twoHyphens + boundary + lineEnd); 
-		                   dos.writeBytes("Content-Disposition: form-data; name='uploaded_file';filename=" + fileName + "" + lineEnd);
+	          		dos.writeBytes(twoHyphens + boundary + lineEnd); 
+	          		dos.writeBytes("Content-Disposition: form-data; name='uploaded_file';filename=" + fileName + "" + lineEnd);
 	                    
-		                   dos.writeBytes(lineEnd);
+	          		dos.writeBytes(lineEnd);
 	          
 		                   // create a buffer of  maximum size
 		                   bytesAvailable = fileInputStream.available(); 
@@ -112,7 +120,7 @@ public class Insert_Image_Thread extends Communication_Thread {
 		                   serverResponseCode = conn.getResponseCode();
 		                   String serverResponseMessage = conn.getResponseMessage();
 	                     
-		                   Log.i("uploadFile", "HTTP Response is : " + serverResponseMessage + ": " + serverResponseCode);
+		                   Log.i("MyTag", "HTTP Response is : " + serverResponseMessage + ": " + serverResponseCode);
 	                    
 		                   if(serverResponseCode == 200){
 		          	         // 이미지 전송 완료
