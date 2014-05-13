@@ -7,10 +7,12 @@ import uos.codingsroom.ddmgroup.Content_intent;
 import uos.codingsroom.ddmgroup.MainActivity;
 import uos.codingsroom.ddmgroup.MakePreferences;
 import uos.codingsroom.ddmgroup.R;
+import uos.codingsroom.ddmgroup.comm.Get_ContentList_Thread;
 import uos.codingsroom.ddmgroup.item.ContentItem;
 import uos.codingsroom.ddmgroup.listview.ContentListAdapter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -83,6 +85,12 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 
 		return view;
 	}
+	
+	public void contentFragmentStart(){
+		Log.i("MyTag", "connect resume함수시작 >> ");
+		Get_ContentList_Thread mThread = new Get_ContentList_Thread(this.getActivity(), 13);
+		mThread.start();
+	}
 
 	public void setTitleLabel(String title) {
 		currentGroupName = title;
@@ -91,6 +99,12 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 
 	public void setCurrentGroupNum(Integer num) {
 		currentGroup = num;
+	}
+
+	//게시글 1개씩 입력	
+	public void addListview(ContentItem contentItem) {
+	     Log.i("MyTag", "addListView");
+		boardListAdapter.addItem(contentItem);		
 	}
 
 	public void setListView() {
@@ -107,22 +121,10 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 				break;
 			}
 		}
-
+/*
 		boardListAdapter.clearItem();
-
 		boardListAdapter.addItem(new ContentItem(0, 10, 10, "제목 입니다.", "재영박", "08/03/1988"));
-		boardListAdapter.addItem(new ContentItem(0, 9, 11, "제목 입니다.", "재영박", "08/03/1988"));
-		boardListAdapter.addItem(new ContentItem(0, 8, 12, "제목 입니다.", "재영박", "08/03/1988"));
-		boardListAdapter.addItem(new ContentItem(0, 7, 13, "제목 입니다.", "재영박", "08/03/1988"));
-		boardListAdapter.addItem(new ContentItem(0, 6, 14, "제목 입니다.", "재영박", "08/03/1988"));
-		boardListAdapter.addItem(new ContentItem(0, 5, 15, "제목 입니다.", "재영박", "08/03/1988"));
-		boardListAdapter.addItem(new ContentItem(0, 4, 16, "제목 입니다.", "재영박", "08/03/1988"));
-		boardListAdapter.addItem(new ContentItem(0, 3, 17, "제목 입니다.", "재영박", "08/03/1988"));
-		boardListAdapter.addItem(new ContentItem(0, 2, 18, "제목 입니다.", "재영박", "08/03/1988"));
-		boardListAdapter.addItem(new ContentItem(0, 1, 19, "제목 입니다.", "재영박", "08/03/1988"));
-		boardListAdapter.addItem(new ContentItem(0, 0, 20, "제목 입니다.", "재영박", "08/03/1988"));
-		boardListAdapter.addItem(new ContentItem(0, 11, 22, "제목 입니다.", "재영박", "08/03/1988"));
-
+*/
 		boardListView.setAdapter(boardListAdapter);
 
 		boardListView.setOnScrollListener(new OnScrollListener() {

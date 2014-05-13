@@ -1,12 +1,11 @@
 package uos.codingsroom.ddmgroup.fragments;
 
 import uos.codingsroom.ddmgroup.Content_intent;
-import uos.codingsroom.ddmgroup.ContentsActivity;
 import uos.codingsroom.ddmgroup.R;
+import uos.codingsroom.ddmgroup.comm.Get_Newsfeed_Thread;
 import uos.codingsroom.ddmgroup.comm.Get_Notice_Three_Thread;
 import uos.codingsroom.ddmgroup.item.NewsFeedItem;
 import uos.codingsroom.ddmgroup.listview.NewsFeedListAdapter;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -44,6 +43,9 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 
 		Get_Notice_Three_Thread mThread = new Get_Notice_Three_Thread(this.getActivity(), 11);
 		mThread.start();
+		
+		Get_Newsfeed_Thread mThread1 = new Get_Newsfeed_Thread(this.getActivity(), 12);
+		mThread1.start();
 
 	}
 
