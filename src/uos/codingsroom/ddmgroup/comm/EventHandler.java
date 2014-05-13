@@ -73,6 +73,12 @@ public class EventHandler extends Handler {
 			} else if (msg.what == 29){
 				
 			}
+			else if (msg.what == 100){
+				Log.i("MyTag", "이미지 업로드 핸들러 성공");
+			}
+			else if (msg.what == -100){
+				Log.i("MyTag", "이미지 업로드 핸들러 실패");
+			}
 		} catch (Exception e) {
 		}
 		return;
