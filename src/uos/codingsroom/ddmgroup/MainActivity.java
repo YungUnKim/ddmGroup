@@ -141,14 +141,6 @@ public class MainActivity extends FragmentActivity {
 	public void setNewsFeedTitle() {
 		((NewsfeedFragment) fragments[NEWSFEED]).setNewsFeedTitle();
 	}
-	/*
-	// 뉴스피드 스레드 실행
-	public void setNewsFeedView() {
-		Get_Newsfeed_Thread mThread = new Get_Newsfeed_Thread(MainActivity.this, 12);
-		mThread.start();
-	}
-	 
-	 */
 
 	//게시글
 	//게시글 리스트 아이템 추가
@@ -163,6 +155,11 @@ public class MainActivity extends FragmentActivity {
 		((ContentsFragment) fragments[BOARD]).setListView();
 	     Log.i("MyTag", "setContent end");
 	}
+	//게시글에서 어느 게시판인지 알아오기
+	public int getGroupNum() {
+		//return ((ContentsFragment) fragments[BOARD]).getCurrentGroupNum();
+		return 0;
+	}
 	
 	
 	public void addGroupItem(GroupItem mItem) {
@@ -170,6 +167,7 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	public void setLittleListView() {
+		//그룹 게시판 보기 터치했을때
 		groupAdapter.addItem(0, new GroupItem("돌아가기"));
 
 		groupListView.setAdapter(groupAdapter);
@@ -430,5 +428,6 @@ public class MainActivity extends FragmentActivity {
 			super.onBackPressed();
 		}
 	}
+
 
 }
