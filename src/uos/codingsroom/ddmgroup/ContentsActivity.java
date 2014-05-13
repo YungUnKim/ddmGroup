@@ -9,10 +9,16 @@ import uos.codingsroom.ddmgroup.item.CommentItem;
 import uos.codingsroom.ddmgroup.item.ContentItem;
 import uos.codingsroom.ddmgroup.listview.CommentListAdapter;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -52,8 +58,12 @@ public class ContentsActivity extends Activity implements OnClickListener {
 	private EditText commentEdit;
 	private TextView commentRegister;
 
-	private ContentItem conItem;
-	private ContentItem tempItem = new ContentItem();
+	private AlertDialog replyDialog = null;
+	private EditText dialogEditText;
+	private InputMethodManager imm;
+	
+	private ContentItem conItem;		// 글 정보 객체
+	private ContentItem tempItem = new ContentItem();	// 인텐트로 넘어온 글 정보 객체
 	
 	private String group_name;
 	private int myNum;			// 자신의 회원번호
@@ -114,6 +124,19 @@ public class ContentsActivity extends Activity implements OnClickListener {
 //		commentsListAdapter.addItem(new CommentItem(0, "댓글입니다. 10", "방금 전", "진동하", dongHayaHI));
 
 		commentsListView.setAdapter(commentsListAdapter);
+		commentsListView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+//				select_board_num = arg2-1;
+				/*
+				if(!mItem.get(select_board_num).getFBCode().equals(myfbId)){		// 해당 댓글의 주인이 아닐 경우
+					return;
+				}
+				*/
+				replyDialog = createReplyDialog(100);
+				replyDialog.show();
+			}
+		});
 	}
 
 	public void initializeView() {
@@ -159,6 +182,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		return header;
 	}
 
+	// 댓글 하나를 추가하는 함수
 	public void addComment() {
 		CommentItem addItem = new CommentItem(conItem.getIndexNum(), commentEdit.getEditableText().toString(),
 				"지금", "진동하", dongHayaHI);		// 임시 객체
@@ -171,6 +195,85 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		commentEdit.setText("");
 	}
 
+	// 댓글 수정, 삭제 물어보는 다이얼로그 생성함수
+	private AlertDialog createReplyDialog(int what) {
+		AlertDialog.Builder ab = new AlertDialog.Builder(this);
+		String[] kinds = { "수정하기" , "삭제하기"};
+		ab.setTitle("댓글");
+
+		ab.setItems(kinds, new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+//				kind = which + 1;
+
+				showEditTextDialog(100);		// 댓글 수정하는 다이얼로그 생성
+
+				setDismiss(replyDialog);
+			}
+		});
+
+		ab.setNeutralButton("취소", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				setDismiss(replyDialog);
+			}
+		});
+
+		return ab.create();
+	}
+	
+	// 댓글 수정하는 다이얼로그 생성하는 함수
+	private void showEditTextDialog(int what) {
+		final LinearLayout layout = (LinearLayout) View.inflate(this, R.layout.dialog_input, null);
+		final EditText editText_contents;
+		final TextView editText_Label;
+		final String dialogTitle = "댓글 내용";
+		final String dialogLabel = "내용을 입력하세요.";
+
+		// 댓글의 댓글 선택시 자동으로 키보드 생성해주는 부분
+		dialogEditText = (EditText) findViewById(R.id.editReply);
+		editText_contents = (EditText) layout.findViewById(R.id.editReply);
+		editText_Label = (TextView) layout.findViewById(R.id.editReply_label);
+		editText_Label.setText(dialogLabel);
+
+		imm.showSoftInput(dialogEditText, InputMethodManager.SHOW_FORCED);
+
+		new AlertDialog.Builder(this).setTitle(dialogTitle).setView(layout)
+				.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						String contents = editText_contents.getText().toString();
+//						SharedPreferences pref = getSharedPreferences("prefs", 0);
+//						final String myName = pref.getString("myName", "관리자");	// 프리퍼런스
+
+						if (contents.equals("")) {
+							Toast.makeText(getApplicationContext(), "내용을 입력해주세요!", Toast.LENGTH_SHORT).show();
+						} else {
+//							Connect_Thread mThread = new Connect_Thread(MapActivity.this, 12, tItem);
+//							mThread.start(); // 댓글 수정하는 스레드
+						}
+						CloseKeyboard();
+					}
+					private void CloseKeyboard() {
+						imm.hideSoftInputFromWindow(editText_contents.getWindowToken(), 0);
+					}
+				})
+				.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						CloseKeyboard();
+						Toast.makeText(getApplicationContext(), "댓글 수정을 취소하였습니다", Toast.LENGTH_SHORT).show();
+					}
+					private void CloseKeyboard() {
+						imm.hideSoftInputFromWindow(editText_contents.getWindowToken(), 0);
+					}
+				}).show();
+	}
+	
+	private void setDismiss(Dialog dialog) {
+		if (dialog != null && dialog.isShowing())
+			dialog.dismiss();
+	}
+	
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
