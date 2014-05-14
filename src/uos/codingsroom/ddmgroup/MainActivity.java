@@ -196,6 +196,7 @@ public class MainActivity extends FragmentActivity {
 					GroupItem curItem = (GroupItem) groupAdapter.getItem(position);
 					((ContentsFragment) fragments[BOARD]).setCurrentGroupNum(curItem.getIndexNum());
 					((ContentsFragment) fragments[BOARD]).setTitleLabel(curItem.getTitle());
+					((ContentsFragment) fragments[BOARD]).setPageNum(0);
 					((ContentsFragment) fragments[BOARD]).contentFragmentStart();
 					((RegisterFragment) fragments[REGISTER]).setCurrentGroupNum(curItem.getIndexNum());
 					((RegisterFragment) fragments[REGISTER]).setTitleLabel(curItem.getTitle());
