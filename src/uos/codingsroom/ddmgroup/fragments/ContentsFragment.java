@@ -202,9 +202,15 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 			break;
 		case R.id.button_board_prev:
 			// 이전
+			if(page!=0){
+				page--;
+				contentFragmentStart();
+			}
 			break;
-		case R.id.button_board_next:
+		case R.id.button_board_next:			
 			// 이후
+			page++;
+			contentFragmentStart();
 			break;
 		case R.id.board_star_favorite:
 			if (!favoriteThisGroup) {

@@ -157,6 +157,7 @@ public class MainActivity extends FragmentActivity {
 		((ContentsFragment) fragments[BOARD]).setListView();
 	}
 
+	//페이지 넘버 조작
 	//페이지 넘버 가져오기
 	public int getPageNum() {
 		return ((ContentsFragment) fragments[BOARD]).getPageNum();
