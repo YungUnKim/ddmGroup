@@ -156,6 +156,15 @@ public class MainActivity extends FragmentActivity {
 	public void setContent() {
 		((ContentsFragment) fragments[BOARD]).setListView();
 	}
+
+	//페이지 넘버 가져오기
+	public int getPageNum() {
+		return ((ContentsFragment) fragments[BOARD]).getPageNum();
+	}
+	//페이지 넘버 저장하기
+	public void setPageNum(int num) {
+		((ContentsFragment) fragments[BOARD]).setPageNum(num);
+	}
 	
 	public void addGroupItem(GroupItem mItem) {
 		groupAdapter.addItem(mItem);

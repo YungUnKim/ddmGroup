@@ -33,8 +33,7 @@ import android.widget.Toast;
 public class ContentsFragment extends Fragment implements OnClickListener {
 
 	private static Integer currentGroup = 0;
-	private static Integer end = -1;
-	private static Integer start = -1;
+	private static Integer page = 0;
 	private static String currentGroupName;
 
 	private ListView boardListView;
@@ -110,21 +109,12 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 		return currentGroup;
 	}
 
-	// 게시글 끝, 시작 넘버 알아오고 저장하는 함수들
-	public int getEndNum() {
-		return end;
+	// 게시글 페이지 알아오고 저장하는 함수들
+	public int getPageNum() {
+		return page;
 	}
-
-	public void setEndNum(int num) {
-		end = num;
-	}
-
-	public int getStartNum() {
-		return start;
-	}
-
-	public void setStartNum(int num) {
-		start = num;
+	public void setPageNum(int num) {
+		page = num;
 	}
 
 	// 게시글 1개씩 입력

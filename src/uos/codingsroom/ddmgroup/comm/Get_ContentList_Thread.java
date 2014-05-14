@@ -16,14 +16,17 @@ public class Get_ContentList_Thread extends Communication_Thread {
 	// 생성자
 	public Get_ContentList_Thread(Context context, int menu, int group_num) {
 		super(context, menu);
-		url += "&list_num=15" + "&key_word=&board=" + group_num;
+		url += "&list_num=5" 
+				+ "&key_word=&board=" + group_num 
+				+ "&page_num=" + ((MainActivity) mcontext).getPageNum();
+		Log.i("MyTag", url);
 	}
 
 	// 게시글 읽어오는 함수
 	public void xmlParser(XmlPullParser xpp) {
 		// ------------------------------------- xml 파서 ------------------------------------//
 		try {
-			Log.i("MyTag", "xml 파싱 리스트");
+			//Log.i("MyTag", "xml 파싱 리스트");
 			eventType = xpp.getEventType(); // 이벤트 타입 얻어오기 예를들어 <start> 인지 </start> 인지 구분하기 위한.
 			while (eventType != XmlPullParser.END_DOCUMENT) { // xml이 끝날때까지 계속 돌린다.
 				if (eventType == XmlPullParser.START_TAG) {
@@ -68,7 +71,7 @@ public class Get_ContentList_Thread extends Communication_Thread {
 				eventType = xpp.next();
 			} // end while
 
-			Log.i("MyTag", "content_list -> xml파싱 끝");
+			//Log.i("MyTag", "content_list -> xml파싱 끝");
 			msg.what = 13;
 			mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다
 		} catch (Exception e) {
