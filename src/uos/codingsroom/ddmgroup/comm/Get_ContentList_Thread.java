@@ -13,6 +13,9 @@ public class Get_ContentList_Thread extends Communication_Thread {
 
 	ContentItem contentItem;
 
+	private static Integer null_flag = 1;
+	private static Integer pre_page = 0;
+
 	// 생성자
 	public Get_ContentList_Thread(Context context, int menu, int group_num) {
 		super(context, menu);
@@ -26,13 +29,15 @@ public class Get_ContentList_Thread extends Communication_Thread {
 	public void xmlParser(XmlPullParser xpp) {
 		// ------------------------------------- xml 파서 ------------------------------------//
 		try {
-			//Log.i("MyTag", "xml 파싱 리스트");
+			null_flag=1;
+			Log.i("MyTag", "xml 파싱 리스트");
 			eventType = xpp.getEventType(); // 이벤트 타입 얻어오기 예를들어 <start> 인지 </start> 인지 구분하기 위한.
 			while (eventType != XmlPullParser.END_DOCUMENT) { // xml이 끝날때까지 계속 돌린다.
 				if (eventType == XmlPullParser.START_TAG) {
 					tagname = xpp.getName(); // 태그를 받아온다.
 				} else if (eventType == XmlPullParser.TEXT) {
-					if (tagname.equals("CONTENT_NUM") || tagname.equals("CONTENT_BOARD")
+					if (tagname.equals("total")
+							|| tagname.equals("CONTENT_NUM") || tagname.equals("CONTENT_BOARD")
 							|| tagname.equals("CONTENT_TITLE") || tagname.equals("CONTENT_MEM")
 							|| tagname.equals("CONTENT_ARTICLE") || tagname.equals("CONTENT_IMG")
 							|| tagname.equals("CONTENT_REPLY") || tagname.equals("CONTENT_DATE")
@@ -66,14 +71,29 @@ public class Get_ContentList_Thread extends Communication_Thread {
 					} else if (tagname.equals("MEM_NAME")) {
 						contentItem.setName(ret);
 						((MainActivity) mcontext).addContent(contentItem);
+						null_flag=0;
 					}
 				}
 				eventType = xpp.next();
 			} // end while
 
 			//Log.i("MyTag", "content_list -> xml파싱 끝");
-			msg.what = 13;
-			mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다
+			//xml에 1개라도 게시글 있다면
+			if(null_flag==0){
+				msg.what = 13;
+				mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다
+			}
+			else{
+				pre_page = ((MainActivity) mcontext).getPageNum();
+				if(pre_page==0){//처음 페이지인데 게시글이 없을 경우
+					
+				}
+				else{//마지막 페이지를 넘어갓을 경우->페이지번호--로 세팅한다
+					pre_page--;
+					((MainActivity) mcontext).setPageNum(pre_page);
+				}
+			
+			}
 		} catch (Exception e) {
 			e.getMessage();
 		}
