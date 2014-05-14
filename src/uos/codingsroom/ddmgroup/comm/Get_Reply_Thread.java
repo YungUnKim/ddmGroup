@@ -35,7 +35,7 @@ public class Get_Reply_Thread extends Communication_Thread {
 					tagname = xpp.getName();
 					if (tagname.equals("mem_num")) {
 						comItem = new CommentItem();
-						comItem.setIndexNum(Integer.parseInt(ret));
+						comItem.setMem_num(Integer.parseInt(ret));
 					} else if (tagname.equals("mem_name")) {
 						comItem.setKakaoName(ret);
 					} else if (tagname.equals("mem_thumbnail")) {

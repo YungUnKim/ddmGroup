@@ -29,22 +29,19 @@ public class EventHandler extends Handler {
 			
 			}
 			else if (msg.what == 10) { 
-			// Log.i("MyTag","Handler 10 >> " + msg);
 				((MainActivity) mcontext).showMyMemNumber();
 				((MainActivity) mcontext).setProfile();
 			}
 			else if (msg.what == 11) { //공지사항
-			// Log.i("MyTag","Handler 10 >> " + msg);
 				((MainActivity) mcontext).setNoticeTitle();
 			//	Log.i("MyTag", "핸들러 접근 성공");
 			}
 			else if (msg.what == 12) { //뉴스피드
-			// Log.i("MyTag","Handler 10 >> " + msg);
 				((MainActivity) mcontext).setNewsFeedList();
 			//	Log.i("MyTag", "핸들러 접근 성공");
 			}
 			else if (msg.what == 13) { //게시글
-					((MainActivity) mcontext).setContent();
+				((MainActivity) mcontext).setContent();
 			}
 			else if (msg.what == 20) { 
 			// Log.i("MyTag","Handler 10 >> " + msg);
@@ -52,31 +49,58 @@ public class EventHandler extends Handler {
 			//	Log.i("MyTag", "핸들러 접근 성공");
 			}
 			else if (msg.what == 22){
-				Log.i("MyTag", "글 올리기 핸들러");
+				Log.i("MyTag", "글 올리기 핸들러 성공");
+			}
+			else if (msg.what == -22){
+				Log.i("MyTag", "글 올리기 핸들러 실패");
 			}
 			else if (msg.what == 24){
-//				Log.i("MyTag", "글 얻어오기 핸들러");
+//				Log.i("MyTag", "글 얻어오기 핸들러 성공");
 				((ContentsActivity) mcontext).setContentView();
+			}
+			else if (msg.what == -25){
+				Log.i("MyTag", "글 수정하기 핸들러 실패");
+			}
+			else if (msg.what == 25){
+				Log.i("MyTag", "글 수정하기 핸들러 성공");
+//				((ContentsActivity) mcontext).setContentView();
+			}
+			else if (msg.what == -26){
+				Log.i("MyTag", "글 삭제 핸들러 실패");
+				((ContentsActivity) mcontext).viewMessage("글 삭제에 실패하였습니다.");
+			}
+			else if (msg.what == 26){
+				Log.i("MyTag", "글 삭제 핸들러 성공");
+				((ContentsActivity) mcontext).viewMessage("글 삭제에 성공하였습니다.");
 			}
 			else if (msg.what == 27){
 				 ((ContentsActivity) mcontext).addComment();
 				Log.i("MyTag", "댓글 삽입 핸들러 성공");
 			}
 			else if (msg.what == -27){
+				((ContentsActivity) mcontext).viewMessage("댓글 추가에 실패하였습니다.");
 				Log.i("MyTag", "댓글 삽입 핸들러 실패");
 			}
 			else if (msg.what == 28){
 //				Log.i("MyTag", "댓글 얻어오기 핸들러");
 				((ContentsActivity) mcontext).setListView();
-			} else if (msg.what == 29){
-				
 			}
-			else if (msg.what == 100){
-				Log.i("MyTag", "이미지 업로드 핸들러 성공");
+			else if (msg.what == 29){
+				 ((ContentsActivity) mcontext).addComment();
+				Log.i("MyTag", "댓글 수정 핸들러 성공");
 			}
-			else if (msg.what == -100){
-				Log.i("MyTag", "이미지 업로드 핸들러 실패");
+			else if (msg.what == -29){
+				Log.i("MyTag", "댓글 수정 핸들러 실패");
 			}
+			else if (msg.what == 30){
+				((ContentsActivity) mcontext).deleteComment();
+				Log.i("MyTag", "댓글 삭제 핸들러 성공");
+			}
+			else if (msg.what == -30){
+				((ContentsActivity) mcontext).viewMessage("댓글 삭제에 실패하였습니다.");
+				Log.i("MyTag", "댓글 삭제 핸들러 실패");
+			}
+		
 		} catch (Exception e) {
 		}
 		return;

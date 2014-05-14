@@ -1,41 +1,182 @@
 package uos.codingsroom.ddmgroup.comm;
 
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLEncoder;
 
 import org.xmlpull.v1.XmlPullParser;
 
-import uos.codingsroom.ddmgroup.item.GroupItem;
+import uos.codingsroom.ddmgroup.util.SystemValue;
 import android.content.Context;
+import android.util.Log;
 
 public class Insert_Content_Thread extends Communication_Thread {
-
-	// 생성자 (글 등록하기)
-	public Insert_Content_Thread(Context context, int menu,int mynum, int board_num, String title, String memo) {
+	private String uploadFilePath;	// 이미지 경로
+	private int menu;
+	private int mem_num;
+	private int board_num;
+	private String title;
+	private String article;
+	
+	int serverResponseCode = 0;
+	
+	// 글 등록하기
+	public Insert_Content_Thread(Context context, int menu,int mem_num, int board_num, String title, String article, String path) {
 		super(context,menu);
-		try {
-			url += "&mem_num=" + mynum + "&board_num=" + board_num +
-					"&title=" + URLEncoder.encode(title, "UTF-8") + "&memo=" + URLEncoder.encode(memo, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.menu = menu;
+		this.mem_num = mem_num;
+		this.board_num = board_num;
+		this.title = title;
+		this.article = article;
+		this.uploadFilePath = path;
 	}
-/*
+
+	// 스레드 기본 함수
 	@Override
 	public void run() {
 		try {
-			url += "&mem_num=" + myNum + "&board_num=" + board_num +
-					"&title=" + URLEncoder.encode(title, "UTF-8") + "&memo=" + URLEncoder.encode(memo, "UTF-8");
+			if(uploadFilePath == null){	// 그림이 없는 경우
+				try {
+					url += "&mem_num=" + mem_num + "&board_num=" + board_num +
+							"&title=" + URLEncoder.encode(title, "UTF-8") + "&article=" + URLEncoder.encode(article, "UTF-8");
+					Log.i("MyTag", "url >> " + url);
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				xmlParser(connect(url));	// XML 파싱 함수
+			}
+			else{			// 그림이 있는 경우
+				uploadFile(this.uploadFilePath);
+			}
 			
-			xmlParser(connect(url));	// XML 파싱 함수
-
 		} catch (Exception e) {
 			e.getMessage();
 		}
-
 	}
-*/
+	
+	public int uploadFile(String sourceFileUri) {
+	          String fileName = sourceFileUri;
+
+	          HttpURLConnection conn = null;
+	          DataOutputStream dos = null;  
+	          String lineEnd = "\r\n";
+	          String twoHyphens = "--";
+	          String boundary = "*****";
+	          int bytesRead, bytesAvailable, bufferSize;
+	          byte[] buffer;
+	          int maxBufferSize = 1 * 1024 * 1024; 
+	          File sourceFile = new File(sourceFileUri); 
+	           
+	          if (!sourceFile.isFile()) {
+	          	// 파일이 없을 경우
+	          	Log.i("MyTag", "Source File not exist :" +uploadFilePath);
+	          	return 0;
+	          }
+	          else
+	          {
+	          	try {
+	          		// open a URL connection to the Servlet
+	          		String imgurl = "http://14.63.199.182/ddmgroup/ddmgroup.php";
+	          		FileInputStream fileInputStream = new FileInputStream(sourceFile);
+	          		URL Httpurl = new URL(imgurl);
+	          		
+	          		// Open a HTTP  connection to  the URL
+	          		conn = (HttpURLConnection) Httpurl.openConnection(); 
+	          		conn.setDoInput(true); // Allow Inputs
+	          		conn.setDoOutput(true); // Allow Outputs
+	          		conn.setUseCaches(false); // Don't use a Cached Copy
+	          		conn.setRequestMethod("POST");
+	          		conn.setRequestProperty("Connection", "Keep-Alive");
+//	          		conn.setRequestProperty("Charset", "UTF-8");
+//	          		conn.setRequestProperty("Content-Language", "UTF-8");  
+	          		conn.setRequestProperty("ENCTYPE", "multipart/form-data");
+	          		conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+	          		conn.setRequestProperty("uploaded_file", fileName);			// 파일명
+	          		
+	          		dos = new DataOutputStream(conn.getOutputStream());
+	          		
+	          		dos.writeBytes(twoHyphens + boundary + lineEnd);
+	          		
+	          		dos.writeBytes("Content-Disposition: form-data; name='uploaded_file';filename=");
+	          		dos.write(fileName.getBytes("utf-8"));
+	          		dos.writeBytes("" + lineEnd);
+	          		dos.writeBytes(lineEnd);
+	          		
+		                   // create a buffer of  maximum size
+		                   bytesAvailable = fileInputStream.available(); 
+	          
+		                   bufferSize = Math.min(bytesAvailable, maxBufferSize);
+		                   buffer = new byte[bufferSize];
+	          
+		                   // read file and write it into form...
+		                   bytesRead = fileInputStream.read(buffer, 0, bufferSize);  
+	                      
+		                   while (bytesRead > 0) {
+		          	         dos.write(buffer, 0, bufferSize);
+		          	         bytesAvailable = fileInputStream.available();
+		          	         bufferSize = Math.min(bytesAvailable, maxBufferSize);
+		          	         bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+		                   }
+	           
+	          		// 파일 이외에 파라미터로 넘길 값들
+		                   	dos.writeBytes(lineEnd+twoHyphens+boundary+lineEnd);
+	          		dos.writeBytes("Content-Disposition: form-data; name='menu';" + lineEnd + lineEnd + this.menu);
+	          		dos.writeBytes(lineEnd+twoHyphens+boundary+lineEnd);
+	          		dos.writeBytes("Content-Disposition: form-data; name='mem_num';" + lineEnd + lineEnd + this.mem_num);
+	          		dos.writeBytes(lineEnd+twoHyphens+boundary+lineEnd);
+	          		dos.writeBytes("Content-Disposition: form-data; name='board_num';" + lineEnd + lineEnd + this.board_num);
+	          		dos.writeBytes(lineEnd+twoHyphens+boundary+lineEnd);
+	          		dos.writeBytes("Content-Disposition: form-data; name='title';" + lineEnd + lineEnd);
+	          		dos.write(title.getBytes("utf-8"));
+	          		dos.writeBytes(lineEnd+twoHyphens+boundary+lineEnd);
+	          		dos.writeBytes("Content-Disposition: form-data; name='article';" + lineEnd + lineEnd);
+	          		dos.write(article.getBytes("utf-8"));
+	          		dos.writeBytes(lineEnd);
+	          		dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+		                  
+		                   // Responses from the server (code and message)
+		                   serverResponseCode = conn.getResponseCode();
+		                   String serverResponseMessage = conn.getResponseMessage();
+	                     
+//		                   Log.i("MyTag", "HTTP Response is : " + serverResponseMessage + ": " + serverResponseCode);
+	                    
+		                   if(serverResponseCode == 200){
+		          	         // 이미지 전송 완료
+		          	         Log.i("MyTag", "이미지 전송 완료");
+		          	         msg.what = 22;
+		          	         mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다
+		                   }
+		                   else{
+		          	         Log.i("MyTag", "이미지 전송 실패");
+		          	         msg.what = -22;
+		          	         mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다
+		                   }
+	                    
+		                   //close the streams //
+		                   fileInputStream.close();
+		                   dos.flush();
+		                   dos.close();
+	                     
+	          	} catch (MalformedURLException ex) {
+	          		// url 실패
+	          		ex.printStackTrace();
+	          		Log.i("MyTag", "error: " + ex.getMessage(), ex);  
+	          	} catch (Exception e) {
+	          		// 기타 이상
+	          		e.printStackTrace();
+	          		Log.i("MyTag", "error: " + e.getMessage(), e);  
+	          	}   
+	          	return serverResponseCode; 
+	               
+	          } // End else block 
+	} 
+	
 	// 글 등록하는 함수
 	public void xmlParser(XmlPullParser xpp) {
 		// ------------------------------------- xml 파서 ------------------------------------//
@@ -58,14 +199,14 @@ public class Insert_Content_Thread extends Communication_Thread {
 							mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다
 						} else {
 							msg.what = 22;
+							Log.i("MyTag","test >> 333");
+							mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다
 //							((MainActivity) mcontext).setMyMemberNum(Integer.parseInt(ret));
 						}
 					}
 				}
 				eventType = xpp.next();
 			} // end while
-
-			mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다
 		} catch (Exception e) {
 			e.getMessage();
 		}

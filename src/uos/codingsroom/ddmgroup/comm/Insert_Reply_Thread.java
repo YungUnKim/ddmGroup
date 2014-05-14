@@ -34,7 +34,8 @@ public class Insert_Reply_Thread extends Communication_Thread {
 		           tagname = xpp.getName(); // 태그를 받아온다.
 		        } 
 		        else if (eventType == XmlPullParser.TEXT) {
-		           if (tagname.equals("mode")) {
+		           if (tagname.equals("mode")
+		          	|| tagname.equals("reply_num")) {
 		              ret = xpp.getText(); // id 태그에 해당되는 TEXT를 임시로 저장
 		           }
 		        } 
@@ -42,19 +43,21 @@ public class Insert_Reply_Thread extends Communication_Thread {
 		           // 태그가 닫히는 부분에서 임시 저장된 TEXT를 Array에 저장한다.
 		           tagname = xpp.getName();
 		           if (tagname.equals("mode")) {
-		        	   if(ret.equals("success")){
-		        		   msg.what = 27;
-		        		   mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다
-		        	   }
-		        	   else{
+		        	   if(ret.equals("fail")){
 		        		   msg.what = -27;
 		        		   mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다
 		        	   }
 		           }
+		           else if(tagname.equals("reply_num")){
+		          	 ((ContentsActivity) mcontext).setCommentNum(Integer.parseInt(ret));
+		          	 msg.what = 27;
+		        		 mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다
+		        		 break;
+		           }
 		        }
 		        eventType = xpp.next();
-		     } // end while		     
-		    
+		     } // end while
+		  
 		  } 
 		  catch (Exception e) {
 		     e.getMessage();

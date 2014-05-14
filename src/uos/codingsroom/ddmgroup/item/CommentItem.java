@@ -2,13 +2,15 @@ package uos.codingsroom.ddmgroup.item;
 
 public class CommentItem {
 	private int index_num;
+	private int mem_num;
 	private String article;
 	private String date;
 	private String kakaoName;
 	private String kakaoUrl;
 
-	public CommentItem(int index_num, String article, String date, String kakaoName, String kakaoUrl) {
+	public CommentItem(int index_num, int mem_num,String article, String date, String kakaoName, String kakaoUrl) {
 		this.index_num = index_num;
+		this.mem_num = mem_num;
 		this.article = article;
 		this.date = date;
 		this.kakaoName = kakaoName;
@@ -58,6 +60,14 @@ public class CommentItem {
 
 	public void setKakaoUrl(String kakaoUrl) {
 		this.kakaoUrl = kakaoUrl;
+	}
+
+	public int getMem_num() {
+		return mem_num;
+	}
+
+	public void setMem_num(int mem_num) {
+		this.mem_num = mem_num;
 	}
 
 }

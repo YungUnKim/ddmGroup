@@ -4,7 +4,7 @@ import java.io.File;
 
 import uos.codingsroom.ddmgroup.MainActivity;
 import uos.codingsroom.ddmgroup.R;
-import uos.codingsroom.ddmgroup.comm.Insert_Image_Thread;
+import uos.codingsroom.ddmgroup.comm.Insert_Content_Thread;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -118,14 +118,11 @@ public class RegisterFragment extends Fragment {
 		}
 		Log.i("MyTag", Title + " >> " + Memo);
 
-		Insert_Image_Thread iThread = new Insert_Image_Thread(this.getActivity(), 22, MainActivity.getMyInfoItem()
+		Insert_Content_Thread iThread = new Insert_Content_Thread(this.getActivity(), 22, MainActivity.getMyInfoItem()
 				.getMyMemNum(), currentGroup, Title, Memo, ImgPath);
 
-		iThread.start(); // 이미지 업로드하는 스레드
+		iThread.start(); // 글 업로드하는 스레드
 
-		// Insert_Content_Thread mThread = new Insert_Content_Thread(this.getActivity(), 22,
-		// 16, 1, Title, Memo); // 회원번호, 소분류 번호 임시로 넣음
-		// mThread.start();
 
 		// rDialog = createRegisterDialog();
 		// rDialog.show();
