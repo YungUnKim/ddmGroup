@@ -92,7 +92,6 @@ public class MainActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		initializeView(); // 뷰를 초기화
-
 		readProfile(this);
 		// setProfile();
 		// setBigListView();

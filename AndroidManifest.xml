@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="14"
+        android:minSdkVersion="8"
         android:targetSdkVersion="19" />
 
     <!-- 1 -->
@@ -18,14 +18,14 @@
     <!-- General permissions -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <!-- GCM permissions -->
     <permission
-        android:name="org.androidtown.gcm.push.permission.C2D_MESSAGE"
+        android:name="uos.codingsroom.ddmgroup.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="org.androidtown.gcm.push.permission.C2D_MESSAGE" />
+    <uses-permission android:name="uos.codingsroom.ddmgroup.permission.C2D_MESSAGE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <application
@@ -90,6 +90,20 @@
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
+        
+        <service android:name="uos.codingsroom.ddmgroup.GCMIntentService" />
+
+        <!-- GCM 서비스로부터 브로드캐스트 메시지를 받을 수신자 -->
+        <receiver android:name="com.google.android.gcm.GCMBroadcastReceiver"
+                  android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <!-- 메시지 수신 -->
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <!-- 등록 ID 수신 -->
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+                <category android:name="uos.codingsroom.ddmgroup" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

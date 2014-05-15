@@ -1,12 +1,22 @@
 package uos.codingsroom.ddmgroup;
 
+
+import static uos.codingsroom.ddmgroup.BasicInfo.TOAST_MESSAGE_ACTION;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 
+import com.google.android.gcm.GCMRegistrar;
+import com.google.android.gcm.server.Sender;
 import com.kakao.Session;
 import com.kakao.SessionCallback;
 import com.kakao.exception.KakaoException;
@@ -15,7 +25,8 @@ import com.kakao.widget.LoginButton;
 public class KakaoLoginActivity extends Activity {
 
 	private static final int DELAY_TIME = 1500;
-
+	
+	AsyncTask<Void, Void, Void> mSendTask;
 	private LoginButton loginButton;
 	private final SessionCallback mySessionCallback = new MySessionStatusCallback();
 
@@ -23,11 +34,42 @@ public class KakaoLoginActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_kakaologin);
-
+		
+		
+		//---------------------GCM Device register--------------------//
+		registerReceiver(mToastMessageReceiver, new IntentFilter(TOAST_MESSAGE_ACTION));
+		
+		registerDevice();
+		
 		loginButton = (LoginButton) findViewById(R.id.com_kakao_login);
 		loginButton.setLoginSessionCallback(mySessionCallback);
 
 	}
+	private void registerDevice() {
+		
+		GCMRegistrar.checkDevice(this);
+		GCMRegistrar.checkManifest(this);
+		
+		final String regId = GCMRegistrar.getRegistrationId(this);
+		Log.i("PUSH","regId = " + regId);
+		if (regId.equals("")) {
+			GCMRegistrar.register(getBaseContext(), BasicInfo.PROJECT_ID);
+		} else {
+			if (GCMRegistrar.isRegisteredOnServer(this)) {
+			} else {
+				GCMRegistrar.register(getBaseContext(), BasicInfo.PROJECT_ID);
+			}
+			
+		}
+	}
+	private final BroadcastReceiver mToastMessageReceiver = new BroadcastReceiver() {
+		public void onReceive(Context context, Intent intent) {
+			String message = intent.getExtras().getString("message");
+			Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+		}
+	};
+	
+	
 
 	protected void showProfileButton() {
 		new Handler().postDelayed(new Runnable() {

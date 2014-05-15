@@ -1,7 +1,10 @@
 package uos.codingsroom.ddmgroup.fragments;
 
+import static uos.codingsroom.ddmgroup.BasicInfo.TOAST_MESSAGE_ACTION;
+
 import java.io.File;
 
+import uos.codingsroom.ddmgroup.BasicInfo;
 import uos.codingsroom.ddmgroup.MainActivity;
 import uos.codingsroom.ddmgroup.R;
 import uos.codingsroom.ddmgroup.comm.Insert_Content_Thread;
@@ -11,6 +14,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
@@ -23,6 +27,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gcm.server.Message;
+import com.google.android.gcm.server.Result;
+import com.google.android.gcm.server.Sender;
 
 public class RegisterFragment extends Fragment {
 
@@ -40,6 +48,13 @@ public class RegisterFragment extends Fragment {
 	ImageView temp_img;
 	int REQUEST_CODE_IMAGE = 1;
 
+	
+	//GCM 메세지를 보낼 변수
+	AsyncTask<Void, Void, Void> mSendTask;
+	Sender sender;
+
+	
+	
 	TextView groupTitle;
 
 	@Override
@@ -53,7 +68,7 @@ public class RegisterFragment extends Fragment {
 
 		EditTitle = (EditText) view.findViewById(R.id.editTitle);
 		EditMemo = (EditText) view.findViewById(R.id.editMemo);
-
+		sender = new Sender(BasicInfo.GOOGLE_API_KEY);
 		groupTitle = (TextView) view.findViewById(R.id.text_register_groupname);
 
 		clickListener click = new clickListener();
@@ -120,14 +135,51 @@ public class RegisterFragment extends Fragment {
 
 		Insert_Content_Thread iThread = new Insert_Content_Thread(this.getActivity(), 22, MainActivity.getMyInfoItem()
 				.getMyMemNum(), currentGroup, Title, Memo, ImgPath);
-
-		iThread.start(); // 글 업로드하는 스레드
+		innerforActivity inner = new innerforActivity();
+		inner.sendToDevice("새 글이 등록되었습니다.");
+		//iThread.start(); // 글 업로드하는 스레드
 
 
 		// rDialog = createRegisterDialog();
 		// rDialog.show();
 
 	}
+	class innerforActivity extends Activity{
+		private void sendToDevice(final String msg) {
+	    	mSendTask = new AsyncTask<Void, Void, Void>() {
+	            protected Void doInBackground(Void... params) {
+	            	Message.Builder messageBuilder = new Message.Builder();
+	    			messageBuilder.addData("msg", msg);
+	    			messageBuilder.addData("action", "show");
+	    			Message message = messageBuilder.build();
+	    			
+	        		try {
+	                	Result result = sender.send(message, BasicInfo.RegistrationId, 5);
+	        			Log.i("PUSH", "Message sent. Result : " + result);
+	        			
+	        			String statusMessage = "현재상태 : " + result;
+	        			Intent intent = new Intent(TOAST_MESSAGE_ACTION);
+	        	        intent.putExtra("message", statusMessage);
+	        	        sendBroadcast(intent);
+	        			
+	        		} catch(Exception ex) {
+	        			ex.printStackTrace();
+	        		}
+	        		
+	                return null;
+	            }
+
+	            protected void onPostExecute(Void result) {
+	                mSendTask = null;
+	            }
+
+	        };
+	        mSendTask.execute(null, null, null);
+	      
+	    }
+		
+	}
+	
 
 	public void setNoticeTitle(String title, int index) {
 
