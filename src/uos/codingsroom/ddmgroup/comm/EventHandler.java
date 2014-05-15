@@ -75,30 +75,31 @@ public class EventHandler extends Handler {
 			}
 			else if (msg.what == 27){
 				 ((ContentsActivity) mcontext).addComment();
-				Log.i("MyTag", "댓글 삽입 핸들러 성공");
+//				Log.i("MyTag", "댓글 삽입 핸들러 성공");
 			}
 			else if (msg.what == -27){
 				((ContentsActivity) mcontext).viewMessage("댓글 추가에 실패하였습니다.");
-				Log.i("MyTag", "댓글 삽입 핸들러 실패");
+//				Log.i("MyTag", "댓글 삽입 핸들러 실패");
 			}
 			else if (msg.what == 28){
 //				Log.i("MyTag", "댓글 얻어오기 핸들러");
 				((ContentsActivity) mcontext).setListView();
 			}
 			else if (msg.what == 29){
-				 ((ContentsActivity) mcontext).addComment();
-				Log.i("MyTag", "댓글 수정 핸들러 성공");
+				 ((ContentsActivity) mcontext).modifyComment();
+//				Log.i("MyTag", "댓글 수정 핸들러 성공");
 			}
 			else if (msg.what == -29){
-				Log.i("MyTag", "댓글 수정 핸들러 실패");
+				((ContentsActivity) mcontext).viewMessage("댓글 수정에 실패하였습니다.");
+//				Log.i("MyTag", "댓글 수정 핸들러 실패");
 			}
 			else if (msg.what == 30){
 				((ContentsActivity) mcontext).deleteComment();
-				Log.i("MyTag", "댓글 삭제 핸들러 성공");
+//				Log.i("MyTag", "댓글 삭제 핸들러 성공");
 			}
 			else if (msg.what == -30){
 				((ContentsActivity) mcontext).viewMessage("댓글 삭제에 실패하였습니다.");
-				Log.i("MyTag", "댓글 삭제 핸들러 실패");
+//				Log.i("MyTag", "댓글 삭제 핸들러 실패");
 			}
 		
 		} catch (Exception e) {

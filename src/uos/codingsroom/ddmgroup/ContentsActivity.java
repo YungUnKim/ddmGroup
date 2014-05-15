@@ -2,11 +2,13 @@ package uos.codingsroom.ddmgroup;
 
 import java.util.ArrayList;
 
+import uos.codingsroom.ddmgroup.comm.Connect_Thread;
 import uos.codingsroom.ddmgroup.comm.Delete_Content_Thread;
 import uos.codingsroom.ddmgroup.comm.Delete_Reply_Thread;
 import uos.codingsroom.ddmgroup.comm.Get_Content_Thread;
 import uos.codingsroom.ddmgroup.comm.Get_Reply_Thread;
 import uos.codingsroom.ddmgroup.comm.Insert_Reply_Thread;
+import uos.codingsroom.ddmgroup.comm.Modify_Reply_Thread;
 import uos.codingsroom.ddmgroup.item.CommentItem;
 import uos.codingsroom.ddmgroup.item.ContentItem;
 import uos.codingsroom.ddmgroup.item.MyInfoItem;
@@ -81,6 +83,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 	private int com_cnt = 0; // 댓글 개수
 	private int SELECT_REPLY_NUM = 0;	// 선택한 댓글의 위치
 	private int ADD_REPLY_NUM = -1;	// 새로 추가한 댓글의 번호
+	private String MODIFY_ARTICLE;		// 수정할 댓글 내용
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -206,8 +209,23 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		commentEdit.setText("");
 	}
 
+	// 댓글 한 개를 수정하는 함수
+	public void modifyComment() {
+		Log.i("MyTag","modify comment >> " + SELECT_REPLY_NUM + " // " + MODIFY_ARTICLE);
+		//commentsListAdapter
+		comItem.get(SELECT_REPLY_NUM).setArticle(MODIFY_ARTICLE);
+		comItem.get(SELECT_REPLY_NUM).setDate("방금 막");
+		commentsListAdapter.removeItem(SELECT_REPLY_NUM);
+		commentsListAdapter.addItem(SELECT_REPLY_NUM, comItem.get(SELECT_REPLY_NUM));
+		
+//		commentsListView.setAdapter(commentsListAdapter);
+		commentsListAdapter.notifyDataSetChanged();
+		commentsListView.clearChoices();
+//		commentsListView.setSelection(commentsListAdapter.getCount() - 1); // 가장 맨 아래에 스크롤이 내려오게 함
+	}
+		
 	// 댓글 한 개를 뷰에서 삭제하는 함수
-	public void deleteComment() {													// 객체
+	public void deleteComment() {
 		commentsListAdapter.removeItem(SELECT_REPLY_NUM);
 		comItem.remove(SELECT_REPLY_NUM);
 		com_cnt--;
@@ -229,7 +247,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				if (which == 0) {
-					showEditTextDialog(100); // 댓글 수정하는 다이얼로그 생성
+					showEditTextDialog(); // 댓글 수정하는 다이얼로그 생성
 					// 댓글 내용, 위치 넘겨야 함
 				} else if (which == 1) {
 					Log.i("MyTag", "댓글 삭제하기");
@@ -251,7 +269,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 	}
 
 	// 댓글 수정하는 다이얼로그 생성하는 함수
-	private void showEditTextDialog(int what) {
+	private void showEditTextDialog() {
 		final LinearLayout layout = (LinearLayout) View.inflate(this, R.layout.dialog_input, null);
 		final EditText editText_contents;
 		final TextView editText_Label;
@@ -261,6 +279,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		// 댓글의 댓글 선택시 자동으로 키보드 생성해주는 부분
 		dialogEditText = (EditText) findViewById(R.id.editReply);
 		editText_contents = (EditText) layout.findViewById(R.id.editReply);
+		editText_contents.setText(comItem.get(SELECT_REPLY_NUM).getArticle());
 		editText_Label = (TextView) layout.findViewById(R.id.editReply_label);
 		editText_Label.setText(dialogLabel);
 
@@ -269,17 +288,16 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		new AlertDialog.Builder(this).setTitle(dialogTitle).setView(layout)
 				.setPositiveButton("확인", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
-						String contents = editText_contents.getText().toString();
-						// SharedPreferences pref = getSharedPreferences("prefs", 0);
-						// final String myName = pref.getString("myName", "관리자"); // 프리퍼런스
+						String comment = editText_contents.getText().toString();
 
-						if (contents.equals("")) {
+						if (comment.equals("")) {
 							Toast.makeText(getApplicationContext(), "내용을 입력해주세요!", Toast.LENGTH_SHORT).show();
 						} else {
-							// Connect_Thread mThread = new Connect_Thread(MapActivity.this, 12, tItem);
-							// mThread.start();
-
-							// 댓글 수정하는 스레드 삽입
+							MODIFY_ARTICLE = comment;
+							Modify_Reply_Thread mThread = new Modify_Reply_Thread(ContentsActivity.this, 29, 
+												comItem.get(SELECT_REPLY_NUM).getIndexNum(),
+												MODIFY_ARTICLE);
+							mThread.start();	// 댓글 수정하는 스레드
 						}
 						CloseKeyboard();
 					}

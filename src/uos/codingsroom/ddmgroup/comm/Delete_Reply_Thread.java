@@ -3,7 +3,6 @@ package uos.codingsroom.ddmgroup.comm;
 import org.xmlpull.v1.XmlPullParser;
 
 import android.content.Context;
-import android.util.Log;
 
 public class Delete_Reply_Thread extends Communication_Thread {
 
@@ -11,7 +10,6 @@ public class Delete_Reply_Thread extends Communication_Thread {
 	public Delete_Reply_Thread(Context context, int menu, int reply_num) {
 		super(context,menu);
 		url += "&reply_num=" + reply_num;
-		Log.i("MyTag","url >> " + url);
 	}
 
 	// 글 등록하는 함수
@@ -36,7 +34,6 @@ public class Delete_Reply_Thread extends Communication_Thread {
 							mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다
 						} else {
 							msg.what = 30;
-//							((ContentsActivity) mcontext).setMyMemberNum(Integer.parseInt(ret));
 						}
 					}
 				}

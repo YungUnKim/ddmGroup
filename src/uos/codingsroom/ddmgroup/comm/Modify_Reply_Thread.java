@@ -5,7 +5,6 @@ import java.net.URLEncoder;
 
 import org.xmlpull.v1.XmlPullParser;
 
-import uos.codingsroom.ddmgroup.item.GroupItem;
 import android.content.Context;
 
 public class Modify_Reply_Thread extends Communication_Thread {
@@ -14,7 +13,7 @@ public class Modify_Reply_Thread extends Communication_Thread {
 	public Modify_Reply_Thread(Context context, int menu, int reply_num, String article) {
 		super(context,menu);
 		try {
-			url += "&reply_num=" + reply_num + "&article=" + URLEncoder.encode(article, "UTF-8");
+			url += "&reply_num=" + reply_num + "&article=" + URLEncoder.encode(article, "UTF-8");			
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -43,7 +42,6 @@ public class Modify_Reply_Thread extends Communication_Thread {
 							mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다
 						} else {
 							msg.what = 29;
-//							((ContentsActivity) mcontext).setMyMemberNum(Integer.parseInt(ret));
 						}
 					}
 				}
