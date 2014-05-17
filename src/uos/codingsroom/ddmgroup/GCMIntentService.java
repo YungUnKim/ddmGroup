@@ -73,33 +73,32 @@ public class GCMIntentService extends GCMBaseIntentService {
     	Log.i(TAG, "onMessage called.");
 
         Bundle extras = intent.getExtras();
-        if (extras != null) {
-            String msg = (String) extras.get("msg");
+        if (extras != null) {           
             String from = (String) extras.get("from");
             String action = (String) extras.get("action");
-
+            String msg = (String) extras.get("message");
+            boolean mode = extras.getBoolean("mode");
+            String group_name = (String) extras.get("group_name");
+            int content_num = extras.getInt("content_num");
+            Log.i("PUSH","content_num = " + content_num + "group_name = " + group_name+ "mode = " + mode);
             Log.d(TAG, "DATA : " + from + ", " + action + ", " + msg);
             Log.d(TAG, "[" + from + "]로부터 온 메세지 : " + msg);
             
             notiManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            Log.i(TAG, "1");
     		vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-    		Log.i(TAG, "2");
             //----------알림설정----------//
             Notification noti;
 			noti = new Notification(R.drawable.ic_launcher,"새 글이 등록되었습니다.", System.currentTimeMillis());
-			Log.i(TAG, "3");
 			noti.defaults = Notification.DEFAULT_SOUND;
 			noti.flags = Notification.FLAG_ONLY_ALERT_ONCE;
 			noti.flags = Notification.FLAG_AUTO_CANCEL;
-			Log.i(TAG, "4");
 			Intent newIntent = new Intent(getBaseContext(), ContentsActivity.class);
+			newIntent.putExtra("mode", true);
+            newIntent.putExtra("group_name", group_name);
+            newIntent.putExtra("content_num", content_num);
 			PendingIntent pendingI = PendingIntent.getActivity(GCMIntentService.this, 0, newIntent, newIntent.FLAG_ACTIVITY_NEW_TASK);
-			Log.i(TAG, "5");
 			noti.setLatestEventInfo(GCMIntentService.this, "동대문구청","새글이 등록되었습니다.", pendingI);
-			Log.i(TAG, "6");
 			notiManager.notify(MyNoti, noti);
-			Log.i(TAG, "7");
 			vibrator.vibrate(1000); 
 
             

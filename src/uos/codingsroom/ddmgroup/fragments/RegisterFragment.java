@@ -136,8 +136,9 @@ public class RegisterFragment extends Fragment {
 		Insert_Content_Thread iThread = new Insert_Content_Thread(this.getActivity(), 22, MainActivity.getMyInfoItem()
 				.getMyMemNum(), currentGroup, Title, Memo, ImgPath);
 		innerforActivity inner = new innerforActivity();
+		
 		inner.sendToDevice("새 글이 등록되었습니다.");
-		//iThread.start(); // 글 업로드하는 스레드
+		iThread.start(); // 글 업로드하는 스레드
 
 
 		// rDialog = createRegisterDialog();
@@ -160,6 +161,9 @@ public class RegisterFragment extends Fragment {
 	        			String statusMessage = "현재상태 : " + result;
 	        			Intent intent = new Intent(TOAST_MESSAGE_ACTION);
 	        	        intent.putExtra("message", statusMessage);
+	        	        intent.putExtra("mode", true);
+	        	        intent.putExtra("group_name", currentGroupName);
+	        	        intent.putExtra("content_num", 3);
 	        	        sendBroadcast(intent);
 	        			
 	        		} catch(Exception ex) {
