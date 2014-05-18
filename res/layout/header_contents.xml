@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:text="Codingsroom"
+            android:text="Board"
             android:textColor="@color/ddm_real_green_n2"
             android:textSize="18sp" />
 
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
-            android:text="&apos;빅뱅이론&apos; 칼리 쿠오코가 &apos;맨 오브 스틸&apos; 헨리 카빌과 열애중이라니?"
+            android:text="Title"
             android:textSize="25sp"
             android:textStyle="bold" />
 
@@ -50,7 +50,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:gravity="center"
-                android:text="재영박"
+                android:text="Name"
                 android:textSize="16sp" />
 
             <ImageView
@@ -87,8 +87,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:adjustViewBounds="true"
-            android:src="@drawable/sample_image" />
+            android:adjustViewBounds="true" />
 
         <TextView
             android:id="@+id/contents_article"
@@ -97,13 +96,7 @@
             android:layout_marginTop="20dp"
             android:autoLink="web"
             android:lineSpacingExtra="10dip"
-            android:text="‘룸메이트’에 출연하는 송가연의 몸매가 화제다. 
-
-SBS ‘일요일이 좋다-룸메이트’에 출연 중인 송가연이 지난 4일 자신의 SNS에 “내일부터 운동 열심히 해야지! 몸 만들어야겠다”라며 “주말엔 집에서 ‘룸메이트’보고 쉬는 게 최고”라는 글과 함께 사진 한 장을 공개했다. 
-
-사진 속 송가연은 거울 앞에서 티셔츠를 말아 올려 탄탄한 11자 명품 복근을 과시하고 있다. 긴 생머리의 청순미와 볼륨감 있는 가슴 라인이 돋보인다. 
-
-송가연은 ‘룸메이트’ 첫 방송 이후 청순한 미모로 반전 매력을 뽐내며 시청자들의 눈길을 사로잡았다."
+            android:text="Article"
             android:textSize="15sp" />
 
         <View

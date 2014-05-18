@@ -101,7 +101,7 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 				NewsFeedItem curItem = (NewsFeedItem) newsfeedAdapter.getItem(position);
-				moveToContentsActivity(curItem.getIndexNum(), curItem.getGroupName());
+				moveToContentsActivity(curItem.getIndexNum(), curItem.getGroupName(), false);
 			}
 		});
 	}
@@ -110,13 +110,13 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.notice_1:
-//			moveToConetentsActivity();
+			moveToContentsActivity(noticeNum[0], "공지사항", true);
 			break;
 		case R.id.notice_2:
-//			moveToConetentsActivity();
+			moveToContentsActivity(noticeNum[1], "공지사항", true);
 			break;
 		case R.id.notice_3:
-//			moveToConetentsActivity();
+			moveToContentsActivity(noticeNum[2], "공지사항", true);
 			break;
 
 		default:
@@ -124,11 +124,11 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 		}
 	}
 
-	public void moveToContentsActivity(Integer contentNum, String groupName) {
+	public void moveToContentsActivity(Integer contentNum, String groupName, boolean kind) {
 		Intent intent = new Intent(this.getActivity(), ContentsActivity.class);
 		intent.putExtra("content_num", contentNum);
 		intent.putExtra("group_name", groupName);
-		intent.putExtra("mode", false);
+		intent.putExtra("mode", kind);
 		startActivity(intent);
 	}
 

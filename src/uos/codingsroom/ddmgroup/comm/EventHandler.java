@@ -2,6 +2,7 @@ package uos.codingsroom.ddmgroup.comm;
 
 import uos.codingsroom.ddmgroup.ContentsActivity;
 import uos.codingsroom.ddmgroup.MainActivity;
+import uos.codingsroom.ddmgroup.NoticeActivity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -28,11 +29,11 @@ public class EventHandler extends Handler {
 			else if (msg.what == -10) { 
 			
 			}
-			else if (msg.what == 10) { 
+			else if (msg.what == 10) { // 로그인
 				((MainActivity) mcontext).showMyMemNumber();
 				((MainActivity) mcontext).setProfile();
 			}
-			else if (msg.what == 11) { //공지사항
+			else if (msg.what == 11) { //공지사항 3개
 				((MainActivity) mcontext).setNoticeTitle();
 			//	Log.i("MyTag", "핸들러 접근 성공");
 			}
@@ -42,6 +43,12 @@ public class EventHandler extends Handler {
 			}
 			else if (msg.what == 13) { //게시글
 				((MainActivity) mcontext).setContent();
+			}
+			else if (msg.what == 14) { //공지사항 20개
+				((NoticeActivity) mcontext).setListView();
+			}
+			else if (msg.what == -14) { //공지사항 20개
+				((NoticeActivity) mcontext).viewMessage("공지사항 목록을 얻어오는데 실패하였습니다.",0);
 			}
 			else if (msg.what == 20) { 
 			// Log.i("MyTag","Handler 10 >> " + msg);
@@ -58,6 +65,10 @@ public class EventHandler extends Handler {
 //				Log.i("MyTag", "글 얻어오기 핸들러 성공");
 				((ContentsActivity) mcontext).setContentView();
 			}
+			else if (msg.what == -24){
+//				Log.i("MyTag", "글 얻어오기 핸들러 실패");
+				((ContentsActivity) mcontext).viewMessage("글 얻어오는데 실패하였습니다.",0);
+			}
 			else if (msg.what == -25){
 				Log.i("MyTag", "글 수정하기 핸들러 실패");
 			}
@@ -66,12 +77,12 @@ public class EventHandler extends Handler {
 //				((ContentsActivity) mcontext).setContentView();
 			}
 			else if (msg.what == -26){
-				Log.i("MyTag", "글 삭제 핸들러 실패");
+//				Log.i("MyTag", "글 삭제 핸들러 실패");
 				((ContentsActivity) mcontext).viewMessage("글 삭제에 실패하였습니다.");
 			}
 			else if (msg.what == 26){
-				Log.i("MyTag", "글 삭제 핸들러 성공");
-				((ContentsActivity) mcontext).viewMessage("글 삭제에 성공하였습니다.");
+//				Log.i("MyTag", "글 삭제 핸들러 성공");
+				((ContentsActivity) mcontext).viewMessage("글 삭제에 성공하였습니다.",0);
 			}
 			else if (msg.what == 27){
 				 ((ContentsActivity) mcontext).addComment();
@@ -100,6 +111,14 @@ public class EventHandler extends Handler {
 			else if (msg.what == -30){
 				((ContentsActivity) mcontext).viewMessage("댓글 삭제에 실패하였습니다.");
 //				Log.i("MyTag", "댓글 삭제 핸들러 실패");
+			}
+			else if (msg.what == 34) { //공지사항 내용 얻어오기
+//				Log.i("MyTag", "공지사항 얻어오기 핸들러 성공");
+				((ContentsActivity) mcontext).setNoticeView();
+			}
+			else if (msg.what == -34) { //공지사항 내용 얻어오기
+//				Log.i("MyTag", "공지사항 얻어오기 핸들러 실패");
+				((ContentsActivity) mcontext).viewMessage("공지사항 내용을 얻어오는데 실패하였습니다.",0);
 			}
 		
 		} catch (Exception e) {

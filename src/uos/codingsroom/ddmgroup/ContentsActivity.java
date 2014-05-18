@@ -2,16 +2,17 @@ package uos.codingsroom.ddmgroup;
 
 import java.util.ArrayList;
 
-import uos.codingsroom.ddmgroup.comm.Connect_Thread;
 import uos.codingsroom.ddmgroup.comm.Delete_Content_Thread;
 import uos.codingsroom.ddmgroup.comm.Delete_Reply_Thread;
 import uos.codingsroom.ddmgroup.comm.Get_Content_Thread;
+import uos.codingsroom.ddmgroup.comm.Get_Notice_Thread;
 import uos.codingsroom.ddmgroup.comm.Get_Reply_Thread;
 import uos.codingsroom.ddmgroup.comm.Insert_Reply_Thread;
 import uos.codingsroom.ddmgroup.comm.Modify_Reply_Thread;
 import uos.codingsroom.ddmgroup.item.CommentItem;
 import uos.codingsroom.ddmgroup.item.ContentItem;
 import uos.codingsroom.ddmgroup.item.MyInfoItem;
+import uos.codingsroom.ddmgroup.item.NoticeItem;
 import uos.codingsroom.ddmgroup.listview.CommentListAdapter;
 import uos.codingsroom.ddmgroup.util.SystemValue;
 import uos.codingsroom.ddmgroup.util.UrlImageDownloadTask;
@@ -75,16 +76,17 @@ public class ContentsActivity extends Activity implements OnClickListener {
 
 	private Integer currentContentNum;
 	private ContentItem conItem; // 인텐트로 넘어온 글 정보 객체
+	private NoticeItem noticeItem; // 공지사항 정보 객체
 
 	private String group_name;
-	private boolean mode; // 공지사항, 일반 글 여부
+	private boolean kind; // 공지사항, 일반 글 여부
 
 	private ArrayList<CommentItem> comItem = new ArrayList<CommentItem>(); // 댓글 배열
 	private int com_cnt = 0; // 댓글 개수
-	private int SELECT_REPLY_NUM = 0;	// 선택한 댓글의 위치
-	private int ADD_REPLY_NUM = -1;	// 새로 추가한 댓글의 번호
-	private String MODIFY_ARTICLE;		// 수정할 댓글 내용
-	
+	private int SELECT_REPLY_NUM = 0; // 선택한 댓글의 위치
+	private int ADD_REPLY_NUM = -1; // 새로 추가한 댓글의 번호
+	private String MODIFY_ARTICLE; // 수정할 댓글 내용
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -95,12 +97,17 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		Bundle bundle = getIntent().getExtras();
 		group_name = bundle.getString("group_name");
 		currentContentNum = bundle.getInt("content_num");
-		mode = bundle.getBoolean("mode"); // 공지사항 여부
+		kind = bundle.getBoolean("mode"); // 공지사항 여부
 
 		initializeView();
 
-		Get_Content_Thread mThread = new Get_Content_Thread(this, 24, currentContentNum);
-		mThread.start(); // 글 내용 받아오는 스레드
+		if (kind == false) {
+			Get_Content_Thread mThread = new Get_Content_Thread(this, 24, currentContentNum);
+			mThread.start(); // 글 내용 받아오는 스레드
+		} else if (kind == true) {
+			Get_Notice_Thread nThread = new Get_Notice_Thread(this, 34, currentContentNum);
+			nThread.start(); // 공지사항 받아오는 스레드
+		}
 
 		// setListView();
 	}
@@ -145,12 +152,18 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		View header = getLayoutInflater().inflate(R.layout.header_contents, null);
 		return header;
 	}
-	
+
 	// 핸들러에서 보낸 메시지를 토스트로 출력하는 함수
-	public void viewMessage(String message){
-		Toast.makeText(this,message, Toast.LENGTH_LONG).show();
+	public void viewMessage(String message) {
+		Toast.makeText(this, message, Toast.LENGTH_LONG).show();
 	}
-		
+
+	// 핸들러에서 보낸 메시지를 토스트로 출력하고 액티비티를 종료하는 함수
+	public void viewMessage(String message, int reaction) {
+		Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+		finish();
+	}
+
 	// 댓글 객체를 세팅하는 함수
 	public void setCommentItem(CommentItem mItem) {
 		comItem.add(com_cnt++, mItem);
@@ -158,12 +171,16 @@ public class ContentsActivity extends Activity implements OnClickListener {
 
 	// 받아온 댓글들을 뷰에 생성하는 함수
 	public void setListView() {
-		if (conItem.getMemberNum() == MainActivity.getMyInfoItem().getMyMemNum()) {
-			contentsMenuButton.setOnClickListener(this);
-			menuHelperLayout.setOnClickListener(this);
-			contentsLogo.setOnClickListener(this);
-		} else {
+		if (kind) { // 공지사항 경우
 			contentsMenuButton.setVisibility(View.GONE);
+		} else { // 일반글 경우
+			if (conItem.getMemberNum() == MainActivity.getMyInfoItem().getMyMemNum()) {
+				contentsMenuButton.setOnClickListener(this);
+				menuHelperLayout.setOnClickListener(this);
+				contentsLogo.setOnClickListener(this);
+			} else {
+				contentsMenuButton.setVisibility(View.GONE);
+			}
 		}
 
 		for (int i = 0; i < comItem.size(); i++) {
@@ -177,29 +194,27 @@ public class ContentsActivity extends Activity implements OnClickListener {
 				SELECT_REPLY_NUM = arg2 - 1; // 댓글의 인덱스
 				final MyInfoItem myInfo = MainActivity.getMyInfoItem();
 
-				if(myInfo.getMyMemNum() == comItem.get(SELECT_REPLY_NUM).getMem_num()){	// 댓글 작성자인지 확인 
+				if (myInfo.getMyMemNum() == comItem.get(SELECT_REPLY_NUM).getMem_num()) { // 댓글 작성자인지 확인
 					replyDialog = createReplyDialog();
 					replyDialog.show();
-				}
-				else{
+				} else {
 					return;
 				}
 			}
 		});
 	}
-	
+
 	// 추가한 댓글의 번호를 얻어오는 함수
-	public void setCommentNum(int reply_num){
+	public void setCommentNum(int reply_num) {
 		ADD_REPLY_NUM = reply_num;
 	}
-	
+
 	// 댓글 한 개를 뷰에 추가하는 함수
 	public void addComment() {
 		final MyInfoItem myInfo = MainActivity.getMyInfoItem();
-		CommentItem addItem = new CommentItem(ADD_REPLY_NUM, myInfo.getMyMemNum(),
-				commentEdit.getEditableText().toString(), "방금 막",
-				myInfo.getMyName(), myInfo.getMyProfileUrl()); // 임시
-		Log.i("MyTag","add comment >> " + ADD_REPLY_NUM + " // " + myInfo.getMyMemNum());
+		CommentItem addItem = new CommentItem(ADD_REPLY_NUM, myInfo.getMyMemNum(), commentEdit.getEditableText().toString(), "방금 막", myInfo.getMyName(),
+				myInfo.getMyProfileUrl()); // 임시
+//		Log.i("MyTag", "add comment >> " + ADD_REPLY_NUM + " // " + myInfo.getMyMemNum());
 		commentsListAdapter.addItem(addItem);
 		comItem.add(com_cnt++, addItem);
 
@@ -211,38 +226,38 @@ public class ContentsActivity extends Activity implements OnClickListener {
 
 	// 댓글 한 개를 수정하는 함수
 	public void modifyComment() {
-		Log.i("MyTag","modify comment >> " + SELECT_REPLY_NUM + " // " + MODIFY_ARTICLE);
-		//commentsListAdapter
+//		Log.i("MyTag", "modify comment >> " + SELECT_REPLY_NUM + " // " + MODIFY_ARTICLE);
+		// commentsListAdapter
 		comItem.get(SELECT_REPLY_NUM).setArticle(MODIFY_ARTICLE);
 		comItem.get(SELECT_REPLY_NUM).setDate("방금 막");
 		commentsListAdapter.removeItem(SELECT_REPLY_NUM);
 		commentsListAdapter.addItem(SELECT_REPLY_NUM, comItem.get(SELECT_REPLY_NUM));
-		
-//		commentsListView.setAdapter(commentsListAdapter);
+
+		// commentsListView.setAdapter(commentsListAdapter);
 		commentsListAdapter.notifyDataSetChanged();
 		commentsListView.clearChoices();
-//		commentsListView.setSelection(commentsListAdapter.getCount() - 1); // 가장 맨 아래에 스크롤이 내려오게 함
+		// commentsListView.setSelection(commentsListAdapter.getCount() - 1); // 가장 맨 아래에 스크롤이 내려오게 함
 	}
-		
+
 	// 댓글 한 개를 뷰에서 삭제하는 함수
 	public void deleteComment() {
 		commentsListAdapter.removeItem(SELECT_REPLY_NUM);
 		comItem.remove(SELECT_REPLY_NUM);
 		com_cnt--;
-		
-//		commentsListView.setAdapter(commentsListAdapter);
+
+		// commentsListView.setAdapter(commentsListAdapter);
 		commentsListAdapter.notifyDataSetChanged();
 		commentsListView.clearChoices();
 		commentsListView.setSelection(commentsListAdapter.getCount() - 1); // 가장 맨 아래에 스크롤이 내려오게 함
 	}
-		
+
 	// 댓글 수정, 삭제 물어보는 다이얼로그 생성함수
 	private AlertDialog createReplyDialog() {
 		AlertDialog.Builder ab = new AlertDialog.Builder(this);
 		String[] kinds = { "수정하기", "삭제하기" };
 		ab.setTitle("댓글");
 
-		Log.i("MyTag", "댓글 위치 : " + SELECT_REPLY_NUM);
+//		Log.i("MyTag", "댓글 위치 : " + SELECT_REPLY_NUM);
 		ab.setItems(kinds, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
@@ -250,8 +265,9 @@ public class ContentsActivity extends Activity implements OnClickListener {
 					showEditTextDialog(); // 댓글 수정하는 다이얼로그 생성
 					// 댓글 내용, 위치 넘겨야 함
 				} else if (which == 1) {
-					Log.i("MyTag", "댓글 삭제하기");
-					Delete_Reply_Thread drThread = new Delete_Reply_Thread(ContentsActivity.this,30,comItem.get(SELECT_REPLY_NUM).getIndexNum());
+//					Log.i("MyTag", "댓글 삭제하기");
+					Delete_Reply_Thread drThread = new Delete_Reply_Thread(ContentsActivity.this, 30, comItem.get(SELECT_REPLY_NUM).getIndexNum(),
+							kind);
 					drThread.start();
 				}
 				setDismiss(replyDialog);
@@ -285,36 +301,34 @@ public class ContentsActivity extends Activity implements OnClickListener {
 
 		imm.showSoftInput(dialogEditText, InputMethodManager.SHOW_FORCED);
 
-		new AlertDialog.Builder(this).setTitle(dialogTitle).setView(layout)
-				.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-						String comment = editText_contents.getText().toString();
+		new AlertDialog.Builder(this).setTitle(dialogTitle).setView(layout).setPositiveButton("확인", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				String comment = editText_contents.getText().toString();
 
-						if (comment.equals("")) {
-							Toast.makeText(getApplicationContext(), "내용을 입력해주세요!", Toast.LENGTH_SHORT).show();
-						} else {
-							MODIFY_ARTICLE = comment;
-							Modify_Reply_Thread mThread = new Modify_Reply_Thread(ContentsActivity.this, 29, 
-												comItem.get(SELECT_REPLY_NUM).getIndexNum(),
-												MODIFY_ARTICLE);
-							mThread.start();	// 댓글 수정하는 스레드
-						}
-						CloseKeyboard();
-					}
+				if (comment.equals("")) {
+					Toast.makeText(getApplicationContext(), "내용을 입력해주세요!", Toast.LENGTH_SHORT).show();
+				} else {
+					MODIFY_ARTICLE = comment;
+					Modify_Reply_Thread mThread = new Modify_Reply_Thread(ContentsActivity.this, 29, comItem.get(SELECT_REPLY_NUM).getIndexNum(),
+							MODIFY_ARTICLE, kind);
+					mThread.start(); // 댓글 수정하는 스레드
+				}
+				CloseKeyboard();
+			}
 
-					private void CloseKeyboard() {
-						imm.hideSoftInputFromWindow(editText_contents.getWindowToken(), 0);
-					}
-				}).setNegativeButton("취소", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-						CloseKeyboard();
-						Toast.makeText(getApplicationContext(), "댓글 수정을 취소하였습니다", Toast.LENGTH_SHORT).show();
-					}
+			private void CloseKeyboard() {
+				imm.hideSoftInputFromWindow(editText_contents.getWindowToken(), 0);
+			}
+		}).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				CloseKeyboard();
+				Toast.makeText(getApplicationContext(), "댓글 수정을 취소하였습니다", Toast.LENGTH_SHORT).show();
+			}
 
-					private void CloseKeyboard() {
-						imm.hideSoftInputFromWindow(editText_contents.getWindowToken(), 0);
-					}
-				}).show();
+			private void CloseKeyboard() {
+				imm.hideSoftInputFromWindow(editText_contents.getWindowToken(), 0);
+			}
+		}).show();
 	}
 
 	// 다이얼로그 뷰에서 해제
@@ -348,19 +362,18 @@ public class ContentsActivity extends Activity implements OnClickListener {
 			menuHelperLayout.setVisibility(View.GONE);
 			break;
 
-		case R.id.contents_edit_btn:		// 글 수정
-			if(conItem.getMemberNum() == myInfo.getMyMemNum()){		// 작성자인지 확인
+		case R.id.contents_edit_btn: // 글 수정
+			if (conItem.getMemberNum() == myInfo.getMyMemNum()) { // 작성자인지 확인
 				editThisContent();
 			}
 			break;
 
-		case R.id.contents_delete_btn:		// 글 삭제
-			if(conItem.getMemberNum() == myInfo.getMyMemNum()){		// 작성자인지 확인
-				new AlertDialog.Builder(this).setTitle("글을 삭제하시겠습니까?")
-				.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+		case R.id.contents_delete_btn: // 글 삭제
+			if (conItem.getMemberNum() == myInfo.getMyMemNum()) { // 작성자인지 확인
+				new AlertDialog.Builder(this).setTitle("글을 삭제하시겠습니까?").setPositiveButton("확인", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						Delete_Content_Thread dThread = new Delete_Content_Thread(ContentsActivity.this,26,conItem.getIndexNum());
+						Delete_Content_Thread dThread = new Delete_Content_Thread(ContentsActivity.this, 26, conItem.getIndexNum());
 						dThread.start();
 					}
 				}).setNegativeButton("취소", new DialogInterface.OnClickListener() {
@@ -369,21 +382,27 @@ public class ContentsActivity extends Activity implements OnClickListener {
 					public void onClick(DialogInterface dialog, int which) {
 						// TODO Auto-generated method stub
 						dialog.cancel();
-					}	
+					}
 				}).show();
-				
+
 			}
 			break;
 
-		case R.id.button_comment_register:	// 댓글 추가
+		case R.id.button_comment_register: // 댓글 추가
 			final String commentText = commentEdit.getEditableText().toString();
 
 			if (commentText.equals("")) { // 아무 댓글 내용없이 등록하려고 할 경우
 				Toast.makeText(this, "댓글 내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
 			} else {
-				Insert_Reply_Thread iThread = new Insert_Reply_Thread(this, 27, conItem.getIndexNum(), MainActivity
-						.getMyInfoItem().getMyMemNum(), commentText);
-				iThread.start(); // 댓글 삽입하는 스레드
+				if (kind) { // 공지사항
+					Insert_Reply_Thread iThread = new Insert_Reply_Thread(this, 27, noticeItem.getNum(), MainActivity.getMyInfoItem().getMyMemNum(),
+							commentText, kind);
+					iThread.start(); // 댓글 삽입하는 스레드
+				} else {
+					Insert_Reply_Thread iThread = new Insert_Reply_Thread(this, 27, conItem.getIndexNum(),
+							MainActivity.getMyInfoItem().getMyMemNum(), commentText, kind);
+					iThread.start(); // 댓글 삽입하는 스레드
+				}
 
 			}
 			break;
@@ -396,8 +415,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 
 	// 글 수정하는 액티비티로 넘어가는 함수
 	public void editThisContent() {
-		ContentIntent contentIntent = new ContentIntent(this, group_name, conItem.getBoardCategory(),
-				conItem.getIndexNum(), conItem.getMemberNum(), mode);
+		ContentIntent contentIntent = new ContentIntent(this, group_name, conItem.getBoardCategory(), conItem.getIndexNum(), conItem.getMemberNum(), kind);
 
 		startActivity(contentIntent.put_intent(ModifyActivity.class));
 
@@ -411,6 +429,12 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		conItem = mItem;
 	}
 
+	// 공지사항 정보 세팅하는 함수
+	public void setNoticeItem(NoticeItem mItem) {
+		noticeItem = new NoticeItem();
+		noticeItem = mItem;
+	}
+
 	// 뷰에 글정보 추가하는 함수
 	public void setContentView() {
 		contentsReadCount.setText(Integer.toString(conItem.getReadCount()) + "명 읽음");
@@ -421,10 +445,39 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		contentsDate.setText(conItem.getDate());
 		contentsArticle.setText(conItem.getArticle());
 		setProfileURL(conItem.getThumbnail());
-		if (conItem.getImgUrl() != null) {
+		
+		if (conItem.getImgUrl().length() > 10) {
 			new UrlImageDownloadTask(contentsImage).execute(SystemValue.imageConn + "" + conItem.getImgUrl());
 		}
-		Get_Reply_Thread rThread = new Get_Reply_Thread(this, 28, currentContentNum);
+		else{
+			contentsImage.setVisibility(View.GONE);
+		}
+
+		Get_Reply_Thread rThread = new Get_Reply_Thread(this, 28, currentContentNum, false);
+		rThread.start(); // 댓글 받아오는 스레드
+
+		// contentsImage;
+	}
+
+	// 뷰에 공지사항 정보 추가하는 함수
+	public void setNoticeView() {
+		contentsReadCount.setText(""); // 읽은 회수
+		contentsReplyCount.setText(Integer.toString(noticeItem.getReplyCount()));
+		contentsGroupName.setText(group_name);
+		contentsTitle.setText(noticeItem.getTitle());
+		contentsName.setText("동대문구청");
+		contentsDate.setText(noticeItem.getDate());
+		contentsArticle.setText(noticeItem.getArticle());
+		// setProfileURL("");
+		
+		if (noticeItem.getImgurl().length() > 10) {
+			new UrlImageDownloadTask(contentsImage).execute(SystemValue.imageConn + "" + noticeItem.getImgurl());
+		}
+		else{
+			contentsImage.setVisibility(View.GONE);
+		}
+		
+		Get_Reply_Thread rThread = new Get_Reply_Thread(this, 28, currentContentNum, true);
 		rThread.start(); // 댓글 받아오는 스레드
 
 		// contentsImage;

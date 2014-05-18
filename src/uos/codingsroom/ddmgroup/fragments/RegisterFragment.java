@@ -161,7 +161,7 @@ public class RegisterFragment extends Fragment {
 	        			String statusMessage = "현재상태 : " + result;
 	        			Intent intent = new Intent(TOAST_MESSAGE_ACTION);
 	        	        intent.putExtra("message", statusMessage);
-	        	        intent.putExtra("mode", true);
+	        	        intent.putExtra("mode", false);
 	        	        intent.putExtra("group_name", currentGroupName);
 	        	        intent.putExtra("content_num", 3);
 	        	        sendBroadcast(intent);

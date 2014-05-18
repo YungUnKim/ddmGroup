@@ -10,10 +10,10 @@ import android.content.Context;
 public class Modify_Reply_Thread extends Communication_Thread {
 
 	// 생성자 (글 등록하기)
-	public Modify_Reply_Thread(Context context, int menu, int reply_num, String article) {
+	public Modify_Reply_Thread(Context context, int menu, int reply_num, String article, boolean kind) {
 		super(context,menu);
 		try {
-			url += "&reply_num=" + reply_num + "&article=" + URLEncoder.encode(article, "UTF-8");			
+			url += "&reply_num=" + reply_num + "&article=" + URLEncoder.encode(article, "UTF-8") + "&kind=" + kind;			
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

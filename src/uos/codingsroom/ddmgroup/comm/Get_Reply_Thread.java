@@ -12,9 +12,9 @@ public class Get_Reply_Thread extends Communication_Thread {
 	CommentItem comItem;
 
 	// 생성자
-	public Get_Reply_Thread(Context context, int menu, int content_num) {
+	public Get_Reply_Thread(Context context, int menu, int content_num, boolean kind) {
 		super(context, menu);
-		url += "&content_num=" + content_num;
+		url += "&content_num=" + content_num + "&kind=" + kind;
 	}
 
 	// 최신글 20개 받아오는 함수

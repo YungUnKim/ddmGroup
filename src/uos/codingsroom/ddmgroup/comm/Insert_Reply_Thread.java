@@ -12,11 +12,11 @@ import android.util.Log;
 public class Insert_Reply_Thread extends Communication_Thread {
 	String article;
 	// 생성자
-	public Insert_Reply_Thread(Context context, int menu, int content_num, int mem_num, String article) {
+	public Insert_Reply_Thread(Context context, int menu, int content_num, int mem_num, String article, boolean kind) {
 		super(context,menu);
 		this.article = article;
 		try {
-			url += "&content_num=" + content_num + "&mem_num=" + mem_num + "&article=" + URLEncoder.encode(article, "UTF-8");
+			url += "&content_num=" + content_num + "&mem_num=" + mem_num + "&article=" + URLEncoder.encode(article, "UTF-8") + "&kind=" + kind;
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
