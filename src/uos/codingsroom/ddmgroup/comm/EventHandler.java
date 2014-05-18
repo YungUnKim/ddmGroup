@@ -57,6 +57,7 @@ public class EventHandler extends Handler {
 			}
 			else if (msg.what == 22){
 				Log.i("MyTag", "글 올리기 핸들러 성공");
+				((MainActivity) mcontext).clearRegisterFragment();
 			}
 			else if (msg.what == -22){
 				Log.i("MyTag", "글 올리기 핸들러 실패");

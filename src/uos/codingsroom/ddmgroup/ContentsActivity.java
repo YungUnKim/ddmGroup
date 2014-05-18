@@ -22,6 +22,7 @@ import android.app.Application;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -218,7 +219,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		commentsListAdapter.addItem(addItem);
 		comItem.add(com_cnt++, addItem);
 		contentsReplyCount.setText(String.valueOf(com_cnt));
-		
+
 		commentsListView.setAdapter(commentsListAdapter);
 
 		commentsListView.setSelection(commentsListAdapter.getCount() - 1); // 가장 맨 아래에 스크롤이 내려오게 함
@@ -245,7 +246,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		comItem.remove(SELECT_REPLY_NUM);
 		com_cnt--;
 		contentsReplyCount.setText(String.valueOf(com_cnt));
-		
+
 		// commentsListView.setAdapter(commentsListAdapter);
 		commentsListAdapter.notifyDataSetChanged();
 		commentsListView.clearChoices();
@@ -258,7 +259,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		String[] kinds = { "수정하기", "삭제하기" };
 		ab.setTitle("댓글");
 
-//		Log.i("MyTag", "댓글 위치 : " + SELECT_REPLY_NUM);
+		// Log.i("MyTag", "댓글 위치 : " + SELECT_REPLY_NUM);
 		ab.setItems(kinds, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
@@ -266,7 +267,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 					showEditTextDialog(); // 댓글 수정하는 다이얼로그 생성
 					// 댓글 내용, 위치 넘겨야 함
 				} else if (which == 1) {
-//					Log.i("MyTag", "댓글 삭제하기");
+					// Log.i("MyTag", "댓글 삭제하기");
 					Delete_Reply_Thread drThread = new Delete_Reply_Thread(ContentsActivity.this, 30, comItem.get(SELECT_REPLY_NUM).getIndexNum(),
 							kind);
 					drThread.start();
@@ -416,9 +417,29 @@ public class ContentsActivity extends Activity implements OnClickListener {
 
 	// 글 수정하는 액티비티로 넘어가는 함수
 	public void editThisContent() {
-		ContentIntent contentIntent = new ContentIntent(this, group_name, conItem.getBoardCategory(), conItem.getIndexNum(), conItem.getMemberNum(), kind);
+		// ContentIntent contentIntent = new ContentIntent(this, group_name, conItem.getBoardCategory(), conItem.getIndexNum(), conItem.getMemberNum(), kind);
 
-		startActivity(contentIntent.put_intent(ModifyActivity.class));
+		// startActivity(contentIntent.put_intent(ModifyActivity.class));
+
+		Intent intent = new Intent(this, ModifyActivity.class);
+
+		if (kind) { // 공지사항
+			intent.putExtra("content_num", noticeItem.getNum()); // 글 번호
+			intent.putExtra("title", noticeItem.getTitle()); // 글 제목
+			intent.putExtra("article", noticeItem.getArticle()); // 글 내용
+			intent.putExtra("img_url", noticeItem.getImgurl()); // 그림 url
+			intent.putExtra("group_num", 0); // 그룹번호
+		} else { // 일반 글
+			intent.putExtra("content_num", conItem.getIndexNum()); // 글 번호
+			intent.putExtra("title", conItem.getTitle()); // 글 제목
+			intent.putExtra("article", conItem.getArticle()); // 글 내용
+			intent.putExtra("img_url", conItem.getImgUrl()); // 그림 url
+			intent.putExtra("group_num", conItem.getBoardCategory()); // 그룹번호
+		}
+		intent.putExtra("group_name", group_name);
+		intent.putExtra("mode", kind);
+
+		startActivity(intent);
 
 		menuLayout.setVisibility(View.GONE);
 		menuHelperLayout.setVisibility(View.GONE);
@@ -446,11 +467,10 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		contentsDate.setText(conItem.getDate());
 		contentsArticle.setText(conItem.getArticle());
 		setProfileURL(conItem.getThumbnail());
-		
+
 		if (conItem.getImgUrl().length() > 10) {
 			new UrlImageDownloadTask(contentsImage).execute(SystemValue.imageConn + "" + conItem.getImgUrl());
-		}
-		else{
+		} else {
 			contentsImage.setVisibility(View.GONE);
 		}
 
@@ -470,14 +490,13 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		contentsDate.setText(noticeItem.getDate());
 		contentsArticle.setText(noticeItem.getArticle());
 		// setProfileURL("");
-		
+
 		if (noticeItem.getImgurl().length() > 10) {
 			new UrlImageDownloadTask(contentsImage).execute(SystemValue.imageConn + "" + noticeItem.getImgurl());
-		}
-		else{
+		} else {
 			contentsImage.setVisibility(View.GONE);
 		}
-		
+
 		Get_Reply_Thread rThread = new Get_Reply_Thread(this, 28, currentContentNum, true);
 		rThread.start(); // 댓글 받아오는 스레드
 

@@ -48,13 +48,10 @@ public class RegisterFragment extends Fragment {
 	ImageView temp_img;
 	int REQUEST_CODE_IMAGE = 1;
 
-	
-	//GCM 메세지를 보낼 변수
+	// GCM 메세지를 보낼 변수
 	AsyncTask<Void, Void, Void> mSendTask;
 	Sender sender;
 
-	
-	
 	TextView groupTitle;
 
 	@Override
@@ -122,6 +119,7 @@ public class RegisterFragment extends Fragment {
 
 	}
 
+	// 글 업로드 하는 함수
 	public void registerContent() {
 		String Title = EditTitle.getText().toString();
 		String Memo = EditMemo.getText().toString();
@@ -133,57 +131,64 @@ public class RegisterFragment extends Fragment {
 		}
 		Log.i("MyTag", Title + " >> " + Memo);
 
-		Insert_Content_Thread iThread = new Insert_Content_Thread(this.getActivity(), 22, MainActivity.getMyInfoItem()
-				.getMyMemNum(), currentGroup, Title, Memo, ImgPath);
+		Insert_Content_Thread iThread = new Insert_Content_Thread(this.getActivity(), 22, MainActivity.getMyInfoItem().getMyMemNum(), currentGroup, Title, Memo,
+				ImgPath);
 		innerforActivity inner = new innerforActivity();
-		
+
 		inner.sendToDevice("새 글이 등록되었습니다.");
 		iThread.start(); // 글 업로드하는 스레드
-
 
 		// rDialog = createRegisterDialog();
 		// rDialog.show();
 
 	}
-	class innerforActivity extends Activity{
-		private void sendToDevice(final String msg) {
-	    	mSendTask = new AsyncTask<Void, Void, Void>() {
-	            protected Void doInBackground(Void... params) {
-	            	Message.Builder messageBuilder = new Message.Builder();
-	    			messageBuilder.addData("msg", msg);
-	    			messageBuilder.addData("action", "show");
-	    			Message message = messageBuilder.build();
-	    			
-	        		try {
-	                	Result result = sender.send(message, BasicInfo.RegistrationId, 5);
-	        			Log.i("PUSH", "Message sent. Result : " + result);
-	        			
-	        			String statusMessage = "현재상태 : " + result;
-	        			Intent intent = new Intent(TOAST_MESSAGE_ACTION);
-	        	        intent.putExtra("message", statusMessage);
-	        	        intent.putExtra("mode", false);
-	        	        intent.putExtra("group_name", currentGroupName);
-	        	        intent.putExtra("content_num", 3);
-	        	        sendBroadcast(intent);
-	        			
-	        		} catch(Exception ex) {
-	        			ex.printStackTrace();
-	        		}
-	        		
-	                return null;
-	            }
 
-	            protected void onPostExecute(Void result) {
-	                mSendTask = null;
-	            }
-
-	        };
-	        mSendTask.execute(null, null, null);
-	      
-	    }
-		
+	// 글 업로드 성공 후 수행하는 함수
+	public void clearContent(){
+		temp_img.setImageBitmap(null);
+		EditTitle.setText("");
+		EditMemo.setText("");
+		ImgPath = null;
 	}
 	
+	class innerforActivity extends Activity {
+		private void sendToDevice(final String msg) {
+			mSendTask = new AsyncTask<Void, Void, Void>() {
+				protected Void doInBackground(Void... params) {
+					Message.Builder messageBuilder = new Message.Builder();
+					messageBuilder.addData("msg", msg);
+					messageBuilder.addData("action", "show");
+					Message message = messageBuilder.build();
+
+					try {
+						Result result = sender.send(message, BasicInfo.RegistrationId, 5);
+						Log.i("PUSH", "Message sent. Result : " + result);
+
+						String statusMessage = "현재상태 : " + result;
+						Intent intent = new Intent(TOAST_MESSAGE_ACTION);
+						intent.putExtra("message", statusMessage);
+						intent.putExtra("mode", false);
+						intent.putExtra("group_name", currentGroupName);
+						intent.putExtra("content_num", 3);
+						sendBroadcast(intent);
+
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
+
+					return null;
+				}
+
+				protected void onPostExecute(Void result) {
+					mSendTask = null;
+				}
+
+			};
+			mSendTask.execute(null, null, null);
+
+		}
+
+	}
 
 	public void setNoticeTitle(String title, int index) {
 
@@ -196,8 +201,7 @@ public class RegisterFragment extends Fragment {
 			BitmapFactory.Options options = new BitmapFactory.Options();
 			options.inSampleSize = 8;
 
-			Cursor c = getActivity().getContentResolver()
-					.query(Uri.parse(data.getDataString()), null, null, null, null);
+			Cursor c = getActivity().getContentResolver().query(Uri.parse(data.getDataString()), null, null, null, null);
 			c.moveToNext();
 			ImgPath = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
 			Uri uri = Uri.fromFile(new File(ImgPath));

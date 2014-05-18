@@ -13,6 +13,7 @@ import uos.codingsroom.ddmgroup.item.GroupItem;
 import uos.codingsroom.ddmgroup.item.MyInfoItem;
 import uos.codingsroom.ddmgroup.item.NewsFeedItem;
 import uos.codingsroom.ddmgroup.listview.GroupListAdapter;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -88,6 +89,7 @@ public class MainActivity extends FragmentActivity {
 
 	private static Fragment[] fragments = new Fragment[FRAGMENT_COUNT];
 
+	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -170,6 +172,13 @@ public class MainActivity extends FragmentActivity {
 		groupAdapter.addItem(mItem);
 	}
 
+	// 글 등록 후 프레그먼트 클리어
+	public void clearRegisterFragment(){
+		((RegisterFragment) fragments[REGISTER]).clearContent();
+		showFragment(BOARD, false);
+		((ContentsFragment) fragments[BOARD]).contentFragmentStart();
+	}
+	
 	public void setLittleListView() {
 		//그룹 게시판 보기 터치했을때
 		groupAdapter.addItem(0, new GroupItem("돌아가기"));
@@ -334,7 +343,6 @@ public class MainActivity extends FragmentActivity {
 			public void onClick(View v) {
 				if (currentFragment != 0) {
 					showFragment(0, false);
-					Toast.makeText(getBaseContext(), "조인행 코딩좀 해", Toast.LENGTH_SHORT).show();
 				}
 
 			}
