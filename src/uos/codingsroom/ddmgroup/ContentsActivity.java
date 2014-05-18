@@ -214,10 +214,11 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		final MyInfoItem myInfo = MainActivity.getMyInfoItem();
 		CommentItem addItem = new CommentItem(ADD_REPLY_NUM, myInfo.getMyMemNum(), commentEdit.getEditableText().toString(), "방금 막", myInfo.getMyName(),
 				myInfo.getMyProfileUrl()); // 임시
-//		Log.i("MyTag", "add comment >> " + ADD_REPLY_NUM + " // " + myInfo.getMyMemNum());
+
 		commentsListAdapter.addItem(addItem);
 		comItem.add(com_cnt++, addItem);
-
+		contentsReplyCount.setText(String.valueOf(com_cnt));
+		
 		commentsListView.setAdapter(commentsListAdapter);
 
 		commentsListView.setSelection(commentsListAdapter.getCount() - 1); // 가장 맨 아래에 스크롤이 내려오게 함
@@ -226,7 +227,6 @@ public class ContentsActivity extends Activity implements OnClickListener {
 
 	// 댓글 한 개를 수정하는 함수
 	public void modifyComment() {
-//		Log.i("MyTag", "modify comment >> " + SELECT_REPLY_NUM + " // " + MODIFY_ARTICLE);
 		// commentsListAdapter
 		comItem.get(SELECT_REPLY_NUM).setArticle(MODIFY_ARTICLE);
 		comItem.get(SELECT_REPLY_NUM).setDate("방금 막");
@@ -244,7 +244,8 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		commentsListAdapter.removeItem(SELECT_REPLY_NUM);
 		comItem.remove(SELECT_REPLY_NUM);
 		com_cnt--;
-
+		contentsReplyCount.setText(String.valueOf(com_cnt));
+		
 		// commentsListView.setAdapter(commentsListAdapter);
 		commentsListAdapter.notifyDataSetChanged();
 		commentsListView.clearChoices();
