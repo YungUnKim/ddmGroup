@@ -4,6 +4,7 @@ import org.xmlpull.v1.XmlPullParser;
 
 import uos.codingsroom.ddmgroup.NoticeActivity;
 import uos.codingsroom.ddmgroup.item.NoticeItem;
+import uos.codingsroom.ddmgroup.util.TimeFormat;
 import android.content.Context;
 
 public class Get_NoticeList_Thread extends Communication_Thread {
@@ -24,7 +25,7 @@ public class Get_NoticeList_Thread extends Communication_Thread {
 					tagname = xpp.getName(); // 태그를 받아온다.
 				} else if (eventType == XmlPullParser.TEXT) {
 					if (tagname.equals("total") || tagname.equals("NOTICE_NUM") || tagname.equals("NOTICE_TITLE") || tagname.equals("NOTICE_ARTICLE")
-							|| tagname.equals("NOTICE_IMG") || tagname.equals("NOTICE_DATE")) {
+							|| tagname.equals("NOTICE_IMG") || tagname.equals("NOTICE_REPLY") || tagname.equals("NOTICE_DATE")) {
 						ret = xpp.getText(); // id 태그에 해당되는 TEXT를 임시로 저장
 					}
 				} else if (eventType == XmlPullParser.END_TAG) {
@@ -43,8 +44,10 @@ public class Get_NoticeList_Thread extends Communication_Thread {
 						mItem.setTitle(ret);
 					} else if (tagname.equals("NOTICE_ARTICLE")) {
 					} else if (tagname.equals("NOTICE_IMG")) {
+					} else if(tagname.equals("NOTICE_REPLY")){
+						mItem.setReplyCount(Integer.parseInt(ret));
 					} else if (tagname.equals("NOTICE_DATE")) {
-						mItem.setDate(ret);
+						mItem.setDate(new TimeFormat().timeDelay(ret));
 						((NoticeActivity) mcontext).setNoticeListItem(mItem);
 					}
 				}

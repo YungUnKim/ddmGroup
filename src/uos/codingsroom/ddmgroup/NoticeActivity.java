@@ -69,7 +69,7 @@ public class NoticeActivity extends Activity implements OnClickListener {
 
 		for (int i = 0; i < noti_cnt; i++) {
 			noticeListAdapter.addItem(new NoticeItem(noticeItem.get(i).getNum(), // 인덱스 번호
-					0, // 읽은 회수
+					noticeItem.get(i).getReplyCount(), // 댓글 개수
 					noticeItem.get(i).getTitle(), // 제목
 					noticeItem.get(i).getDate() // 날짜
 			));
