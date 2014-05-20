@@ -30,7 +30,8 @@ public class EventHandler extends Handler {
 			
 			}
 			else if (msg.what == 10) { // 로그인
-				((MainActivity) mcontext).showMyMemNumber();
+//				((MainActivity) mcontext).showMyMemNumber();
+				((MainActivity) mcontext).setPermission();
 				((MainActivity) mcontext).setProfile();
 			}
 			else if (msg.what == 11) { //공지사항 3개

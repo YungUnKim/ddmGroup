@@ -1,5 +1,6 @@
 package uos.codingsroom.ddmgroup;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -70,7 +71,9 @@ public class MainActivity extends FragmentActivity {
 	GroupItem groupItem;
 	
 	private static MyInfoItem myInfoItem;
-
+	private ArrayList<Integer> board = new ArrayList<Integer>();	// 권한 게시판 번호
+	private ArrayList<Integer> level = new ArrayList<Integer>();	// 권한 게시판 레벨
+	
 	Set<String> favoriteStringSet;
 
 	private static Integer myMemNum;
@@ -125,6 +128,24 @@ public class MainActivity extends FragmentActivity {
 
 	public void showMyMemNumber() {
 		Toast.makeText(getApplication(), "당신의 회원 번호는 " + myMemNum + " 입니다.", Toast.LENGTH_SHORT).show();
+	}
+	
+	public void setBoardNum(int num){
+		board.add(num);
+	}
+	
+	public void setLevel(int num){
+		level.add(num);
+	}
+	
+	// 게시판 번호와 권한 레벨 객체에 저장하기
+	public void setPermission(){
+		myInfoItem.setMyboard(board);
+		myInfoItem.setMylevel(level);
+//		Log.i("MyTag","board >> " + myInfoItem.getMyboard().get(0) + ", level >> " + myInfoItem.getMylevel().get(0));
+//		Log.i("MyTag","board >> " + myInfoItem.getMyboard().get(1) + ", level >> " + myInfoItem.getMylevel().get(1));
+//		Log.i("MyTag","board >> " + myInfoItem.getMyboard().get(2) + ", level >> " + myInfoItem.getMylevel().get(2));
+		// myInfoItem.getMylevel().get(0) == 관리자인지 정지여부 확인하기
 	}
 	
 	//공지

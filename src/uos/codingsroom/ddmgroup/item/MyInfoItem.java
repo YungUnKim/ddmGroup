@@ -1,9 +1,13 @@
 package uos.codingsroom.ddmgroup.item;
 
+import java.util.ArrayList;
+
 public class MyInfoItem {
 	private Integer myMemNum;
 	private String myProfileUrl;
 	private String myName;
+	private ArrayList<Integer> myboard = new ArrayList<Integer>();
+	private ArrayList<Integer> mylevel = new ArrayList<Integer>();
 	
 	public MyInfoItem(Integer myMemNum, String myProfileUrl, String myName){
 		this.myMemNum = myMemNum;
@@ -34,5 +38,20 @@ public class MyInfoItem {
 	public void setMyName(String myName) {
 		this.myName = myName;
 	}
+
+	public ArrayList<Integer> getMyboard() {
+		return myboard;
+	}
+
+	public void setMyboard(ArrayList<Integer> myboard) {
+		this.myboard = myboard;
+	}
 	
+	public ArrayList<Integer> getMylevel() {
+		return mylevel;
+	}
+
+	public void setMylevel(ArrayList<Integer> mylevel) {
+		this.mylevel = mylevel;
+	}
 }

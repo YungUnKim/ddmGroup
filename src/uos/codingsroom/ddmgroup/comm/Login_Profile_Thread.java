@@ -7,6 +7,7 @@ import org.xmlpull.v1.XmlPullParser;
 
 import uos.codingsroom.ddmgroup.MainActivity;
 import android.content.Context;
+import android.util.Log;
 
 public class Login_Profile_Thread extends Communication_Thread {
 
@@ -31,7 +32,7 @@ public class Login_Profile_Thread extends Communication_Thread {
 				if (eventType == XmlPullParser.START_TAG) {
 					tagname = xpp.getName(); // 태그를 받아온다.
 				} else if (eventType == XmlPullParser.TEXT) {
-					if (tagname.equals("member_num")) {
+					if (tagname.equals("member_num") || tagname.equals("board") || tagname.equals("level")) {
 						ret = xpp.getText(); // id 태그에 해당되는 TEXT를 임시로 저장
 					}
 				} else if (eventType == XmlPullParser.END_TAG) {
@@ -45,6 +46,12 @@ public class Login_Profile_Thread extends Communication_Thread {
 							msg.what = 10;
 							((MainActivity) mcontext).setMyMemberNum(Integer.parseInt(ret));
 						}
+					}
+					else if (tagname.equals("board")) {
+						((MainActivity) mcontext).setBoardNum(Integer.parseInt(ret));
+					}
+					else if (tagname.equals("level")) {
+						((MainActivity) mcontext).setLevel(Integer.parseInt(ret));
 					}
 				}
 				eventType = xpp.next();
