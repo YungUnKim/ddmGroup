@@ -12,25 +12,25 @@ import uos.codingsroom.ddmgroup.util.SystemValue;
 import android.content.Context;
 import android.os.Message;
 
-public class Communication_Thread extends Thread {
+public class Manage_Communication_Thread extends Thread {
 	protected String ret = ""; // xml에서 받아온 TEXT를 임시로 받는 변수
 	protected String tagname = ""; // xml의 태그네임을 위한 변수
 	protected String url; // url
 	protected int eventType;
 
-	protected EventHandler mHandler; // 이벤트 핸들러
+	protected Manage_EventHandler mHandler; // 이벤트 핸들러
 	protected Message msg; // 메시지
 	protected Context mcontext; // 액티비티 객체
 
 	protected int menu; // 어떤 정보를 처리할지 위한 변수
 
 	// 기본 생성자
-	public Communication_Thread(Context context, int menu) {
-		this.mHandler = new EventHandler(context);
+	public Manage_Communication_Thread(Context context, int menu) {
+		this.mHandler = new Manage_EventHandler(context);
 		this.msg = mHandler.obtainMessage();
 		this.mcontext = context; // 액티비티 객체
 		this.menu = menu; // 어떤 작업을 할 것인가
-		this.url = SystemValue.conn + menu;
+		this.url = SystemValue.m_conn + menu;
 	}
 
 	// 스레드 기본 함수

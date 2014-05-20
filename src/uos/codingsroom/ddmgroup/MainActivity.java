@@ -14,6 +14,7 @@ import uos.codingsroom.ddmgroup.item.GroupItem;
 import uos.codingsroom.ddmgroup.item.MyInfoItem;
 import uos.codingsroom.ddmgroup.item.NewsFeedItem;
 import uos.codingsroom.ddmgroup.listview.GroupListAdapter;
+import uos.codingsroom.ddmgroup.util.SystemValue;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -305,7 +306,7 @@ public class MainActivity extends FragmentActivity {
 			}
 		});
 
-		initializeButtons();
+//		initializeButtons();
 		initializeProfileView();
 		initializeListView();
 	}
@@ -332,7 +333,7 @@ public class MainActivity extends FragmentActivity {
 		myNameText = (TextView) findViewById(R.id.my_name);
 	}
 
-	private void initializeButtons() {
+	public void initializeButtons() {
 		settingButton = (ImageView) findViewById(R.id.button_setting);
 		settingButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -383,12 +384,29 @@ public class MainActivity extends FragmentActivity {
 			menuButtons[i].setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					menuButtons[position].setClickable(false);
-					currentCategory = position;
-					Get_Groups_Thread mThread = new Get_Groups_Thread(MainActivity.this, 20, position);
-					mThread.start();
+					
+					if(position == menus-1){		// 관리자 메뉴 클릭 시
+						Log.i("MyTag","관리자 메뉴 클릭!!");
+						final Intent intent = new Intent(MainActivity.this, ManagerActivity.class);
+						startActivity(intent);
+					}
+					else{
+						menuButtons[position].setClickable(false);
+						currentCategory = position;
+						Get_Groups_Thread mThread = new Get_Groups_Thread(MainActivity.this, 20, position);
+						mThread.start();
+					}
 				}
 			});
+		}
+		
+		menuButtons[menus-1].setVisibility(View.GONE);
+		for (int i = 0; i < board.size(); i++){
+			if(board.get(i) == 0){	// 관리자일 경우
+				if(level.get(i) == SystemValue.ADMIN){
+					menuButtons[menus-1].setVisibility(View.VISIBLE);	// 관리자메뉴 보이기
+				}
+			}
 		}
 
 	}
