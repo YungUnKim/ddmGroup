@@ -82,9 +82,7 @@ public class ManagerActivity extends Activity implements OnClickListener {
 			startActivity(intent);
 			break;
 		case R.id.button_notice_register_manage: // 공지사항 작성
-			Log.i("MyTag","register");
 			Intent intent2 = new Intent(this, NoticeRegisterActivity.class);
-			Log.i("MyTag","register>>");
 			startActivity(intent2);
 			break;
 
