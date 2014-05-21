@@ -12,15 +12,15 @@ import android.util.Log;
 public class Login_Profile_Thread extends Communication_Thread {
 
 	// 생성자 (로그인)
-	public Login_Profile_Thread(Context context, int menu, String name, String thumbNailURL, Long kakaoCode) {
-		super(context,menu);
+	public Login_Profile_Thread(Context context, int menu, String name, String thumbNailURL, Long kakaoCode, String device_id) {
+		super(context, menu);
 		try {
-			url += "&name=" + URLEncoder.encode(name, "UTF-8") + "&tnURL=" + URLEncoder.encode(thumbNailURL, "UTF-8") + "&kakaoCode=" + kakaoCode;
+			url += "&name=" + URLEncoder.encode(name, "UTF-8") + "&tnURL=" + URLEncoder.encode(thumbNailURL, "UTF-8") + "&kakaoCode=" + kakaoCode + "&device_id=" + device_id;
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		Log.i("MyTag", "url >> " + url);
+		// Log.i("MyTag", "url >> " + url);
 	}
 
 	// XML 파싱 함수
@@ -46,11 +46,9 @@ public class Login_Profile_Thread extends Communication_Thread {
 							msg.what = 10;
 							((MainActivity) mcontext).setMyMemberNum(Integer.parseInt(ret));
 						}
-					}
-					else if (tagname.equals("board")) {
+					} else if (tagname.equals("board")) {
 						((MainActivity) mcontext).setBoardNum(Integer.parseInt(ret));
-					}
-					else if (tagname.equals("level")) {
+					} else if (tagname.equals("level")) {
 						((MainActivity) mcontext).setLevel(Integer.parseInt(ret));
 					}
 				}
@@ -63,5 +61,4 @@ public class Login_Profile_Thread extends Communication_Thread {
 		}
 	}
 
-	
 }

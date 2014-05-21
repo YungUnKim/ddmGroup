@@ -264,7 +264,7 @@ public class MainActivity extends FragmentActivity {
 				profileBigImageURL = talkProfile.getProfileImageURL();
 				kakaoCode = userProfile.getId();
 
-				Login_Profile_Thread mThread = new Login_Profile_Thread(context, 10, nickName, profileImageURL, kakaoCode);
+				Login_Profile_Thread mThread = new Login_Profile_Thread(context, 10, nickName, profileImageURL, kakaoCode, BasicInfo.RegistrationId);
 				mThread.start();
 			}
 		});
