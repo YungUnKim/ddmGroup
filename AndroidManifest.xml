@@ -84,7 +84,10 @@
             android:name="uos.codingsroom.ddmgroup.ManagerActivity"
             android:screenOrientation="portrait" >
         </activity>
-
+        <activity
+            android:name="uos.codingsroom.ddmgroup.NoticeRegisterActivity"
+            android:screenOrientation="portrait" >
+        </activity>
         <!-- 4 -->
         <activity
             android:name="com.kakao.LoginActivity"

@@ -1,9 +1,12 @@
 package uos.codingsroom.ddmgroup;
 
 import uos.codingsroom.ddmgroup.comm.Get_Manage_Thread;
+import uos.codingsroom.ddmgroup.fragments.RegisterFragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,7 +24,7 @@ public class ManagerActivity extends Activity implements OnClickListener {
 	private Button board_manage_btn;
 	private Button notice_manage_btn;
 	private Button notice_register_btn;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -75,11 +78,14 @@ public class ManagerActivity extends Activity implements OnClickListener {
 			Log.i("MyTag","board");
 			break;
 		case R.id.button_notice_manage: // 공지사항 보기
-			final Intent intent = new Intent(this, NoticeActivity.class);		
+			Intent intent = new Intent(this, NoticeActivity.class);		
 			startActivity(intent);
 			break;
 		case R.id.button_notice_register_manage: // 공지사항 작성
 			Log.i("MyTag","register");
+			Intent intent2 = new Intent(this, NoticeRegisterActivity.class);
+			Log.i("MyTag","register>>");
+			startActivity(intent2);
 			break;
 
 		default:
