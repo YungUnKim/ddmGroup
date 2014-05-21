@@ -68,6 +68,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		return super.onRecoverableError(context, errorId);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
     public void onMessage(Context context, Intent intent) {
     	Log.i(TAG, "onMessage called.");
@@ -88,7 +89,7 @@ public class GCMIntentService extends GCMBaseIntentService {
     		vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
             //----------알림설정----------//
             Notification noti;
-			noti = new Notification(R.drawable.ic_launcher,"새 글이 등록되었습니다.", System.currentTimeMillis());
+			noti = new Notification(R.drawable.ic_launcher,"새 글이 등록되었습니다."+msg, System.currentTimeMillis());
 			noti.defaults = Notification.DEFAULT_SOUND;
 			noti.flags = Notification.FLAG_ONLY_ALERT_ONCE;
 			noti.flags = Notification.FLAG_AUTO_CANCEL;
@@ -97,7 +98,7 @@ public class GCMIntentService extends GCMBaseIntentService {
             newIntent.putExtra("group_name", group_name);
             newIntent.putExtra("content_num", content_num);
 			PendingIntent pendingI = PendingIntent.getActivity(GCMIntentService.this, 0, newIntent, newIntent.FLAG_ACTIVITY_NEW_TASK);
-			noti.setLatestEventInfo(GCMIntentService.this, "동대문구청","새글이 등록되었습니다.", pendingI);
+			noti.setLatestEventInfo(GCMIntentService.this, "동대문구청","새글이 등록되었습니다." + msg, pendingI);
 			notiManager.notify(MyNoti, noti);
 			vibrator.vibrate(1000); 
 

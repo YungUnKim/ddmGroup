@@ -20,7 +20,7 @@ public class Login_Profile_Thread extends Communication_Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// Log.i("MyTag", "url >> " + url);
+		Log.i("MyTag", "url >> " + url);
 	}
 
 	// XML 파싱 함수
