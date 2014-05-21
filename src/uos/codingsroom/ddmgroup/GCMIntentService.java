@@ -90,7 +90,7 @@ public class GCMIntentService extends GCMBaseIntentService {
     		vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
             //----------알림설정----------//
             Notification noti;
-			noti = new Notification(R.drawable.ic_launcher,"새 글이 등록되었습니다."+msg, System.currentTimeMillis());
+			noti = new Notification(R.drawable.ic_launcher,"새 글이 등록되었습니다.", System.currentTimeMillis());
 			noti.defaults = Notification.DEFAULT_SOUND;
 			noti.flags = Notification.FLAG_ONLY_ALERT_ONCE;
 			noti.flags = Notification.FLAG_AUTO_CANCEL;
