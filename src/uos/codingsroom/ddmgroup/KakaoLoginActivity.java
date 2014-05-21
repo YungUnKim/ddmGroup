@@ -24,7 +24,7 @@ import com.kakao.widget.LoginButton;
 
 public class KakaoLoginActivity extends Activity {
 
-	private static final int DELAY_TIME = 1500;
+	private int DELAY_TIME = 1500;
 	
 	AsyncTask<Void, Void, Void> mSendTask;
 	private LoginButton loginButton;
@@ -53,15 +53,24 @@ public class KakaoLoginActivity extends Activity {
 		final String regId = GCMRegistrar.getRegistrationId(this);
 		Log.i("PUSH","regId = " + regId);
 		if (regId.equals("")) {
+			Log.i("PUSH","regID = 없음");
+			DELAY_TIME = 5000;
 			GCMRegistrar.register(getBaseContext(), BasicInfo.PROJECT_ID);
+			
 		} else {
+			
 			if (GCMRegistrar.isRegisteredOnServer(this)) {
+				DELAY_TIME = 5000;
 			} else {
-				GCMRegistrar.register(getBaseContext(), BasicInfo.PROJECT_ID);
+				GCMRegistrar.register(getBaseContext(), BasicInfo.PROJECT_ID);			
 			}
 			
 		}
+		
+		
 	}
+
+	
 	private final BroadcastReceiver mToastMessageReceiver = new BroadcastReceiver() {
 		public void onReceive(Context context, Intent intent) {
 			String message = intent.getExtras().getString("message");

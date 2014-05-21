@@ -16,6 +16,7 @@ import uos.codingsroom.ddmgroup.item.NewsFeedItem;
 import uos.codingsroom.ddmgroup.listview.GroupListAdapter;
 import uos.codingsroom.ddmgroup.util.SystemValue;
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -365,10 +366,13 @@ public class MainActivity extends FragmentActivity {
 			public void onClick(View v) {
 				if (currentFragment != 0) {
 					showFragment(0, false);
+					
 				}
 
 			}
 		});
+		
+		
 
 		menuBackButton = (ImageView) findViewById(R.id.slidingmenu_back_button);
 		menuBackButton.setOnClickListener(new OnClickListener() {
@@ -410,6 +414,8 @@ public class MainActivity extends FragmentActivity {
 		}
 
 	}
+	
+
 
 	public void openFavorite() {
 		groupAdapter.clearItem();
