@@ -4,7 +4,7 @@ package uos.codingsroom.ddmgroup;
 import static uos.codingsroom.ddmgroup.BasicInfo.PROJECT_ID;
 import static uos.codingsroom.ddmgroup.BasicInfo.TOAST_MESSAGE_ACTION;
 
-import com.google.android.gcm.GCMBaseIntentService;
+import java.util.StringTokenizer;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -14,6 +14,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.Log;
+
+import com.google.android.gcm.GCMBaseIntentService;
 
 
 public class GCMIntentService extends GCMBaseIntentService {
@@ -75,16 +77,15 @@ public class GCMIntentService extends GCMBaseIntentService {
 
         Bundle extras = intent.getExtras();
         if (extras != null) {           
-            String from = (String) extras.get("from");
-            String action = (String) extras.get("action");
             String msg = (String) extras.get("message");
-            boolean mode = extras.getBoolean("mode");
-            String group_name = (String) extras.get("group_name");
-            int content_num = extras.getInt("content_num");
-            Log.i("PUSH","content_num = " + content_num + "group_name = " + group_name+ "mode = " + mode);
-            Log.d(TAG, "DATA : " + from + ", " + action + ", " + msg);
-            Log.d(TAG, "[" + from + "]로부터 온 메세지 : " + msg);
-            
+            String[] token = new String[4];
+            StringTokenizer st = new StringTokenizer(msg);
+            for(int i=0; i<3 ; i++)
+            {
+            	token[i] = st.nextToken(":}");
+            }
+            int content_num = Integer.parseInt(token[2]);
+            Log.i("PUSH","글번호 = "+content_num);
             notiManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
     		vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
             //----------알림설정----------//
@@ -95,10 +96,10 @@ public class GCMIntentService extends GCMBaseIntentService {
 			noti.flags = Notification.FLAG_AUTO_CANCEL;
 			Intent newIntent = new Intent(getBaseContext(), ContentsActivity.class);
 			newIntent.putExtra("mode", true);
-            newIntent.putExtra("group_name", group_name);
+            newIntent.putExtra("group_name", "공지사항");
             newIntent.putExtra("content_num", content_num);
 			PendingIntent pendingI = PendingIntent.getActivity(GCMIntentService.this, 0, newIntent, newIntent.FLAG_ACTIVITY_NEW_TASK);
-			noti.setLatestEventInfo(GCMIntentService.this, "동대문구청","새글이 등록되었습니다." + msg, pendingI);
+			noti.setLatestEventInfo(GCMIntentService.this, "동대문구청","새글이 등록되었습니다.", pendingI);
 			notiManager.notify(MyNoti, noti);
 			vibrator.vibrate(1000); 
 
