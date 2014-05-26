@@ -1,17 +1,14 @@
 package uos.codingsroom.ddmgroup.fragments;
 
-import uos.codingsroom.ddmgroup.ContentIntent;
 import uos.codingsroom.ddmgroup.ContentsActivity;
 import uos.codingsroom.ddmgroup.R;
 import uos.codingsroom.ddmgroup.comm.Get_Newsfeed_Thread;
 import uos.codingsroom.ddmgroup.comm.Get_Notice_Three_Thread;
-import uos.codingsroom.ddmgroup.item.GroupItem;
 import uos.codingsroom.ddmgroup.item.NewsFeedItem;
 import uos.codingsroom.ddmgroup.listview.NewsFeedListAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,9 +21,10 @@ import android.widget.TextView;
 
 public class NewsfeedFragment extends Fragment implements OnClickListener {
 
+	private View header;
+	private View footer;
 	private ListView newsfeedListView;
 	private NewsFeedListAdapter newsfeedAdapter;
-	private LinearLayout noticeLayout;
 
 	private TextView[] noticeTitleText = new TextView[3];
 	private int noticeNum[] = new int[3];
@@ -56,18 +54,21 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View view = inflater.inflate(R.layout.fragment_newsfeed, container, false);
 
-		noticeLayout = (LinearLayout) view.findViewById(R.id.notice_layout);
+		newsfeedListView = (ListView) view.findViewById(R.id.listview_newsfeed);
+		newsfeedAdapter = new NewsFeedListAdapter(this.getActivity());
 
-		noticeTitleText[0] = (TextView) view.findViewById(R.id.notice_1);
-		noticeTitleText[1] = (TextView) view.findViewById(R.id.notice_2);
-		noticeTitleText[2] = (TextView) view.findViewById(R.id.notice_3);
+		header = inflater.inflate(R.layout.header_newsfeed, null);
+		footer = inflater.inflate(R.layout.footer_newsfeed, null);
+		newsfeedListView.addHeaderView(header, null, false);
+		newsfeedListView.addFooterView(footer, null, false);
+
+		noticeTitleText[0] = (TextView) header.findViewById(R.id.notice_1);
+		noticeTitleText[1] = (TextView) header.findViewById(R.id.notice_2);
+		noticeTitleText[2] = (TextView) header.findViewById(R.id.notice_3);
 
 		for (int i = 0; i < 3; i++) {
 			noticeTitleText[i].setOnClickListener(this);
 		}
-
-		newsfeedListView = (ListView) view.findViewById(R.id.listview_newsfeed);
-		newsfeedAdapter = new NewsFeedListAdapter(this.getActivity());
 
 		return view;
 	}
@@ -82,9 +83,17 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 	// 공지사항 출력 (3개)
 	public void setNoticeTitle() {
 		for (int i = 0; i < noticeCount; i++) {
-			noticeTitleText[i].setText(noticeTitle[i]);
+			noticeTitleText[i].setText(getSubString(noticeTitle[i]));
 			noticeTitleText[i].setVisibility(View.VISIBLE);
 		}
+	}
+	
+	public String getSubString(String notice){
+		if(notice.length() > 20){
+			return notice.substring(0, 20) + "...";
+		} else{	
+			return notice;
+		}				
 	}
 
 	// 뉴스피드 1개씩 입력
