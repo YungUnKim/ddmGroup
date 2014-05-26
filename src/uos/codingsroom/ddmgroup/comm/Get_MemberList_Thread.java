@@ -2,16 +2,15 @@ package uos.codingsroom.ddmgroup.comm;
 
 import org.xmlpull.v1.XmlPullParser;
 
-import uos.codingsroom.ddmgroup.NoticeActivity;
-import uos.codingsroom.ddmgroup.item.NoticeItem;
-import uos.codingsroom.ddmgroup.util.TimeFormat;
+import uos.codingsroom.ddmgroup.ManageMemberActivity;
+import uos.codingsroom.ddmgroup.item.MemberItem;
 import android.content.Context;
 
-public class Get_NoticeList_Thread extends Manage_Communication_Thread {
-	private NoticeItem mItem;
+public class Get_MemberList_Thread extends Manage_Communication_Thread {
+	private MemberItem mItem;
 
 	// 생성자
-	public Get_NoticeList_Thread(Context context, int menu) {
+	public Get_MemberList_Thread(Context context, int menu) {
 		super(context, menu);
 	}
 
@@ -24,36 +23,32 @@ public class Get_NoticeList_Thread extends Manage_Communication_Thread {
 				if (eventType == XmlPullParser.START_TAG) {
 					tagname = xpp.getName(); // 태그를 받아온다.
 				} else if (eventType == XmlPullParser.TEXT) {
-					if (tagname.equals("total") || tagname.equals("NOTICE_NUM") || tagname.equals("NOTICE_TITLE") || tagname.equals("NOTICE_ARTICLE")
-							|| tagname.equals("NOTICE_IMG") || tagname.equals("NOTICE_REPLY") || tagname.equals("NOTICE_DATE")) {
+					if (tagname.equals("TOTALl") || tagname.equals("MEM") || tagname.equals("MEM_NUM") || tagname.equals("MEM_NAME")
+							|| tagname.equals("MEM_DATE")) {
 						ret = xpp.getText(); // id 태그에 해당되는 TEXT를 임시로 저장
 					}
 				} else if (eventType == XmlPullParser.END_TAG) {
 					// 태그가 닫히는 부분에서 임시 저장된 TEXT를 Array에 저장한다.
 					tagname = xpp.getName();
-					if(tagname.equals("total")){
-						if(ret.equals("fail")){
-							msg.what = -1300;
+					if (tagname.equals("TOTAL")) {
+						if (ret.equals("fail")) {
+							msg.what = -1100;
 							mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다
 							return;
 						}
-					} else if (tagname.equals("NOTICE_NUM")) {
-						mItem = new NoticeItem();
+					} else if (tagname.equals("MEM_NUM")) {
+						mItem = new MemberItem();
 						mItem.setNum(Integer.parseInt(ret));
-					} else if (tagname.equals("NOTICE_TITLE")) {
-						mItem.setTitle(ret);
-					} else if (tagname.equals("NOTICE_ARTICLE")) {
-					} else if (tagname.equals("NOTICE_IMG")) {
-					} else if(tagname.equals("NOTICE_REPLY")){
-						mItem.setReplyCount(Integer.parseInt(ret));
-					} else if (tagname.equals("NOTICE_DATE")) {
-						mItem.setDate(new TimeFormat().timeDelay(ret));
-						((NoticeActivity) mcontext).setNoticeListItem(mItem);
+					} else if (tagname.equals("MEM_NAME")) {
+						mItem.setName(ret);
+					} else if (tagname.equals("MEM_DATE")) {
+						mItem.setDate(ret);
+						((ManageMemberActivity) mcontext).setListItem(mItem);
 					}
 				}
 				eventType = xpp.next();
 			} // end while
-			msg.what = 1300;
+			msg.what = 1100;
 			mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다
 		} catch (Exception e) {
 			e.getMessage();

@@ -43,7 +43,7 @@ public class NoticeActivity extends Activity implements OnClickListener {
 
 		// new UrlImageDownloadTask(testImage).execute("http://joongangdaily.joins.com/_data/photo/2010/01/25080514.jpg");
 
-		Get_NoticeList_Thread mThread = new Get_NoticeList_Thread(this, 11);
+		Get_NoticeList_Thread mThread = new Get_NoticeList_Thread(this, 130);
 		mThread.start();
 
 		setListView();
