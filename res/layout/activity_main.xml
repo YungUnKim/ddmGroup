@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="85dp"
             android:adjustViewBounds="true"
-            android:background="@drawable/header"
+            android:background="@drawable/header2"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -52,9 +52,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_margin="8dp"
-                    android:background="@drawable/rounded_white_box"
+                    android:background="@drawable/rounded_edit_box"
                     android:drawableRight="@drawable/icon_search"
-                    android:paddingLeft="8dp"
+                    android:paddingLeft="10dp"
                     android:paddingRight="8dp"
                     android:textSize="18sp" />
             </LinearLayout>

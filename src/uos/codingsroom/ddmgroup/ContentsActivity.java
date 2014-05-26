@@ -54,7 +54,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 	private TextView contentsName;
 	private TextView contentsDate;
 	private TextView contentsArticle;
-	private NetworkImageView contentsProfile;
+	private TextView contentsNoComment;
 
 	private ImageView contentsImage;
 
@@ -127,7 +127,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		contentsName = (TextView) findViewById(R.id.contents_name);
 		contentsDate = (TextView) findViewById(R.id.contents_date);
 		contentsArticle = (TextView) findViewById(R.id.contents_article);
-		contentsProfile = (NetworkImageView) findViewById(R.id.contents_profile);
+		contentsNoComment = (TextView) findViewById(R.id.contents_no_comment);
 
 		contentsImage = (ImageView) findViewById(R.id.contents_image);
 		contentsLogo = (ImageView) findViewById(R.id.contents_logo_img);
@@ -203,6 +203,10 @@ public class ContentsActivity extends Activity implements OnClickListener {
 				}
 			}
 		});
+		
+		if(commentsListAdapter.getCount() == 0 ){
+			contentsNoComment.setVisibility(View.VISIBLE);
+		}
 	}
 
 	// 추가한 댓글의 번호를 얻어오는 함수
@@ -213,7 +217,8 @@ public class ContentsActivity extends Activity implements OnClickListener {
 	// 댓글 한 개를 뷰에 추가하는 함수
 	public void addComment() {
 		final MyInfoItem myInfo = MainActivity.getMyInfoItem();
-		CommentItem addItem = new CommentItem(ADD_REPLY_NUM, myInfo.getMyMemNum(), commentEdit.getEditableText().toString(), "방금 막", myInfo.getMyName(),
+		CommentItem addItem = new CommentItem(ADD_REPLY_NUM, myInfo.getMyMemNum(), commentEdit.getEditableText().toString(), "방금 막",
+				myInfo.getMyName(),
 				myInfo.getMyProfileUrl()); // 임시
 
 		commentsListAdapter.addItem(addItem);
@@ -268,7 +273,8 @@ public class ContentsActivity extends Activity implements OnClickListener {
 					// 댓글 내용, 위치 넘겨야 함
 				} else if (which == 1) {
 					// Log.i("MyTag", "댓글 삭제하기");
-					Delete_Reply_Thread drThread = new Delete_Reply_Thread(ContentsActivity.this, 30, comItem.get(SELECT_REPLY_NUM).getIndexNum(),
+					Delete_Reply_Thread drThread = new Delete_Reply_Thread(ContentsActivity.this, 30, comItem.get(SELECT_REPLY_NUM)
+							.getIndexNum(),
 							kind);
 					drThread.start();
 				}
@@ -311,7 +317,8 @@ public class ContentsActivity extends Activity implements OnClickListener {
 					Toast.makeText(getApplicationContext(), "내용을 입력해주세요!", Toast.LENGTH_SHORT).show();
 				} else {
 					MODIFY_ARTICLE = comment;
-					Modify_Reply_Thread mThread = new Modify_Reply_Thread(ContentsActivity.this, 29, comItem.get(SELECT_REPLY_NUM).getIndexNum(),
+					Modify_Reply_Thread mThread = new Modify_Reply_Thread(ContentsActivity.this, 29, comItem.get(SELECT_REPLY_NUM)
+							.getIndexNum(),
 							MODIFY_ARTICLE, kind);
 					mThread.start(); // 댓글 수정하는 스레드
 				}
@@ -392,12 +399,17 @@ public class ContentsActivity extends Activity implements OnClickListener {
 
 		case R.id.button_comment_register: // 댓글 추가
 			final String commentText = commentEdit.getEditableText().toString();
+			
+			if(commentsListAdapter.getCount() == 0 ){
+				contentsNoComment.setVisibility(View.GONE);
+			}
 
 			if (commentText.equals("")) { // 아무 댓글 내용없이 등록하려고 할 경우
 				Toast.makeText(this, "댓글 내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
 			} else {
 				if (kind) { // 공지사항
-					Insert_Reply_Thread iThread = new Insert_Reply_Thread(this, 27, noticeItem.getNum(), MainActivity.getMyInfoItem().getMyMemNum(),
+					Insert_Reply_Thread iThread = new Insert_Reply_Thread(this, 27, noticeItem.getNum(), MainActivity.getMyInfoItem()
+							.getMyMemNum(),
 							commentText, kind);
 					iThread.start(); // 댓글 삽입하는 스레드
 				} else {
@@ -466,12 +478,10 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		contentsName.setText(conItem.getName());
 		contentsDate.setText(conItem.getDate());
 		contentsArticle.setText(conItem.getArticle());
-		setProfileURL(conItem.getThumbnail());
 
 		if (conItem.getImgUrl().length() > 10) {
 			new UrlImageDownloadTask(contentsImage).execute(SystemValue.imageConn + "" + conItem.getImgUrl());
-		} else {
-			contentsImage.setVisibility(View.GONE);
+			contentsImage.setVisibility(View.VISIBLE);
 		}
 
 		Get_Reply_Thread rThread = new Get_Reply_Thread(this, 28, currentContentNum, false);
@@ -501,14 +511,5 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		rThread.start(); // 댓글 받아오는 스레드
 
 		// contentsImage;
-	}
-
-	public void setProfileURL(final String profileImageURL) {
-		if (contentsProfile != null && profileImageURL != null) {
-			Application app = GlobalApplication.getGlobalApplicationContext();
-			if (app == null)
-				throw new UnsupportedOperationException("needs com.kakao.GlobalApplication in order to use ImageLoader");
-			contentsProfile.setImageUrl(profileImageURL, ((GlobalApplication) app).getImageLoader());
-		}
 	}
 }
