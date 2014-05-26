@@ -1,7 +1,10 @@
 package uos.codingsroom.ddmgroup.comm;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import uos.codingsroom.ddmgroup.ContentsActivity;
-import uos.codingsroom.ddmgroup.MainActivity;
+import uos.codingsroom.ddmgroup.ManageMemberActivity;
 import uos.codingsroom.ddmgroup.NoticeRegisterActivity;
 import android.content.Context;
 import android.os.Handler;
@@ -25,15 +28,27 @@ public class Manage_EventHandler extends Handler {
 		try {
 			if (msg.what == 0) {
 
-			} else if (msg.what == -1000) {
+			} else if (msg.what == -1000) {	// 전체 정보 받아오기 실패
 				Log.i("MyTag", "Handler -1000 >> ");
-			} else if (msg.what == 1000) {
+			} else if (msg.what == 1000) {	// 전체 정보 받아오기 성공
 				Log.i("MyTag", "Handler 1000 >> ");
-			} else if (msg.what == 1400) {
-				Log.i("MyTag", "글 올리기 핸들러 성공");
-				((NoticeRegisterActivity) mcontext).clearContent();
-			} else if (msg.what == -1400) {
+				/*
+				new Timer().schedule(new TimerTask() {
+					    public void run() {
+					        // UI 및 로직
+					    }
+					}, 1000); // 1초후 실행
+				*/
+			} else if (msg.what == -1100) {	// 회원 리스트 받아오기 실패
+				Log.i("MyTag", "Handler -1100 >> ");
+				((ManageMemberActivity) mcontext).viewMessage("글 얻어오는데 실패하였습니다.", 0);
+			} else if (msg.what == 1100) {	// 회원 리스트 받아오기 성공
+				Log.i("MyTag", "Handler 1100 >> ");
+			} else if (msg.what == -1400) {	// 공지사항 올리기 실패
 				Log.i("MyTag", "글 올리기 핸들러 실패");
+			} else if (msg.what == 1400) {	// 공지사항 올리기 성공
+				((NoticeRegisterActivity) mcontext).clearContent();
+				Log.i("MyTag", "글 올리기 핸들러 성공");
 			} else if (msg.what == 24) {
 				// Log.i("MyTag", "글 얻어오기 핸들러 성공");
 				((ContentsActivity) mcontext).setContentView();

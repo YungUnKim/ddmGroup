@@ -85,6 +85,14 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name="uos.codingsroom.ddmgroup.ManageMemberActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+         <activity
+            android:name="uos.codingsroom.ddmgroup.ManageBoardActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="uos.codingsroom.ddmgroup.NoticeRegisterActivity"
             android:screenOrientation="portrait" >
         </activity>

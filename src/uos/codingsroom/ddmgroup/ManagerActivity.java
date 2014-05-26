@@ -72,18 +72,20 @@ public class ManagerActivity extends Activity implements OnClickListener {
 			finish();
 			break;
 		case R.id.button_member_manage: // 회원 관리
-			Log.i("MyTag","member");
+			Intent intent1 = new Intent(this, ManageMemberActivity.class);		
+			startActivity(intent1);
 			break;
 		case R.id.button_board_manage: // 게시판 관리
-			Log.i("MyTag","board");
+			Intent intent2 = new Intent(this, ManageBoardActivity.class);		
+			startActivity(intent2);
 			break;
 		case R.id.button_notice_manage: // 공지사항 보기
-			Intent intent = new Intent(this, NoticeActivity.class);		
-			startActivity(intent);
+			Intent intent3 = new Intent(this, NoticeActivity.class);		
+			startActivity(intent3);
 			break;
 		case R.id.button_notice_register_manage: // 공지사항 작성
-			Intent intent2 = new Intent(this, NoticeRegisterActivity.class);
-			startActivity(intent2);
+			Intent intent4 = new Intent(this, NoticeRegisterActivity.class);
+			startActivity(intent4);
 			break;
 
 		default:
