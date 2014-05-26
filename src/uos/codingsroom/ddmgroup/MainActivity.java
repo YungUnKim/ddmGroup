@@ -14,9 +14,9 @@ import uos.codingsroom.ddmgroup.item.GroupItem;
 import uos.codingsroom.ddmgroup.item.MyInfoItem;
 import uos.codingsroom.ddmgroup.item.NewsFeedItem;
 import uos.codingsroom.ddmgroup.listview.GroupListAdapter;
+import uos.codingsroom.ddmgroup.util.LoadingProgressDialog;
 import uos.codingsroom.ddmgroup.util.SystemValue;
 import android.annotation.SuppressLint;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,7 +24,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -93,6 +92,8 @@ public class MainActivity extends FragmentActivity {
 	private static final int FRAGMENT_COUNT = REGISTER + 1;
 
 	private static Fragment[] fragments = new Fragment[FRAGMENT_COUNT];
+	
+	public static LoadingProgressDialog progressDialog;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -105,6 +106,8 @@ public class MainActivity extends FragmentActivity {
 
 		myPreference = new MakePreferences(this);
 		favoriteStringSet = myPreference.getMyPreference().getStringSet("favoriteName", new HashSet<String>());
+		
+		progressDialog = new LoadingProgressDialog(this);
 
 		showFragment(NEWSFEED, false);
 
@@ -215,6 +218,7 @@ public class MainActivity extends FragmentActivity {
 					// setBigListView();
 				} else {
 					GroupItem curItem = (GroupItem) groupAdapter.getItem(position);
+					progressDialog.startProgressDialog();
 					((ContentsFragment) fragments[BOARD]).setCurrentGroupNum(curItem.getIndexNum());
 					((ContentsFragment) fragments[BOARD]).setTitleLabel(curItem.getTitle());
 					((ContentsFragment) fragments[BOARD]).setPageNum(0);

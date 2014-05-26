@@ -6,42 +6,27 @@ import android.os.Handler;
 import android.os.Message;
 
 public class LoadingProgressDialog {
-	
-	Context mContext;
-	ProgressDialog progressDialog;
-	MyHandler myHandler;
 
-	public LoadingProgressDialog(Context context){
-		myHandler = new MyHandler();
-		mContext = context;
-	}
-	
-	public void createProgressDialog(){
-		progressDialog = new ProgressDialog(mContext);
+	ProgressDialog progressDialog;
+
+	public LoadingProgressDialog(Context context) {
+		progressDialog = new ProgressDialog(context);
 		progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		progressDialog.setMessage("로딩중입니다.");
 		progressDialog.setCancelable(false);
 	}
-	
-	public void startProgressDialog(){
+
+	public void startProgressDialog() {
 		progressDialog.show();
 	}
-	
-	public void dismissProgressDialog(){
+
+	public void dismissProgressDialog() {
 		new Handler().postDelayed(new Runnable() {
 			@Override
 			public void run() {
 				progressDialog.dismiss();
 			}
 		}, 500);
-		
-	}
-	
-	class MyHandler extends Handler{
-		public void handleMessage(Message msg) {
-			
-		}
-	}
-	
-}
 
+	}
+}

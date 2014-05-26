@@ -100,6 +100,7 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 		boardListAdapter.clearItem();
 		Get_ContentList_Thread mThread = new Get_ContentList_Thread(this.getActivity(), 13, currentGroup, getPageNum());
 		mThread.start();
+		((MainActivity)getActivity()).progressDialog.startProgressDialog();
 	}
 
 	public void setTitleLabel(String title) {
@@ -158,6 +159,8 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 			boardListViewLayout.setVisibility(View.VISIBLE);
 			boardNextButton.setVisibility(View.VISIBLE);
 		}
+		
+		((MainActivity)getActivity()).progressDialog.dismissProgressDialog();
 
 		// boardListView.setOnScrollListener(new OnScrollListener() {
 		// @Override
