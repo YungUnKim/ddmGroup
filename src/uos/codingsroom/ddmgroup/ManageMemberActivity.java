@@ -5,6 +5,7 @@ import uos.codingsroom.ddmgroup.comm.Get_MemberList_Thread;
 import uos.codingsroom.ddmgroup.item.MemberItem;
 import uos.codingsroom.ddmgroup.listview.MemberListAdapter;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -84,13 +85,11 @@ public class ManageMemberActivity extends Activity implements OnClickListener {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 				SELECT_MEM_NUM = arg2; // 댓글의 인덱스
 				Log.i("MyTag","선택 >> " + SELECT_MEM_NUM);
-				/*
-				Intent intent = new Intent(ManageMemberActivity.this, ContentsActivity.class);
-				intent.putExtra("content_num", memberItem.get(SELECT_MEM_NUM).getNum());
-				intent.putExtra("group_name", "공지사항");
-				intent.putExtra("mode", true);
+				
+				Intent intent = new Intent(ManageMemberActivity.this, ManageMemberInfoActivity.class);
+				intent.putExtra("myNum", memberItem.get(SELECT_MEM_NUM).getNum());
 				startActivity(intent);
-				*/
+				
 			}
 		});
 	}
