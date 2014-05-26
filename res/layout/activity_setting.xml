@@ -11,7 +11,7 @@
 
         <ImageView
             android:id="@+id/button_setting_back"
-            android:layout_width="wrap_content"
+            android:layout_width="55dp"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:src="@drawable/icon_back" />
@@ -19,7 +19,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/button_setting_back"
             android:gravity="center"
             android:text="내 정보"

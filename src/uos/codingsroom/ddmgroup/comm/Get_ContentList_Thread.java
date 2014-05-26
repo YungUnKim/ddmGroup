@@ -17,11 +17,10 @@ public class Get_ContentList_Thread extends Communication_Thread {
 	private static Integer pre_page = 0;
 
 	// 생성자
-	public Get_ContentList_Thread(Context context, int menu, int group_num) {
+	public Get_ContentList_Thread(Context context, int menu, int groupNum, int pageNum) {
 		super(context, menu);
-		url += "&list_num=5" 
-				+ "&key_word=&board=" + group_num 
-				+ "&page_num=" + ((MainActivity) mcontext).getPageNum();
+		url += "&key_word=&board=" + groupNum 
+				+ "&page_num=" + pageNum;
 		Log.i("MyTag", url);
 	}
 
@@ -84,15 +83,8 @@ public class Get_ContentList_Thread extends Communication_Thread {
 				mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다
 			}
 			else{
-				pre_page = ((MainActivity) mcontext).getPageNum();
-				if(pre_page==0){//처음 페이지인데 게시글이 없을 경우
-					
-				}
-				else{//마지막 페이지를 넘어갓을 경우->페이지번호--로 세팅한다
-					pre_page--;
-					((MainActivity) mcontext).setPageNum(pre_page);
-				}
-			
+				msg.what = 13;
+				mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다			
 			}
 		} catch (Exception e) {
 			e.getMessage();

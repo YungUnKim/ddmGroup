@@ -12,6 +12,7 @@
 	<color name="ddm_gray">#d9d9d9</color>
 	<color name="ddm_line_gray">#d0d0d0</color>
 	<color name="ddm_line_gray2">#e0e0e0</color>
+	<color name="ddm_line_gray3">#f0f0f0</color>
 	<color name="ddm_text_gray">#b4b4b4</color>
 	
 	<color name="ddm_yellow">#ffc547</color>

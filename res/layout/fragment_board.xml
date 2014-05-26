@@ -37,40 +37,53 @@
         android:layout_height="match_parent" >
 
         <RelativeLayout
+            android:id="@+id/listview_board_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="42dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:background="@color/apple_blue"
-            android:padding="1.5dp" >
+            android:padding="1dp" >
 
             <ListView
                 android:id="@+id/listview_board"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:divider="@color/ddm_line_gray2"
-                android:dividerHeight="1dip"
+                android:dividerHeight="0.7dip"
                 android:fadingEdge="none"
                 android:scrollbars="none" >
             </ListView>
         </RelativeLayout>
 
+        <TextView
+            android:id="@+id/board_no_list_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="작성된 글이 없습니다."
+            android:textColor="@color/content_gray"
+            android:textSize="18sp"
+            android:visibility="gone" />
+
         <LinearLayout
             android:id="@+id/layout_board_menu"
             android:layout_width="match_parent"
-            android:layout_height="46dp"
+            android:layout_height="43dp"
             android:layout_alignParentBottom="true"
             android:orientation="vertical" >
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="0.5dip"
-                android:background="@color/ddm_line_gray" />
+                android:layout_height="0.3dip"
+                android:background="@color/ddm_line_gray2" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="#f8f8f8"
                 android:orientation="horizontal"
                 android:weightSum="6" >
 
@@ -92,7 +105,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="7dp"
                     android:layout_marginTop="7dp"
-                    android:background="@color/ddm_line_gray" />
+                    android:background="@color/ddm_line_gray2" />
 
                 <TextView
                     android:id="@+id/button_board_register"
@@ -112,7 +125,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="7dp"
                     android:layout_marginTop="7dp"
-                    android:background="@color/ddm_line_gray" />
+                    android:background="@color/ddm_line_gray2" />
 
                 <ImageView
                     android:id="@+id/button_board_prev"
@@ -121,7 +134,8 @@
                     android:layout_weight="0.9"
                     android:background="@drawable/normal_textview_button"
                     android:padding="6dp"
-                    android:src="@drawable/icon_prev" />
+                    android:src="@drawable/icon_prev"
+                    android:visibility="invisible" />
 
                 <View
                     android:layout_width="0dip"

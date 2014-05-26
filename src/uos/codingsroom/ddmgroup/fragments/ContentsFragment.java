@@ -27,6 +27,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,8 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 	private static String currentGroupName;
 
 	private ListView boardListView;
+	private RelativeLayout boardListViewLayout;
+	private TextView noboardMessage;
 	private ContentListAdapter boardListAdapter;
 	private ImageView favoriteStar;
 	private TextView boardLabelTitle;
@@ -69,7 +72,10 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 		final View view = inflater.inflate(R.layout.fragment_board, container, false);
 
 		boardListView = (ListView) view.findViewById(R.id.listview_board);
+		boardListViewLayout = (RelativeLayout) view.findViewById(R.id.listview_board_layout);
 		boardListAdapter = new ContentListAdapter(this.getActivity());
+
+		noboardMessage = (TextView) view.findViewById(R.id.board_no_list_text);
 
 		boardLabelTitle = (TextView) view.findViewById(R.id.board_label_title);
 		boardMenuLayout = (LinearLayout) view.findViewById(R.id.layout_board_menu);
@@ -92,7 +98,7 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 
 	public void contentFragmentStart() {
 		boardListAdapter.clearItem();
-		Get_ContentList_Thread mThread = new Get_ContentList_Thread(this.getActivity(), 13, currentGroup);
+		Get_ContentList_Thread mThread = new Get_ContentList_Thread(this.getActivity(), 13, currentGroup, getPageNum());
 		mThread.start();
 	}
 
@@ -113,6 +119,7 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 	public int getPageNum() {
 		return page;
 	}
+
 	public void setPageNum(int num) {
 		page = num;
 	}
@@ -138,40 +145,49 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 			}
 		}
 		/*
-		 * boardListAdapter.clearItem(); boardListAdapter.addItem(new ContentItem(0, 10, 10, "제목 입니다.", "재영박",
-		 * "08/03/1988"));
+		 * boardListAdapter.clearItem(); boardListAdapter.addItem(new ContentItem(0, 10, 10, "제목 입니다.", "재영박", "08/03/1988"));
 		 */
 		boardListView.setAdapter(boardListAdapter);
 
-		boardListView.setOnScrollListener(new OnScrollListener() {
-			@Override
-			public void onScrollStateChanged(AbsListView view, int scrollState) {
-				final ListView lw = (ListView) view;
+		if (boardListAdapter.getCount() == 0) {
+			noboardMessage.setVisibility(View.VISIBLE);
+			boardListViewLayout.setVisibility(View.GONE);
+			boardNextButton.setVisibility(View.INVISIBLE);
+		} else {
+			noboardMessage.setVisibility(View.GONE);
+			boardListViewLayout.setVisibility(View.VISIBLE);
+			boardNextButton.setVisibility(View.VISIBLE);
+		}
 
-				if (view.getId() == lw.getId()) {
-					final int currentFirstVisibleItem = lw.getFirstVisiblePosition();
-
-					if (currentFirstVisibleItem > mLastFirstVisibleItem) {
-						mIsScrollingUp = false;
-					} else if (currentFirstVisibleItem < mLastFirstVisibleItem) {
-						mIsScrollingUp = true;
-					}
-
-					mLastFirstVisibleItem = currentFirstVisibleItem;
-				}
-			}
-
-			@Override
-			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-				if (firstVisibleItem == 0) {
-					boardMenuLayout.setVisibility(View.VISIBLE);
-				} else if (mIsScrollingUp) {
-					boardMenuLayout.setVisibility(View.VISIBLE);
-				} else {
-					boardMenuLayout.setVisibility(View.GONE);
-				}
-			}
-		});
+		// boardListView.setOnScrollListener(new OnScrollListener() {
+		// @Override
+		// public void onScrollStateChanged(AbsListView view, int scrollState) {
+		// final ListView lw = (ListView) view;
+		//
+		// if (view.getId() == lw.getId()) {
+		// final int currentFirstVisibleItem = lw.getFirstVisiblePosition();
+		//
+		// if (currentFirstVisibleItem > mLastFirstVisibleItem) {
+		// mIsScrollingUp = false;
+		// } else if (currentFirstVisibleItem < mLastFirstVisibleItem) {
+		// mIsScrollingUp = true;
+		// }
+		//
+		// mLastFirstVisibleItem = currentFirstVisibleItem;
+		// }
+		// }
+		//
+		// @Override
+		// public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+		// if (firstVisibleItem == 0) {
+		// boardMenuLayout.setVisibility(View.VISIBLE);
+		// } else if (mIsScrollingUp) {
+		// boardMenuLayout.setVisibility(View.VISIBLE);
+		// } else {
+		// boardMenuLayout.setVisibility(View.GONE);
+		// }
+		// }
+		// });
 
 		boardListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -191,6 +207,14 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 		startActivity(intent);
 	}
 
+	public void showPrevButton() {
+		if (getPageNum() == 0) {
+			boardPrevButton.setVisibility(View.INVISIBLE);
+		} else {
+			boardPrevButton.setVisibility(View.VISIBLE);
+		}
+	}
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -202,15 +226,17 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 			break;
 		case R.id.button_board_prev:
 			// 이전
-			if(page!=0){
+			if (page != 0) {
 				page--;
 				contentFragmentStart();
+				showPrevButton();
 			}
 			break;
-		case R.id.button_board_next:			
+		case R.id.button_board_next:
 			// 이후
 			page++;
 			contentFragmentStart();
+			showPrevButton();
 			break;
 		case R.id.board_star_favorite:
 			if (!favoriteThisGroup) {

@@ -11,7 +11,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:divider="@color/ddm_line_gray2"
-        android:dividerHeight="1dip"
+        android:dividerHeight="0.7dip"
         android:fadingEdge="none"
         android:scrollbars="none" >
     </ListView>
