@@ -12,7 +12,7 @@
         <ImageView
             android:id="@+id/button_notice_back"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:src="@drawable/icon_back" />
 
