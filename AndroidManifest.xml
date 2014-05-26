@@ -81,7 +81,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="uos.codingsroom.ddmgroup.ManagerActivity"
+            android:name="uos.codingsroom.ddmgroup.AdminActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity

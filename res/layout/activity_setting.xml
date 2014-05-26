@@ -148,9 +148,18 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="20dp"
                 android:background="@drawable/setting_box"
                 android:text="로그아웃" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:gravity="right"
+                android:paddingLeft="10dp"
+                android:textColor="@color/content_gray"
+                android:paddingRight="10dp"
+                android:text="made by UOS coding&apos;sRoom" />
         </LinearLayout>
     </ScrollView>
 

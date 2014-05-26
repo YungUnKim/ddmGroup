@@ -77,8 +77,8 @@ public class SettingActivity extends Activity implements OnClickListener {
 		contactButton.setOnClickListener(this);
 		kakaoLinkButton = (Button) findViewById(R.id.kakaolink);
 		kakaoLinkButton.setOnClickListener(this);
-		
-		if(isAdmin == true){
+
+		if (isAdmin == true) {
 			adminButton.setVisibility(View.VISIBLE);
 		}
 
@@ -123,7 +123,7 @@ public class SettingActivity extends Activity implements OnClickListener {
 			MainActivity.preActivity.finish();
 			break;
 		case R.id.button_admin:
-			final Intent intent = new Intent(SettingActivity.this, ManagerActivity.class);
+			final Intent intent = new Intent(SettingActivity.this, AdminActivity.class);
 			startActivity(intent);
 			break;
 		case R.id.button_contact:

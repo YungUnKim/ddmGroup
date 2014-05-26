@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ManagerActivity extends Activity implements OnClickListener {
+public class AdminActivity extends Activity implements OnClickListener {
 
 	private ImageView backButton;
 	private TextView member_count_Text;
@@ -28,7 +28,7 @@ public class ManagerActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_manager);
+		setContentView(R.layout.activity_admin);
 
 		initializeView();
 	}

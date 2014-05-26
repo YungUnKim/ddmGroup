@@ -2,7 +2,7 @@ package uos.codingsroom.ddmgroup.comm;
 
 import org.xmlpull.v1.XmlPullParser;
 
-import uos.codingsroom.ddmgroup.ManagerActivity;
+import uos.codingsroom.ddmgroup.AdminActivity;
 import android.content.Context;
 import android.util.Log;
 
@@ -33,12 +33,12 @@ public class Get_Manage_Thread extends Manage_Communication_Thread {
 							mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다
 							break;
 						} else {
-							((ManagerActivity) mcontext).setTextview("member",Integer.parseInt(ret));
+							((AdminActivity) mcontext).setTextview("member",Integer.parseInt(ret));
 						}
 					} else if (tagname.equals("BOARD_COUNT")) {
-						((ManagerActivity) mcontext).setTextview("board", Integer.parseInt(ret));
+						((AdminActivity) mcontext).setTextview("board", Integer.parseInt(ret));
 					} else if (tagname.equals("CONTENT_COUNT")) {
-						((ManagerActivity) mcontext).setTextview("contents", Integer.parseInt(ret));
+						((AdminActivity) mcontext).setTextview("contents", Integer.parseInt(ret));
 					}
 
 				}
