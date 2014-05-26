@@ -32,6 +32,7 @@ public class SettingActivity extends Activity implements OnClickListener {
 
 	private ImageView backButton;
 	private Button logoutButton;
+	private Button adminButton;
 	private Button resignButton;
 	private Button contactButton;
 	private Button kakaoLinkButton;
@@ -45,6 +46,7 @@ public class SettingActivity extends Activity implements OnClickListener {
 	private static String nickName;
 	private static String profileBigImageURL;
 	private static Long kakaoCode;
+	private static Boolean isAdmin;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,7 @@ public class SettingActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.activity_setting);
 
 		Bundle bundle = getIntent().getExtras();
+		isAdmin = bundle.getBoolean("isAdmin");
 		nickName = bundle.getString("myName");
 		profileBigImageURL = bundle.getString("myProfileUrl");
 		kakaoCode = bundle.getLong("myCode");
@@ -66,12 +69,18 @@ public class SettingActivity extends Activity implements OnClickListener {
 
 		logoutButton = (Button) findViewById(R.id.button_logout);
 		logoutButton.setOnClickListener(this);
+		adminButton = (Button) findViewById(R.id.button_admin);
+		adminButton.setOnClickListener(this);
 		resignButton = (Button) findViewById(R.id.button_resign);
 		resignButton.setOnClickListener(this);
 		contactButton = (Button) findViewById(R.id.button_contact);
 		contactButton.setOnClickListener(this);
 		kakaoLinkButton = (Button) findViewById(R.id.kakaolink);
 		kakaoLinkButton.setOnClickListener(this);
+		
+		if(isAdmin == true){
+			adminButton.setVisibility(View.VISIBLE);
+		}
 
 		setProfileURL(profileBigImageURL);
 		myNameText.setText(nickName);
@@ -112,6 +121,10 @@ public class SettingActivity extends Activity implements OnClickListener {
 		case R.id.button_logout:
 			onClickLogout();
 			MainActivity.preActivity.finish();
+			break;
+		case R.id.button_admin:
+			final Intent intent = new Intent(SettingActivity.this, ManagerActivity.class);
+			startActivity(intent);
 			break;
 		case R.id.button_contact:
 			sendMail();

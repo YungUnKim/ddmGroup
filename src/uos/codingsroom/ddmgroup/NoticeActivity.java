@@ -37,6 +37,9 @@ public class NoticeActivity extends Activity implements OnClickListener {
 
 		noticeListView = (ListView) findViewById(R.id.listview_notice);
 		noticeListAdapter = new NoticeListAdapter(this);
+		
+		View footer = getLayoutInflater().inflate(R.layout.footer_newsfeed, null);
+		noticeListView.addFooterView(footer, null, false);
 
 		backButton = (ImageView) findViewById(R.id.button_notice_back);
 		backButton.setOnClickListener(this);

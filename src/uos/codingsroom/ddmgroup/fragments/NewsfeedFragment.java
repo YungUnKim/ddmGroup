@@ -15,7 +15,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -87,13 +86,13 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 			noticeTitleText[i].setVisibility(View.VISIBLE);
 		}
 	}
-	
-	public String getSubString(String notice){
-		if(notice.length() > 20){
+
+	public String getSubString(String notice) {
+		if (notice.length() > 20) {
 			return notice.substring(0, 20) + "...";
-		} else{	
+		} else {
 			return notice;
-		}				
+		}
 	}
 
 	// 뉴스피드 1개씩 입력

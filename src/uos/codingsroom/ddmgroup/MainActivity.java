@@ -389,33 +389,14 @@ public class MainActivity extends FragmentActivity {
 				@Override
 				public void onClick(View v) {
 					
-					if(position == menus-1){		// 관리자 메뉴 클릭 시
-						Log.i("MyTag","관리자 메뉴 클릭!!");
-						final Intent intent = new Intent(MainActivity.this, ManagerActivity.class);
-						startActivity(intent);
-					}
-					else{
-						menuButtons[position].setClickable(false);
-						currentCategory = position;
-						Get_Groups_Thread mThread = new Get_Groups_Thread(MainActivity.this, 20, position);
-						mThread.start();
-					}
+					menuButtons[position].setClickable(false);
+					currentCategory = position;
+					Get_Groups_Thread mThread = new Get_Groups_Thread(MainActivity.this, 20, position);
+					mThread.start();
 				}
 			});
 		}
-		
-		menuButtons[menus-1].setVisibility(View.GONE);
-		for (int i = 0; i < board.size(); i++){
-			if(board.get(i) == 0){	// 관리자일 경우
-				if(level.get(i) == SystemValue.ADMIN){
-					menuButtons[menus-1].setVisibility(View.VISIBLE);	// 관리자메뉴 보이기
-				}
-			}
-		}
-
 	}
-	
-
 
 	public void openFavorite() {
 		groupAdapter.clearItem();
@@ -453,6 +434,15 @@ public class MainActivity extends FragmentActivity {
 
 	private void moveToSettingActivity() {
 		final Intent intent = new Intent(this, SettingActivity.class);
+		for (int i = 0; i < board.size(); i++){
+			if(board.get(i) == 0){	// 관리자일 경우
+				if(level.get(i) == SystemValue.ADMIN){
+					intent.putExtra("isAdmin", true);
+				} else{
+					intent.putExtra("isAdmin", false);
+				}
+			}
+		}
 		intent.putExtra("myName", nickName);
 		intent.putExtra("myProfileUrl", profileBigImageURL);
 		intent.putExtra("myCode", kakaoCode);

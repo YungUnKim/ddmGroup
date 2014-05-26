@@ -65,7 +65,7 @@
 
                     <TextView
                         style="@style/menu_item"
-                        android:text="마을 공동체" />
+                        android:text="마을" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -121,6 +121,7 @@
 
                 <RelativeLayout
                     android:id="@+id/menu_7"
+                    android:visibility="gone"
                     style="@style/menu_item_layout" >
 
                     <TextView

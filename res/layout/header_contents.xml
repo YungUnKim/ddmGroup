@@ -115,6 +115,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:text="댓글이 없습니다."
             android:textColor="@color/content_gray"
             android:textSize="15sp"
