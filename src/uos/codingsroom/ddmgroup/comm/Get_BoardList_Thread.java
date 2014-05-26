@@ -23,7 +23,7 @@ public class Get_BoardList_Thread extends Manage_Communication_Thread {
 				if (eventType == XmlPullParser.START_TAG) {
 					tagname = xpp.getName(); // 태그를 받아온다.
 				} else if (eventType == XmlPullParser.TEXT) {
-					if (tagname.equals("TOTALl") || tagname.equals("BOARD") || tagname.equals("BOARD_NUM") || tagname.equals("BOARD_TITLE")
+					if (tagname.equals("TOTAL") || tagname.equals("BOARD") || tagname.equals("BOARD_NUM") || tagname.equals("BOARD_TITLE")
 							|| tagname.equals("BOARD_CAT")) {
 						ret = xpp.getText(); // id 태그에 해당되는 TEXT를 임시로 저장
 					}
