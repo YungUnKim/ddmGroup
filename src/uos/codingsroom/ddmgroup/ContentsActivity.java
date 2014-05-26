@@ -72,6 +72,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 	private TextView commentRegister;
 
 	private AlertDialog replyDialog = null;
+	private AlertDialog adminDialog = null;
 	private EditText dialogEditText;
 	private InputMethodManager imm;
 
@@ -125,6 +126,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		contentsGroupName = (TextView) findViewById(R.id.contents_group_name);
 		contentsTitle = (TextView) findViewById(R.id.contents_title);
 		contentsName = (TextView) findViewById(R.id.contents_name);
+		contentsName.setOnClickListener(this);
 		contentsDate = (TextView) findViewById(R.id.contents_date);
 		contentsArticle = (TextView) findViewById(R.id.contents_article);
 		contentsNoComment = (TextView) findViewById(R.id.contents_no_comment);
@@ -203,8 +205,8 @@ public class ContentsActivity extends Activity implements OnClickListener {
 				}
 			}
 		});
-		
-		if(commentsListAdapter.getCount() == 0 ){
+
+		if (commentsListAdapter.getCount() == 0) {
 			contentsNoComment.setVisibility(View.VISIBLE);
 		}
 	}
@@ -256,6 +258,29 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		commentsListAdapter.notifyDataSetChanged();
 		commentsListView.clearChoices();
 		commentsListView.setSelection(commentsListAdapter.getCount() - 1); // 가장 맨 아래에 스크롤이 내려오게 함
+	}
+
+	private AlertDialog createAdminDialog() {
+		AlertDialog.Builder ab = new AlertDialog.Builder(this);
+		String[] kinds = { "현재 글 삭제하기", "작성자 블랙리스트에 추가" };
+		ab.setTitle("관리자 메뉴");
+
+		ab.setItems(kinds, new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+
+			}
+		});
+
+		ab.setNeutralButton("취소", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				setDismiss(adminDialog);
+			}
+		});
+
+		return ab.create();
 	}
 
 	// 댓글 수정, 삭제 물어보는 다이얼로그 생성함수
@@ -351,6 +376,10 @@ public class ContentsActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		final MyInfoItem myInfo = MainActivity.getMyInfoItem();
 		switch (v.getId()) {
+		case R.id.contents_name:
+			adminDialog = createAdminDialog();
+			adminDialog.show();
+			break;
 		case R.id.contents_logo_img:
 			menuLayout.setVisibility(View.VISIBLE);
 			menuHelperLayout.setVisibility(View.VISIBLE);
@@ -399,8 +428,8 @@ public class ContentsActivity extends Activity implements OnClickListener {
 
 		case R.id.button_comment_register: // 댓글 추가
 			final String commentText = commentEdit.getEditableText().toString();
-			
-			if(commentsListAdapter.getCount() == 0 ){
+
+			if (commentsListAdapter.getCount() == 0) {
 				contentsNoComment.setVisibility(View.GONE);
 			}
 
