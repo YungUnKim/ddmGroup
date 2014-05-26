@@ -377,8 +377,16 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		final MyInfoItem myInfo = MainActivity.getMyInfoItem();
 		switch (v.getId()) {
 		case R.id.contents_name:
-			adminDialog = createAdminDialog();
-			adminDialog.show();
+			boolean isAdmin = false;
+			for(int i=0;i<myInfo.getMylevel().size();i++){
+				if(myInfo.getMylevel().get(i) == 999){
+					isAdmin = true;
+				}
+			}
+			if(isAdmin){
+				adminDialog = createAdminDialog();
+				adminDialog.show();
+			}
 			break;
 		case R.id.contents_logo_img:
 			menuLayout.setVisibility(View.VISIBLE);
