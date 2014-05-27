@@ -15,6 +15,8 @@ import uos.codingsroom.ddmgroup.item.MyInfoItem;
 import uos.codingsroom.ddmgroup.item.NewsFeedItem;
 import uos.codingsroom.ddmgroup.listview.GroupListAdapter;
 import uos.codingsroom.ddmgroup.util.LoadingProgressDialog;
+import uos.codingsroom.ddmgroup.util.MakeMenu;
+import uos.codingsroom.ddmgroup.util.MakePreferences;
 import uos.codingsroom.ddmgroup.util.SystemValue;
 import android.annotation.SuppressLint;
 import android.content.Context;

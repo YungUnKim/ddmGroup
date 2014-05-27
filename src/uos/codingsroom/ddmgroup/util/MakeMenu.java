@@ -1,4 +1,9 @@
-package uos.codingsroom.ddmgroup;
+package uos.codingsroom.ddmgroup.util;
+
+import uos.codingsroom.ddmgroup.MainActivity;
+import uos.codingsroom.ddmgroup.R;
+import uos.codingsroom.ddmgroup.R.dimen;
+import uos.codingsroom.ddmgroup.R.layout;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
@@ -6,7 +11,7 @@ public class MakeMenu {
 
 	SlidingMenu menu;
 
-	MakeMenu(MainActivity thisView) {
+	public MakeMenu(MainActivity thisView) {
 		menu = new SlidingMenu(thisView);
 		menu.setMode(SlidingMenu.LEFT);
 		menu.setMenu(R.layout.menu_layout);

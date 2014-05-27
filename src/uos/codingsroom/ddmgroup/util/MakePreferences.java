@@ -1,4 +1,4 @@
-package uos.codingsroom.ddmgroup;
+package uos.codingsroom.ddmgroup.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
