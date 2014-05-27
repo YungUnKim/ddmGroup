@@ -50,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/apple_red"
-            android:drawableLeft="@drawable/icon_notice2"
+            android:drawableLeft="@drawable/icon_notice"
             android:gravity="center_vertical"
             android:paddingLeft="5dp"
             android:paddingRight="10dp"

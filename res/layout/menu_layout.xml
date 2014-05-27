@@ -201,7 +201,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:padding="3dp"
-            android:src="@drawable/icon_notice2" />
+            android:src="@drawable/icon_notice" />
 
         <ImageView
             android:id="@+id/button_setting"
