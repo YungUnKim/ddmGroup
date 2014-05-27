@@ -6,7 +6,7 @@ public class SystemValue {
 	public static final int GENERAL = 101;
 	public static final boolean isAdmin = true;
 
-	public static final String[] kinds = { "장년", "봉사", "청년" };
+	public static final String[] kinds =  {"마을", "청소년", "대학생", "성인", "대분류5", "대분류6"};
 	
 	public static final Boolean test = false;
 

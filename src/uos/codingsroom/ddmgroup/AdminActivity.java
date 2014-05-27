@@ -25,6 +25,10 @@ public class AdminActivity extends Activity implements OnClickListener {
 	private Button notice_manage_btn;
 	private Button notice_register_btn;
 	
+	private int member_cnt = 0;
+	private int board_cnt = 0;
+	private int content_cnt = 0;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -54,17 +58,24 @@ public class AdminActivity extends Activity implements OnClickListener {
 		mThread.start();
 	}
 
-	// 서버에서 받아온 count를 텍스트뷰에 세팅하는 함수
-	public void setTextview(String key, int value) {
+	// 서버에서 받아온 count를 저장하는 함수
+	public void setText(String key, int value) {
 		if (key.equals("member")) {
-			member_count_Text.setText(value + " 명");
+			member_cnt = value;
 		} else if (key.equals("board")) {
-			board_count_Text.setText(value + " 개");
+			board_cnt = value;
 		} else if (key.equals("contents")) {
-			contents_count_Text.setText(value + " 개");
+			content_cnt = value;
 		}
 	}
 
+	// 서버에서 받아온 데이터를 뷰에 세팅하는 함수
+	public void setView(){
+		member_count_Text.setText(member_cnt + " 명");
+		board_count_Text.setText(board_cnt + " 개");
+		contents_count_Text.setText(content_cnt + " 개");
+	}
+	
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {

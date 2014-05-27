@@ -87,14 +87,12 @@ public class ManageBoardActivity extends Activity implements OnClickListener {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 				SELECT_BOARD_NUM = arg2; // 댓글의 인덱스
-				Log.i("MyTag","선택 >> " + SELECT_BOARD_NUM);
-				/*
-				Intent intent = new Intent(ManageBoardActivity.this, ContentsActivity.class);
-				intent.putExtra("content_num", boardItem.get(SELECT_BOARD_NUM).getNum());
-				intent.putExtra("group_name", "공지사항");
+				Log.i("MyTag","선택 >> " + SELECT_BOARD_NUM + ">>" + boardItem.get(SELECT_BOARD_NUM).getNum());
+				
+				Intent intent = new Intent(ManageBoardActivity.this, ManageBoardInfoActivity.class);
+				intent.putExtra("board_num", boardItem.get(SELECT_BOARD_NUM).getNum());
 				intent.putExtra("mode", true);
 				startActivity(intent);
-				*/
 			}
 		});
 	}

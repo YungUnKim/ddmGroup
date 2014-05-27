@@ -11,7 +11,6 @@ public class Get_Manage_Thread extends Manage_Communication_Thread {
 	// 생성자
 	public Get_Manage_Thread(Context context, int menu) {
 		super(context, menu);
-		Log.i("MyTag", "url >> " + url);
 	}
 
 	// xml 파싱 함수
@@ -33,12 +32,12 @@ public class Get_Manage_Thread extends Manage_Communication_Thread {
 							mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다
 							break;
 						} else {
-							((AdminActivity) mcontext).setTextview("member",Integer.parseInt(ret));
+							((AdminActivity) mcontext).setText("member",Integer.parseInt(ret));
 						}
 					} else if (tagname.equals("BOARD_COUNT")) {
-						((AdminActivity) mcontext).setTextview("board", Integer.parseInt(ret));
+						((AdminActivity) mcontext).setText("board", Integer.parseInt(ret));
 					} else if (tagname.equals("CONTENT_COUNT")) {
-						((AdminActivity) mcontext).setTextview("contents", Integer.parseInt(ret));
+						((AdminActivity) mcontext).setText("contents", Integer.parseInt(ret));
 					}
 
 				}

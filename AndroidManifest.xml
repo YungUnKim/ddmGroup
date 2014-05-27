@@ -92,8 +92,12 @@
             android:name="uos.codingsroom.ddmgroup.ManageMemberInfoActivity"
             android:screenOrientation="portrait" >
         </activity>
-         <activity
+        <activity
             android:name="uos.codingsroom.ddmgroup.ManageBoardActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="uos.codingsroom.ddmgroup.ManageBoardInfoActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
