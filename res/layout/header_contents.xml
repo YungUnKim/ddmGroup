@@ -17,7 +17,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:text="Board"
-            android:textColor="@color/ddm_real_green_n2"
+            android:textColor="@color/ss_green"
             android:textSize="18sp" />
 
         <TextView
@@ -67,12 +67,6 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.8dip"
-            android:layout_marginTop="20dp"
-            android:background="@color/ddm_line_gray" />
-
         <ImageView
             android:id="@+id/contents_image"
             android:layout_width="match_parent"
@@ -87,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="25dp"
             android:autoLink="web"
             android:lineSpacingExtra="10dip"
             android:minLines="3"
@@ -96,9 +90,9 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.8dip"
+            android:layout_height="0.5dip"
             android:layout_marginTop="20dp"
-            android:background="@color/ddm_line_gray" />
+            android:background="@color/ss_blue" />
 
         <TextView
             android:layout_width="match_parent"
@@ -106,16 +100,17 @@
             android:layout_marginTop="10dp"
             android:padding="10dp"
             android:text="댓글"
-            android:textSize="18sp"
+            android:textColor="@color/ss_blue"
+            android:textSize="17sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/contents_no_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="30dp"
             android:text="댓글이 없습니다."
             android:textColor="@color/content_gray"
             android:textSize="15sp"

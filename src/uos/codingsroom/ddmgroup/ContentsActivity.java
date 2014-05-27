@@ -181,6 +181,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 				contentsMenuButton.setOnClickListener(this);
 				menuHelperLayout.setOnClickListener(this);
 				contentsLogo.setOnClickListener(this);
+				contentsMenuButton.setVisibility(View.VISIBLE);
 			} else {
 				contentsMenuButton.setVisibility(View.GONE);
 			}

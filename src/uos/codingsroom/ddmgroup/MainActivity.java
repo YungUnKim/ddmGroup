@@ -131,10 +131,6 @@ public class MainActivity extends FragmentActivity {
 		myMemNum = myMemberNumber;
 		myInfoItem = new MyInfoItem(myMemNum, profileImageURL, nickName);		
 	}
-
-	public void showMyMemNumber() {
-		Toast.makeText(getApplication(), "당신의 회원 번호는 " + myMemNum + " 입니다.", Toast.LENGTH_SHORT).show();
-	}
 	
 	public void setBoardNum(int num){
 		board.add(num);
