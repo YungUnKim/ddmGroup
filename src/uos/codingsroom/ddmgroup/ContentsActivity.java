@@ -456,6 +456,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 				}
 
 			}
+			imm.hideSoftInputFromWindow(commentRegister.getWindowToken(), 0);
 			break;
 
 		default:
