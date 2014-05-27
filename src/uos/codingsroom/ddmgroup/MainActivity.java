@@ -56,6 +56,7 @@ public class MainActivity extends FragmentActivity {
 	private ImageView noticeButton;
 	private ImageView ddmLogo;
 	private ImageView menuBackButton;
+	private ImageView menuOpener;
 
 	private RelativeLayout menuHelperLayout;
 
@@ -99,6 +100,7 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		progressDialog = new LoadingProgressDialog(this);
 		initializeView(); // 뷰를 초기화
 		readProfile(this);
 		// setProfile();
@@ -107,10 +109,7 @@ public class MainActivity extends FragmentActivity {
 		myPreference = new MakePreferences(this);
 		favoriteStringSet = myPreference.getMyPreference().getStringSet("favoriteName", new HashSet<String>());
 		
-		progressDialog = new LoadingProgressDialog(this);
-
 		showFragment(NEWSFEED, false);
-
 	}
 
 	protected void onResume() {
@@ -261,6 +260,7 @@ public class MainActivity extends FragmentActivity {
 
 				Login_Profile_Thread mThread = new Login_Profile_Thread(context, 10, nickName, profileImageURL, kakaoCode, BasicInfo.RegistrationId);
 				mThread.start();
+				progressDialog.startProgressDialog();
 			}
 		});
 	}
@@ -301,7 +301,6 @@ public class MainActivity extends FragmentActivity {
 			}
 		});
 
-//		initializeButtons();
 		initializeProfileView();
 		initializeListView();
 	}
@@ -366,7 +365,13 @@ public class MainActivity extends FragmentActivity {
 			}
 		});
 		
-		
+		menuOpener = (ImageView) findViewById(R.id.main_menu_open_icon);
+		menuOpener.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				menu.getMenu().showMenu();		
+			}
+		});
 
 		menuBackButton = (ImageView) findViewById(R.id.slidingmenu_back_button);
 		menuBackButton.setOnClickListener(new OnClickListener() {
@@ -390,6 +395,8 @@ public class MainActivity extends FragmentActivity {
 				}
 			});
 		}
+		
+		progressDialog.dismissProgressDialog();
 	}
 
 	public void openFavorite() {

@@ -33,4 +33,11 @@
 	<color name="apple_yellow">#ffc547</color>
 	<color name="apple_blue">#00affe</color>
 	
+	<color name="ss_green">#5c9641</color>
+	<color name="ss_blue">#2184c7</color>
+	<color name="ss_yellow">#d59a26</color>
+	<color name="ss_red">#a91f41</color>
+	<color name="ss_purple">#75539f</color>
+	
+	
 </resources>
