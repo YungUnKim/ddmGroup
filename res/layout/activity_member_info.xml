@@ -11,7 +11,7 @@
 
         <ImageView
             android:id="@+id/button_member_back"
-            android:layout_width="wrap_content"
+            android:layout_width="45dp"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:src="@drawable/icon_back" />
@@ -42,7 +42,7 @@
 
         <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/profile_member_image"
-            android:layout_width="90dp"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
@@ -92,31 +92,34 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="15dp"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:weightSum="5" >
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:orientation="vertical" >
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="상태"
                 android:textColor="@color/content_gray"
                 android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/text_member_condition"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:gravity="center" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
@@ -124,61 +127,65 @@
             android:orientation="vertical" >
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="글 수"
                 android:textColor="@color/content_gray"
                 android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/text_member_content_cnt"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:gravity="center" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dip"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:layout_weight="1"
+            android:layout_weight="1.5"
             android:orientation="vertical" >
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="댓글 수"
                 android:textColor="@color/content_gray"
                 android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/text_member_reply_cnt"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:gravity="center" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dip"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:layout_weight="1"
+            android:layout_weight="1.5"
             android:orientation="vertical" >
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="회원 번호"
                 android:textColor="@color/content_gray"
                 android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/text_member_code"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:gravity="center" />
         </LinearLayout>
     </LinearLayout>
 
