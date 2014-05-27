@@ -117,6 +117,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="20dp"
+                android:textColor="#ffffff"
                 android:background="@drawable/setting_admin_box"
                 android:text="관리자 모드"
                 android:visibility="gone" />

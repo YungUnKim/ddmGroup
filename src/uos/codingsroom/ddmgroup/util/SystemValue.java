@@ -6,8 +6,8 @@ public class SystemValue {
 	public static final int GENERAL = 101;
 	public static final boolean isAdmin = true;
 
-	public static final String[] kinds = { "장년", "봉사", "청년" };
-	
+	public static final String[] kinds = { "마을공동체", "청소년", "대학생", "직장인", "운동", "IT", "여행" };
+
 	public static final Boolean test = false;
 
 	public static final String conn = "http://codingsroom.com/ddmgroup/ddmgroup.php?menu=";

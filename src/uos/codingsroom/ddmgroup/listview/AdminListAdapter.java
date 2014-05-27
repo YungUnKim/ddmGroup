@@ -3,24 +3,26 @@ package uos.codingsroom.ddmgroup.listview;
 import java.util.ArrayList;
 import java.util.List;
 
-import uos.codingsroom.ddmgroup.item.MemberItem;
+import uos.codingsroom.ddmgroup.item.AdminItem;
+import uos.codingsroom.ddmgroup.item.GroupItem;
+import uos.codingsroom.ddmgroup.item.NewsFeedItem;
 import uos.codingsroom.ddmgroup.item.NoticeItem;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-public class MemberListAdapter extends BaseAdapter {
+public class AdminListAdapter extends BaseAdapter {
 
 	private Context mContext;
 
-	private List<MemberItem> mItems = new ArrayList<MemberItem>();
+	private List<AdminItem> mItems = new ArrayList<AdminItem>();
 
-	public MemberListAdapter(Context context) {
+	public AdminListAdapter(Context context) {
 		mContext = context;
 	}
 
-	public void addItem(MemberItem it) {
+	public void addItem(AdminItem it) {
 		mItems.add(it);
 	}
 
@@ -28,11 +30,11 @@ public class MemberListAdapter extends BaseAdapter {
 		mItems.clear();
 	}
 
-	public void addItem(int position, MemberItem it) {
+	public void addItem(int position, AdminItem it) {
 		mItems.add(position, it);
 	}
 
-	public void setListItems(List<MemberItem> lit) {
+	public void setListItems(List<AdminItem> lit) {
 		mItems = lit;
 	}
 
@@ -61,17 +63,14 @@ public class MemberListAdapter extends BaseAdapter {
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
-		MemberView itemView;
+		AdminView itemView;
 		if (convertView == null) {
-			itemView = new MemberView(mContext, mItems.get(position));
+			itemView = new AdminView(mContext, mItems.get(position));
 		} else {
-			itemView = (MemberView) convertView;
+			itemView = (AdminView) convertView;
 
-			// itemView.setIcon(mItems.get(position).getIcon());
-			itemView.setText(0, mItems.get(position).getName());
-			itemView.setText(1, mItems.get(position).getDate());
-			itemView.setText(2, "0");
-
+			itemView.setText(0, mItems.get(position).getTitle());
+			itemView.setText(1, mItems.get(position).getSubData());
 		}
 
 		return itemView;

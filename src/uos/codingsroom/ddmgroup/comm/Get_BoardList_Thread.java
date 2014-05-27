@@ -3,11 +3,13 @@ package uos.codingsroom.ddmgroup.comm;
 import org.xmlpull.v1.XmlPullParser;
 
 import uos.codingsroom.ddmgroup.ManageBoardActivity;
+import uos.codingsroom.ddmgroup.item.AdminItem;
 import uos.codingsroom.ddmgroup.item.BoardItem;
+import uos.codingsroom.ddmgroup.util.SystemValue;
 import android.content.Context;
 
 public class Get_BoardList_Thread extends Manage_Communication_Thread {
-	private BoardItem mItem;
+	private AdminItem mItem;
 
 	// 생성자
 	public Get_BoardList_Thread(Context context, int menu) {
@@ -37,12 +39,12 @@ public class Get_BoardList_Thread extends Manage_Communication_Thread {
 							return;
 						}
 					} else if (tagname.equals("BOARD_NUM")) {
-						mItem = new BoardItem();
+						mItem = new AdminItem();
 						mItem.setNum(Integer.parseInt(ret));
 					} else if (tagname.equals("BOARD_TITLE")) {
 						mItem.setTitle(ret);
 					} else if (tagname.equals("BOARD_CAT")) {
-						mItem.setCategory(ret);
+						mItem.setSubData(SystemValue.kinds[Integer.parseInt(ret)]);
 						((ManageBoardActivity) mcontext).setListItem(mItem);
 					}
 				}

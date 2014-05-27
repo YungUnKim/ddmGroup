@@ -1,0 +1,79 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_margin="10dp" >
+
+        <ImageView
+            android:id="@+id/admin_list_back"
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:paddingTop="2dp"
+            android:src="@drawable/icon_back" />
+
+        <TextView
+            android:id="@+id/admin_list_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/admin_list_back"
+            android:gravity="center"
+            android:text="제목"
+            android:textColor="@color/content_gray"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ddmlogo2" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/admin_list_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/ss_purple"
+            android:drawableLeft="@drawable/icon_notice2"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="10dp"
+            android:text="제목"
+            android:textColor="#ffffff"
+            android:textSize="15sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="2dp" >
+
+            <ListView
+                android:id="@+id/listview_admin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:divider="@color/ddm_line_gray2"
+                android:dividerHeight="0.7dip"
+                android:fadingEdge="none"
+                android:scrollbars="none" >
+            </ListView>
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

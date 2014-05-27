@@ -3,11 +3,11 @@ package uos.codingsroom.ddmgroup.comm;
 import org.xmlpull.v1.XmlPullParser;
 
 import uos.codingsroom.ddmgroup.ManageMemberActivity;
-import uos.codingsroom.ddmgroup.item.MemberItem;
+import uos.codingsroom.ddmgroup.item.AdminItem;
 import android.content.Context;
 
 public class Get_MemberList_Thread extends Manage_Communication_Thread {
-	private MemberItem mItem;
+	private AdminItem mItem;
 
 	// 생성자
 	public Get_MemberList_Thread(Context context, int menu) {
@@ -37,12 +37,12 @@ public class Get_MemberList_Thread extends Manage_Communication_Thread {
 							return;
 						}
 					} else if (tagname.equals("MEM_NUM")) {
-						mItem = new MemberItem();
+						mItem = new AdminItem();
 						mItem.setNum(Integer.parseInt(ret));
 					} else if (tagname.equals("MEM_NAME")) {
-						mItem.setName(ret);
+						mItem.setTitle(ret);
 					} else if (tagname.equals("MEM_DATE")) {
-						mItem.setDate(ret);
+						mItem.setSubData(ret);
 						((ManageMemberActivity) mcontext).setListItem(mItem);
 					}
 				}
