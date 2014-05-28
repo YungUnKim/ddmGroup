@@ -1,30 +1,29 @@
 package uos.codingsroom.ddmgroup.item;
 
-
 public class BoardItem {
 	private int num;
+	private int category;
 	private String title;
-	private String category;
 	private String dscr;
 	private int content_cnt;
 
-	public BoardItem(){
-		
+	public BoardItem() {
+
 	}
-	
+
 	// 리스트 용도
-	public BoardItem(int num, String title, String category) {
+	public BoardItem(int num, String title, int category) {
 		this.num = num;
-		this.setTitle(title);
-		this.setCategory(category);
+		this.title = title;
+		this.category = category;
 	}
-	
+
 	// 정보 열람 용도
-	public BoardItem(int num, String title, String category, String dscr, int content_cnt) {
+	public BoardItem(int num, String title, int category, String dscr, int content_cnt) {
 		this.num = num;
-		this.setTitle(title);
-		this.setCategory(category);
-		this.setDscr(dscr);
+		this.title = title;
+		this.category = category;
+		this.dscr = dscr;
 		this.content_cnt = content_cnt;
 	}
 
@@ -52,11 +51,11 @@ public class BoardItem {
 		this.title = title;
 	}
 
-	public String getCategory() {
+	public int getCategory() {
 		return category;
 	}
 
-	public void setCategory(String category) {
+	public void setCategory(int category) {
 		this.category = category;
 	}
 
@@ -68,5 +67,4 @@ public class BoardItem {
 		this.dscr = dscr;
 	}
 
-	
 }

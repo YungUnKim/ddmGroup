@@ -47,7 +47,7 @@ public class Get_BoardInfo_Thread extends Manage_Communication_Thread {
 					} else if (tagname.equals("BOARD_TITLE")) {
 						mItem.setTitle(ret);
 					} else if (tagname.equals("BOARD_CAT")) {
-						mItem.setCategory(ret);
+						mItem.setCategory(Integer.parseInt(ret));
 					} else if (tagname.equals("BOARD_DSCR")) {
 						mItem.setDscr(ret);
 					} else if (tagname.equals("BOARD_MASTER")) {

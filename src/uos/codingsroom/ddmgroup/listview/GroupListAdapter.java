@@ -9,12 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-/**
- * ����� Ŭ���� ����
- * 
- * @author Mike
- * 
- */
 public class GroupListAdapter extends BaseAdapter {
 
 	private Context mContext;
@@ -53,14 +47,6 @@ public class GroupListAdapter extends BaseAdapter {
 		return false;
 	}
 
-//	public boolean isSelectable(int position) {
-//		try {
-//			return mItems.get(position).isSelectable();
-//		} catch (IndexOutOfBoundsException ex) {
-//			return false;
-//		}
-//	}
-
 	public long getItemId(int position) {
 		return position;
 	}
@@ -72,8 +58,8 @@ public class GroupListAdapter extends BaseAdapter {
 		} else {
 			itemView = (GroupView) convertView;
 
-//			itemView.setIcon(mItems.get(position).getIcon());
 			itemView.setText(0, mItems.get(position).getTitle());
+			itemView.setText(1, mItems.get(position).getDescription());
 
 		}
 

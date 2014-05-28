@@ -14,6 +14,7 @@ import uos.codingsroom.ddmgroup.item.ContentItem;
 import uos.codingsroom.ddmgroup.item.MyInfoItem;
 import uos.codingsroom.ddmgroup.item.NoticeItem;
 import uos.codingsroom.ddmgroup.listview.CommentListAdapter;
+import uos.codingsroom.ddmgroup.util.LoadingProgressDialog;
 import uos.codingsroom.ddmgroup.util.SystemValue;
 import uos.codingsroom.ddmgroup.util.UrlImageDownloadTask;
 import android.app.Activity;
@@ -82,6 +83,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 
 	private String group_name;
 	private boolean kind; // 공지사항, 일반 글 여부
+	LoadingProgressDialog progressDialog;
 
 	private ArrayList<CommentItem> comItem = new ArrayList<CommentItem>(); // 댓글 배열
 	private int com_cnt = 0; // 댓글 개수
@@ -102,6 +104,8 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		kind = bundle.getBoolean("mode"); // 공지사항 여부
 
 		initializeView();
+		progressDialog = new LoadingProgressDialog(this, true);
+		progressDialog.startProgressDialog();
 
 		if (kind == false) {
 			Get_Content_Thread mThread = new Get_Content_Thread(this, 24, currentContentNum);
@@ -210,6 +214,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		if (commentsListAdapter.getCount() == 0) {
 			contentsNoComment.setVisibility(View.VISIBLE);
 		}
+		progressDialog.dismissProgressDialog();
 	}
 
 	// 추가한 댓글의 번호를 얻어오는 함수

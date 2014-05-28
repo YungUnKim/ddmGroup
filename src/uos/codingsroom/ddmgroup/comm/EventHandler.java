@@ -31,7 +31,7 @@ public class EventHandler extends Handler {
 			// ((MainActivity) mcontext).showMyMemNumber();
 				((MainActivity) mcontext).setPermission();
 				((MainActivity) mcontext).setProfile();
-				((MainActivity) mcontext).initializeButtons();
+				((MainActivity) mcontext).setGroupButtonClickListener();
 			} else if (msg.what == 11) { // 공지사항 3개
 				((MainActivity) mcontext).setNoticeTitle();
 				// Log.i("MyTag", "핸들러 접근 성공");

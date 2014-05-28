@@ -1,14 +1,11 @@
 package uos.codingsroom.ddmgroup.fragments;
 
-import static uos.codingsroom.ddmgroup.BasicInfo.TOAST_MESSAGE_ACTION;
-
 import java.io.File;
 
-import uos.codingsroom.ddmgroup.BasicInfo;
 import uos.codingsroom.ddmgroup.MainActivity;
 import uos.codingsroom.ddmgroup.R;
 import uos.codingsroom.ddmgroup.comm.Insert_Content_Thread;
-import android.app.Activity;
+import uos.codingsroom.ddmgroup.util.SystemValue;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -28,8 +25,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gcm.server.Message;
-import com.google.android.gcm.server.Result;
 import com.google.android.gcm.server.Sender;
 
 public class RegisterFragment extends Fragment {
@@ -65,7 +60,7 @@ public class RegisterFragment extends Fragment {
 
 		EditTitle = (EditText) view.findViewById(R.id.editTitle);
 		EditMemo = (EditText) view.findViewById(R.id.editMemo);
-		sender = new Sender(BasicInfo.GOOGLE_API_KEY);
+		sender = new Sender(SystemValue.GOOGLE_API_KEY);
 		groupTitle = (TextView) view.findViewById(R.id.text_register_groupname);
 
 		clickListener click = new clickListener();

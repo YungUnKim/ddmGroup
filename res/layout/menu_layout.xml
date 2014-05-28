@@ -172,8 +172,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="15dp"
-            android:divider="@color/ddm_line_gray3"
-            android:dividerHeight="0.5dip"
+            android:divider="@color/ddm_line_gray2"
+            android:dividerHeight="0.7dip"
             android:scrollbars="none"
             android:visibility="gone" >
         </ListView>

@@ -11,8 +11,9 @@ public class GroupItem {
 		
 	}
 	
-	public GroupItem(String title) {
+	public GroupItem(String title, String description) {
 		this.title = title;
+		this.description = description;
 	}
 	
 	public GroupItem(int index_num, int cat_num, int master_num, String title, String description) {

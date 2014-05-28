@@ -1,6 +1,7 @@
 package uos.codingsroom.ddmgroup;
 
-import static uos.codingsroom.ddmgroup.BasicInfo.TOAST_MESSAGE_ACTION;
+import static uos.codingsroom.ddmgroup.util.SystemValue.TOAST_MESSAGE_ACTION;
+import uos.codingsroom.ddmgroup.util.SystemValue;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -54,14 +55,14 @@ public class KakaoLoginActivity extends Activity {
 		if (regId.equals("")) {
 			Log.i("PUSH", "regID = 없음");
 			DELAY_TIME = 5000;
-			GCMRegistrar.register(getBaseContext(), BasicInfo.PROJECT_ID);
+			GCMRegistrar.register(getBaseContext(), SystemValue.PROJECT_ID);
 
 		} else {
 
 			if (GCMRegistrar.isRegisteredOnServer(this)) {
 				DELAY_TIME = 5000;
 			} else {
-				GCMRegistrar.register(getBaseContext(), BasicInfo.PROJECT_ID);
+				GCMRegistrar.register(getBaseContext(), SystemValue.PROJECT_ID);
 			}
 
 		}

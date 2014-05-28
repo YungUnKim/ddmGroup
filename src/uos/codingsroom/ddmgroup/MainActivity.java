@@ -73,11 +73,11 @@ public class MainActivity extends FragmentActivity {
 	MakePreferences myPreference;
 
 	GroupItem groupItem;
-	
+
 	private static MyInfoItem myInfoItem;
-	private ArrayList<Integer> board = new ArrayList<Integer>();	// 권한 게시판 번호
-	private ArrayList<Integer> level = new ArrayList<Integer>();	// 권한 게시판 레벨
-	
+	private ArrayList<Integer> board = new ArrayList<Integer>(); // 권한 게시판 번호
+	private ArrayList<Integer> level = new ArrayList<Integer>(); // 권한 게시판 레벨
+
 	Set<String> favoriteStringSet;
 
 	private static Integer myMemNum;
@@ -95,14 +95,14 @@ public class MainActivity extends FragmentActivity {
 	private static final int FRAGMENT_COUNT = REGISTER + 1;
 
 	private static Fragment[] fragments = new Fragment[FRAGMENT_COUNT];
-	
+
 	public static LoadingProgressDialog progressDialog;
 
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		progressDialog = new LoadingProgressDialog(this);
+		progressDialog = new LoadingProgressDialog(this, true);
 		initializeView(); // 뷰를 초기화
 		readProfile(this);
 		// setProfile();
@@ -110,7 +110,7 @@ public class MainActivity extends FragmentActivity {
 
 		myPreference = new MakePreferences(this);
 		favoriteStringSet = myPreference.getMyPreference().getStringSet("favoriteName", new HashSet<String>());
-		
+
 		showFragment(NEWSFEED, false);
 	}
 
@@ -120,81 +120,83 @@ public class MainActivity extends FragmentActivity {
 		// if (userProfile != null) {
 		// setProfileURL(userProfile.getThumbnailImagePath());
 		// }
-
 	}
-	
-	public static MyInfoItem getMyInfoItem(){
+
+	public static MyInfoItem getMyInfoItem() {
 		return myInfoItem;
 	}
 
 	public void setMyMemberNum(int myMemberNumber) {
 		myMemNum = myMemberNumber;
-		myInfoItem = new MyInfoItem(myMemNum, profileImageURL, nickName);		
+		myInfoItem = new MyInfoItem(myMemNum, profileImageURL, nickName);
 	}
-	
-	public void setBoardNum(int num){
+
+	public void setBoardNum(int num) {
 		board.add(num);
 	}
-	
-	public void setLevel(int num){
+
+	public void setLevel(int num) {
 		level.add(num);
 	}
-	
+
 	// 게시판 번호와 권한 레벨 객체에 저장하기
-	public void setPermission(){
+	public void setPermission() {
 		myInfoItem.setMyboard(board);
 		myInfoItem.setMylevel(level);
-//		Log.i("MyTag","board >> " + myInfoItem.getMyboard().get(0) + ", level >> " + myInfoItem.getMylevel().get(0));
-//		Log.i("MyTag","board >> " + myInfoItem.getMyboard().get(1) + ", level >> " + myInfoItem.getMylevel().get(1));
-//		Log.i("MyTag","board >> " + myInfoItem.getMyboard().get(2) + ", level >> " + myInfoItem.getMylevel().get(2));
+		// Log.i("MyTag","board >> " + myInfoItem.getMyboard().get(0) + ", level >> " + myInfoItem.getMylevel().get(0));
+		// Log.i("MyTag","board >> " + myInfoItem.getMyboard().get(1) + ", level >> " + myInfoItem.getMylevel().get(1));
+		// Log.i("MyTag","board >> " + myInfoItem.getMyboard().get(2) + ", level >> " + myInfoItem.getMylevel().get(2));
 		// myInfoItem.getMylevel().get(0) == 관리자인지 정지여부 확인하기
 	}
-	
-	//공지
-	//공지 아이템 추가
+
+	// 공지
+	// 공지 아이템 추가
 	public void setNotice(int index, String title, int num) {
 		((NewsfeedFragment) fragments[NEWSFEED]).setNotice(index, title, num);
 	}
-	//공지 아이템 갱신
+
+	// 공지 아이템 갱신
 	public void setNoticeTitle() {
 		((NewsfeedFragment) fragments[NEWSFEED]).setNoticeTitle();
 	}
 
-	//뉴스피드
-	//뉴스피드 아이템 추가
+	// 뉴스피드
+	// 뉴스피드 아이템 추가
 	public void setNewsFeed(NewsFeedItem newsFeedItem) {
 		((NewsfeedFragment) fragments[NEWSFEED]).setNewsFeed(newsFeedItem);
 	}
-	//뉴스피드 아이템 갱신
+
+	// 뉴스피드 아이템 갱신
 	public void setNewsFeedList() {
 		((NewsfeedFragment) fragments[NEWSFEED]).setNewsFeedList();
 	}
 
-	//게시글
-	//게시글 리스트 아이템 추가
+	// 게시글
+	// 게시글 리스트 아이템 추가
 	public void addContent(ContentItem contentItem) {
 		((ContentsFragment) fragments[BOARD]).addListview(contentItem);
 
 	}
-	//게시글 리스트 실행
+
+	// 게시글 리스트 실행
 	public void setContent() {
 		((ContentsFragment) fragments[BOARD]).setListView();
 	}
-	
+
 	public void addGroupItem(GroupItem mItem) {
 		groupAdapter.addItem(mItem);
 	}
 
 	// 글 등록 후 프레그먼트 클리어
-	public void clearRegisterFragment(){
+	public void clearRegisterFragment() {
 		((RegisterFragment) fragments[REGISTER]).clearContent();
 		showFragment(BOARD, false);
 		((ContentsFragment) fragments[BOARD]).contentFragmentStart();
 	}
-	
+
 	public void setLittleListView() {
-		//그룹 게시판 보기 터치했을때
-		groupAdapter.addItem(0, new GroupItem("돌아가기"));
+		// 그룹 게시판 보기 터치했을때
+		groupAdapter.addItem(0, new GroupItem("돌아가기", "전체 카테고리로 돌아갑니다."));
 
 		groupListView.setAdapter(groupAdapter);
 		menuLayout.setVisibility(View.GONE);
@@ -256,7 +258,8 @@ public class MainActivity extends FragmentActivity {
 				profileBigImageURL = talkProfile.getProfileImageURL();
 				kakaoCode = userProfile.getId();
 
-				Login_Profile_Thread mThread = new Login_Profile_Thread(context, 10, nickName, profileImageURL, kakaoCode, BasicInfo.RegistrationId);
+				Login_Profile_Thread mThread = new Login_Profile_Thread(context, 10, nickName, profileImageURL, kakaoCode,
+						SystemValue.RegistrationId);
 				mThread.start();
 				progressDialog.startProgressDialog();
 			}
@@ -299,6 +302,7 @@ public class MainActivity extends FragmentActivity {
 			}
 		});
 
+		initializeButtons();
 		initializeProfileView();
 		initializeListView();
 	}
@@ -323,6 +327,22 @@ public class MainActivity extends FragmentActivity {
 
 	private void initializeProfileView() {
 		myNameText = (TextView) findViewById(R.id.my_name);
+	}
+
+	public void setGroupButtonClickListener() {
+		for (int i = 0; i < menus; i++) {
+			final int position = i;
+			menuButtons[i].setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					menuButtons[position].setClickable(false);
+					currentCategory = position;
+					Get_Groups_Thread mThread = new Get_Groups_Thread(MainActivity.this, 20, position);
+					mThread.start();
+				}
+			});
+		}
+		progressDialog.dismissProgressDialog();
 	}
 
 	public void initializeButtons() {
@@ -357,17 +377,15 @@ public class MainActivity extends FragmentActivity {
 			public void onClick(View v) {
 				if (currentFragment != 0) {
 					showFragment(0, false);
-					
 				}
-
 			}
 		});
-		
+
 		menuOpener = (ImageView) findViewById(R.id.main_menu_open_icon);
 		menuOpener.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				menu.getMenu().showMenu();		
+				menu.getMenu().showMenu();
 			}
 		});
 
@@ -380,21 +398,9 @@ public class MainActivity extends FragmentActivity {
 		});
 
 		for (int i = 0; i < menus; i++) {
-			final int position = i;
 			menuButtons[i] = (RelativeLayout) findViewById(menuButtonView[i]);
-			menuButtons[i].setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					
-					menuButtons[position].setClickable(false);
-					currentCategory = position;
-					Get_Groups_Thread mThread = new Get_Groups_Thread(MainActivity.this, 20, position);
-					mThread.start();
-				}
-			});
 		}
-		
-		progressDialog.dismissProgressDialog();
+
 	}
 
 	public void openFavorite() {
@@ -433,11 +439,11 @@ public class MainActivity extends FragmentActivity {
 
 	private void moveToSettingActivity() {
 		final Intent intent = new Intent(this, SettingActivity.class);
-		for (int i = 0; i < board.size(); i++){
-			if(board.get(i) == 0){	// 관리자일 경우
-				if(level.get(i) == SystemValue.ADMIN){
+		for (int i = 0; i < board.size(); i++) {
+			if (board.get(i) == 0) { // 관리자일 경우
+				if (level.get(i) == SystemValue.ADMIN) {
 					intent.putExtra("isAdmin", true);
-				} else{
+				} else {
 					intent.putExtra("isAdmin", false);
 				}
 			}
@@ -447,9 +453,9 @@ public class MainActivity extends FragmentActivity {
 		intent.putExtra("myCode", kakaoCode);
 		startActivity(intent);
 	}
-	
+
 	private void moveToNoticeActivity() {
-		final Intent intent = new Intent(this, NoticeActivity.class);		
+		final Intent intent = new Intent(this, NoticeActivity.class);
 		startActivity(intent);
 	}
 
@@ -475,6 +481,5 @@ public class MainActivity extends FragmentActivity {
 			super.onBackPressed();
 		}
 	}
-
 
 }

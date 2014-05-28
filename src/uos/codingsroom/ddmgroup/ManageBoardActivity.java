@@ -4,9 +4,7 @@ import java.util.ArrayList;
 
 import uos.codingsroom.ddmgroup.comm.Get_BoardList_Thread;
 import uos.codingsroom.ddmgroup.item.AdminItem;
-import uos.codingsroom.ddmgroup.item.BoardItem;
 import uos.codingsroom.ddmgroup.listview.AdminListAdapter;
-import uos.codingsroom.ddmgroup.listview.BoardListAdapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -92,7 +90,6 @@ public class ManageBoardActivity extends Activity implements OnClickListener {
 				
 				Intent intent = new Intent(ManageBoardActivity.this, ManageBoardInfoActivity.class);
 				intent.putExtra("board_num", boardItem.get(SELECT_BOARD_NUM).getNum());
-				intent.putExtra("mode", true);
 				startActivity(intent);
 
 			}

@@ -11,6 +11,11 @@
 
             <corners android:radius="10dp" />
         </shape></item>
+    <item android:state_selected="true"><shape android:shape="rectangle">
+            <solid android:color="@color/ss_purple" />
+
+            <corners android:radius="10dp" />
+        </shape></item>
     <item><shape android:shape="rectangle">
             <solid android:color="#d4d1c3" />
 

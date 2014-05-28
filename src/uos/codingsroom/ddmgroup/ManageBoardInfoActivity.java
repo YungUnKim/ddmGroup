@@ -4,39 +4,36 @@ import uos.codingsroom.ddmgroup.comm.Get_BoardInfo_Thread;
 import uos.codingsroom.ddmgroup.item.BoardItem;
 import uos.codingsroom.ddmgroup.util.SystemValue;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ManageBoardInfoActivity extends Activity implements OnClickListener, OnItemSelectedListener {
+public class ManageBoardInfoActivity extends Activity implements OnClickListener{
 
 	private ImageView backButton;
 	private Button modifyButton;
 	private Button deleteButton;
-	private Button insertButton;
 
 	ArrayAdapter<String> categorylist;
-	private Spinner spinner; // 대분류 스피너
-	private Integer SELECT_CATEGORY_NUM;
+	private Button categoryBtn;
 
-	private EditText BoardName; // 게시판 이름
+	private TextView BoardName; // 게시판 이름
 	private EditText BoardDSCR; // 게시판 설명
 	private TextView BoardNum; // 게시판 번호
 	private TextView ContentCnt; // 게시판 글개수
 
-	private Boolean mode = true; // 게시판 수정,삽입 모드
 	private BoardItem mItem = new BoardItem();
 	private static Integer board_num;
+	private AlertDialog categoryDialog = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,19 +42,14 @@ public class ManageBoardInfoActivity extends Activity implements OnClickListener
 
 		Bundle bundle = getIntent().getExtras();
 		board_num = bundle.getInt("board_num");
-		mode = bundle.getBoolean("mode");
 
-		BoardName = (EditText) findViewById(R.id.edit_board_name);
-		BoardDSCR = (EditText) findViewById(R.id.edit_board_dscr);
-		BoardNum = (TextView) findViewById(R.id.text_board_num);
-		ContentCnt = (TextView) findViewById(R.id.text_board_cnt);
+		BoardName = (TextView) findViewById(R.id.board_info_title_text);
+		BoardDSCR = (EditText) findViewById(R.id.board_info_dscr_edit);
+		BoardNum = (TextView) findViewById(R.id.board_info_index_text);
+		ContentCnt = (TextView) findViewById(R.id.board_info_cnt_text);
 
-		spinner = (Spinner) findViewById(R.id.spinner_board_category);
-		spinner.setPrompt("카테고리를 선택하세요.");
-
-		categorylist = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, SystemValue.kinds);
-		spinner.setAdapter(categorylist);
-		spinner.setOnItemSelectedListener(this);
+		categoryBtn = (Button) findViewById(R.id.board_info_category_button);
+		categoryBtn.setOnClickListener(this);
 
 		backButton = (ImageView) findViewById(R.id.button_board_back);
 		backButton.setOnClickListener(this);
@@ -65,24 +57,43 @@ public class ManageBoardInfoActivity extends Activity implements OnClickListener
 		modifyButton.setOnClickListener(this);
 		deleteButton = (Button) findViewById(R.id.button_delete_board);
 		deleteButton.setOnClickListener(this);
-		insertButton = (Button) findViewById(R.id.button_insert_board);
-		insertButton.setOnClickListener(this);
+		
+		Get_BoardInfo_Thread mThread = new Get_BoardInfo_Thread(this, 121, board_num);
+		mThread.start();
+		
+	}
+	
+	private AlertDialog createCategoryDialog() {
+		AlertDialog.Builder ab = new AlertDialog.Builder(this);
+		ab.setTitle("카테고리");
 
-		if (mode) { // 게시판 수정모드
-			insertButton.setVisibility(View.GONE);
-			// 회원정보 받아오는 스레드
-			Get_BoardInfo_Thread mThread = new Get_BoardInfo_Thread(this, 121, board_num);
-			mThread.start();
-		} else { // 게시판 삽입모드
-			modifyButton.setVisibility(View.GONE);
-			deleteButton.setVisibility(View.GONE);
-			spinner.setSelection(0);
-		}
+		ab.setItems(SystemValue.kinds, new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				mItem.setCategory(which);
+				categoryBtn.setText(SystemValue.kinds[which]);
+			}
+		});
+
+		ab.setNeutralButton("취소", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				setDismiss(categoryDialog);
+			}
+		});
+
+		return ab.create();
+	}
+	
+	private void setDismiss(Dialog dialog) {
+		if (dialog != null && dialog.isShowing())
+			dialog.dismiss();
 	}
 
 	// 통신 후에 뷰를 세팅하는 함수
 	public void setView() {
-		spinner.setSelection(Integer.parseInt(mItem.getCategory()));
+		categoryBtn.setText(SystemValue.kinds[mItem.getCategory()]);
 		BoardName.setText(mItem.getTitle());
 		BoardDSCR.setText(mItem.getDscr());
 		BoardNum.setText(mItem.getNum() + " 번");
@@ -108,14 +119,17 @@ public class ManageBoardInfoActivity extends Activity implements OnClickListener
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
+		case R.id.board_info_category_button:
+			categoryDialog = createCategoryDialog();
+			categoryDialog.show();
+			break;
 		case R.id.button_modify_board:
-			// 게시판 수정하기
+			mItem.setDscr(BoardDSCR.getText().toString());
+			
+			//여기서 mItem으로 통신 시작
 			break;
 		case R.id.button_delete_board:
 			// 게시판 삭제하기
-			break;
-		case R.id.button_insert_board:
-			// 게시판 삽입하기
 			break;
 		case R.id.button_board_back:
 			finish();
@@ -126,21 +140,4 @@ public class ManageBoardInfoActivity extends Activity implements OnClickListener
 		}
 
 	}
-
-	// 스피너 선택
-	@Override
-	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		// TODO Auto-generated method stub
-		TextView selected = (TextView) arg1;
-		SELECT_CATEGORY_NUM = arg2;
-		Log.i("MyTag", "선택>>" + selected.getText() + ">>" + SELECT_CATEGORY_NUM);
-	}
-
-	// 스피너 미선택
-	@Override
-	public void onNothingSelected(AdapterView<?> arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

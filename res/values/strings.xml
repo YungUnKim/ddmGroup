@@ -8,5 +8,8 @@
     <string name="notice_text">최근 공지사항</string>
     <string name="notice_all">전체보기</string>
     <string name="notice_newsfeed">새 글 보기</string>
+    
+    <string name="group_name">모임 이름</string>
+    <string name="edit_help_msg">내용을 입력하시고 \n취소 버튼을 누르셔서 키보드를 내려주세요.</string>
 
 </resources>

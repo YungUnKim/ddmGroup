@@ -89,7 +89,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="게시판"
+                        android:text="모임"
                         android:textColor="#e4e4e4" />
 
                     <TextView
@@ -150,16 +150,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/setting_box"
-                    android:text="게시판 관리"
-                    android:textSize="16sp" />
-
-                <Button
-                    android:id="@+id/button_board_register"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/setting_box"
-                    android:text="게시판 생성"
+                    android:text="모임 관리"
                     android:textSize="16sp" />
 
                 <LinearLayout
@@ -173,12 +164,28 @@
                     android:visibility="gone" >
 
                     <EditText
+                        android:id="@+id/admin_group_name_edit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/apptheme_edit_text_holo_light"
-                        android:hint="모임 이름"
+                        android:hint="@string/group_name"
+                        android:inputType="text"
                         android:maxLength="50"
                         android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/admin_group_dscr_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/apptheme_edit_text_holo_light"
+                        android:hint="@string/edit_help_msg"
+                        android:imeOptions="actionDone"
+                        android:inputType="textMultiLine"
+                        android:maxLength="100"
+                        android:minLines="3"
+                        android:padding="8dp"
+                        android:textSize="14sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -212,6 +219,15 @@
                             android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
+
+                <Button
+                    android:id="@+id/button_board_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/setting_box"
+                    android:text="모임 생성"
+                    android:textSize="16sp" />
 
                 <Button
                     android:id="@+id/button_notice_register_manage"

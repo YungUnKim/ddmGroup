@@ -1,23 +1,24 @@
 package uos.codingsroom.ddmgroup;
 
 import uos.codingsroom.ddmgroup.comm.Get_Manage_Thread;
-import uos.codingsroom.ddmgroup.fragments.RegisterFragment;
+import uos.codingsroom.ddmgroup.item.BoardItem;
 import uos.codingsroom.ddmgroup.util.SystemValue;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class AdminActivity extends Activity implements OnClickListener {
 
@@ -30,16 +31,21 @@ public class AdminActivity extends Activity implements OnClickListener {
 	private Button board_register_btn;
 	private Button notice_register_btn;
 
+	private EditText groupNameEditText;
+	private EditText groupDscrEditText;
+	private BoardItem mItem = new BoardItem();
+
 	private LinearLayout boardRegisterLayout;
 	private Button setCategoryBtn;
 	private Button makeBoardBtn;
-	
+
 	private int member_cnt = 0;
 	private int board_cnt = 0;
 	private int content_cnt = 0;
 
 	private AlertDialog categoryDialog = null;
-	private Integer setMakeCategory;
+	private Boolean initFlag = false;
+	private InputMethodManager imm;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,12 +71,17 @@ public class AdminActivity extends Activity implements OnClickListener {
 		notice_register_btn = (Button) findViewById(R.id.button_notice_register_manage);
 		notice_register_btn.setOnClickListener(this);
 
+		groupNameEditText = (EditText) findViewById(R.id.admin_group_name_edit);
+		groupDscrEditText = (EditText) findViewById(R.id.admin_group_dscr_edit);
+
 		boardRegisterLayout = (LinearLayout) findViewById(R.id.layout_board_register);
 		boardRegisterLayout.setOnClickListener(this);
 		setCategoryBtn = (Button) findViewById(R.id.button_register_category);
 		setCategoryBtn.setOnClickListener(this);
 		makeBoardBtn = (Button) findViewById(R.id.button_make_board);
 		makeBoardBtn.setOnClickListener(this);
+		
+		imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
 		// 스레드 실행
 		Get_Manage_Thread mThread = new Get_Manage_Thread(this, 100);
@@ -82,12 +93,12 @@ public class AdminActivity extends Activity implements OnClickListener {
 		if (key.equals("member")) {
 			member_cnt = value;
 		} else if (key.equals("board")) {
-			board_cnt = value-1;
+			board_cnt = value - 1;
 		} else if (key.equals("contents")) {
 			content_cnt = value;
 		}
 	}
-	
+
 	private AlertDialog createCategoryDialog() {
 		AlertDialog.Builder ab = new AlertDialog.Builder(this);
 		ab.setTitle("카테고리");
@@ -96,8 +107,9 @@ public class AdminActivity extends Activity implements OnClickListener {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				setMakeCategory = which;
+				mItem.setCategory(which);
 				setCategoryBtn.setText(SystemValue.kinds[which]);
+				initFlag = true;
 			}
 		});
 
@@ -110,19 +122,19 @@ public class AdminActivity extends Activity implements OnClickListener {
 
 		return ab.create();
 	}
-	
+
 	private void setDismiss(Dialog dialog) {
 		if (dialog != null && dialog.isShowing())
 			dialog.dismiss();
 	}
 
 	// 서버에서 받아온 데이터를 뷰에 세팅하는 함수
-	public void setView(){
+	public void setView() {
 		member_count_Text.setText(member_cnt + " 명");
 		board_count_Text.setText(board_cnt + " 개");
 		contents_count_Text.setText(content_cnt + " 개");
 	}
-	
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -140,8 +152,10 @@ public class AdminActivity extends Activity implements OnClickListener {
 		case R.id.button_board_register:
 			if (boardRegisterLayout.getVisibility() == View.GONE) {
 				boardRegisterLayout.setVisibility(View.VISIBLE);
+				board_register_btn.setSelected(true);
 			} else {
 				boardRegisterLayout.setVisibility(View.GONE);
+				board_register_btn.setSelected(false);
 			}
 			break;
 		case R.id.button_register_category:
@@ -149,7 +163,18 @@ public class AdminActivity extends Activity implements OnClickListener {
 			categoryDialog.show();
 			break;
 		case R.id.button_make_board:
-			boardRegisterLayout.setVisibility(View.GONE);
+			if (groupNameEditText.getText().toString().equals("") || groupDscrEditText.getText().toString().equals("") || initFlag == false) {
+				Toast.makeText(getApplicationContext(), "빈칸을 입력해주세요!", Toast.LENGTH_SHORT).show();
+			} else {
+				boardRegisterLayout.setVisibility(View.GONE);
+				board_register_btn.setSelected(false);
+				mItem.setTitle(groupNameEditText.getText().toString());
+				mItem.setDscr(groupDscrEditText.getText().toString());
+				imm.hideSoftInputFromWindow(groupDscrEditText.getWindowToken(), 0);
+				// 여기서 모임 등록 통신시작 -- 조인행
+				initForm();
+				// 스레드에서 위 함수를 호출할 것
+			}
 			break;
 		case R.id.button_notice_register_manage: // 공지사항 작성
 			Intent intent4 = new Intent(this, NoticeRegisterActivity.class);
@@ -158,5 +183,13 @@ public class AdminActivity extends Activity implements OnClickListener {
 		default:
 			break;
 		}
+	}
+
+	public void initForm() {
+		Toast.makeText(getApplicationContext(), "모임이 등록되었습니다.", Toast.LENGTH_SHORT).show();
+		groupNameEditText.setText("");
+		groupDscrEditText.setText("");
+		setCategoryBtn.setText("카테고리");
+		initFlag = false;
 	}
 }
