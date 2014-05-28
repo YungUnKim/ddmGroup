@@ -27,7 +27,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="6"
                     android:gravity="bottom"
-                    android:paddingLeft="10dp"
+                    android:paddingLeft="15dp"
                     android:textColor="#ffffff"
                     android:textSize="17sp"
                     android:textStyle="bold" />
@@ -59,6 +59,7 @@
                     android:inputType="text"
                     android:paddingLeft="10dp"
                     android:paddingRight="8dp"
+                    android:visibility="gone"
                     android:textSize="18sp" />
             </LinearLayout>
         </LinearLayout>

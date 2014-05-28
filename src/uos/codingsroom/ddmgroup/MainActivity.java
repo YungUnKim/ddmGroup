@@ -343,6 +343,11 @@ public class MainActivity extends FragmentActivity {
 		transaction.commit();
 
 		currentFragment = fragmentIndex;
+		if (fragmentIndex == 1) {
+			searchBox.setVisibility(View.VISIBLE);
+		} else {
+			searchBox.setVisibility(View.GONE);
+		}
 	}
 
 	private void initializeProfileView() {
