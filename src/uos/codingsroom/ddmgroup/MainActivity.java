@@ -73,6 +73,8 @@ public class MainActivity extends FragmentActivity {
 	private GroupListAdapter groupAdapter;
 
 	private EditText searchBox;
+	private Integer[] headerImage = { R.drawable.header, R.drawable.header1, R.drawable.header2 };
+	private LinearLayout headerLayout;
 
 	MakeMenu menu;
 	MakePreferences myPreference;
@@ -291,6 +293,7 @@ public class MainActivity extends FragmentActivity {
 		}
 		transaction.commit();
 
+		headerLayout = (LinearLayout) findViewById(R.id.header_layout);
 		menuHelperLayout = (RelativeLayout) findViewById(R.id.main_menu_helper_layout);
 		menuLayout = (LinearLayout) findViewById(R.id.layout_menu);
 		searchBox = (EditText) findViewById(R.id.searchBox);
@@ -343,6 +346,7 @@ public class MainActivity extends FragmentActivity {
 		transaction.commit();
 
 		currentFragment = fragmentIndex;
+		headerLayout.setBackgroundResource(headerImage[fragmentIndex]);
 		if (fragmentIndex == 1) {
 			searchBox.setVisibility(View.VISIBLE);
 		} else {
