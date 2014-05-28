@@ -1,6 +1,5 @@
 package uos.codingsroom.ddmgroup;
 
-
 import static uos.codingsroom.ddmgroup.BasicInfo.TOAST_MESSAGE_ACTION;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -25,7 +24,7 @@ import com.kakao.widget.LoginButton;
 public class KakaoLoginActivity extends Activity {
 
 	private int DELAY_TIME = 1500;
-	
+
 	AsyncTask<Void, Void, Void> mSendTask;
 	private LoginButton loginButton;
 	private final SessionCallback mySessionCallback = new MySessionStatusCallback();
@@ -34,51 +33,47 @@ public class KakaoLoginActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_kakaologin);
-		
-		
-		//---------------------GCM Device register--------------------//
+
+		// ---------------------GCM Device register--------------------//
 		registerReceiver(mToastMessageReceiver, new IntentFilter(TOAST_MESSAGE_ACTION));
-		
+
 		registerDevice();
-		
+
 		loginButton = (LoginButton) findViewById(R.id.com_kakao_login);
 		loginButton.setLoginSessionCallback(mySessionCallback);
 
 	}
+
 	private void registerDevice() {
-		
+
 		GCMRegistrar.checkDevice(this);
 		GCMRegistrar.checkManifest(this);
-		
+
 		final String regId = GCMRegistrar.getRegistrationId(this);
-		Log.i("PUSH","regId = " + regId);
+		Log.i("PUSH", "regId = " + regId);
 		if (regId.equals("")) {
-			Log.i("PUSH","regID = 없음");
+			Log.i("PUSH", "regID = 없음");
 			DELAY_TIME = 5000;
 			GCMRegistrar.register(getBaseContext(), BasicInfo.PROJECT_ID);
-			
+
 		} else {
-			
+
 			if (GCMRegistrar.isRegisteredOnServer(this)) {
 				DELAY_TIME = 5000;
 			} else {
-				GCMRegistrar.register(getBaseContext(), BasicInfo.PROJECT_ID);			
+				GCMRegistrar.register(getBaseContext(), BasicInfo.PROJECT_ID);
 			}
-			
+
 		}
-		
-		
+
 	}
 
-	
 	private final BroadcastReceiver mToastMessageReceiver = new BroadcastReceiver() {
 		public void onReceive(Context context, Intent intent) {
 			String message = intent.getExtras().getString("message");
 			Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
 		}
 	};
-	
-	
 
 	protected void showProfileButton() {
 		new Handler().postDelayed(new Runnable() {

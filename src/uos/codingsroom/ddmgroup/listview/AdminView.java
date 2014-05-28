@@ -1,34 +1,33 @@
 package uos.codingsroom.ddmgroup.listview;
 
 import uos.codingsroom.ddmgroup.R;
-import uos.codingsroom.ddmgroup.item.MemberItem;
+import uos.codingsroom.ddmgroup.item.AdminItem;
+import uos.codingsroom.ddmgroup.item.GroupItem;
+import uos.codingsroom.ddmgroup.item.NewsFeedItem;
+import uos.codingsroom.ddmgroup.item.NoticeItem;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class MemberView extends LinearLayout {
+public class AdminView extends LinearLayout {
 
 	private TextView mText01;
 	private TextView mText02;
-	private TextView mText03;
 
-	public MemberView(Context context, MemberItem aItem) {
+	public AdminView(Context context, AdminItem aItem) {
 		super(context);
 
 		// Layout Inflation
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		inflater.inflate(R.layout.item_notice, this, true);
+		inflater.inflate(R.layout.item_admin, this, true);
 
 		// Set Text 01
-		mText01 = (TextView) findViewById(R.id.notice_title);
-		mText01.setText(aItem.getName());
+		mText01 = (TextView) findViewById(R.id.admin_title);
+		mText01.setText(aItem.getTitle());
 
-		mText02 = (TextView) findViewById(R.id.notice_date);
-		mText02.setText(aItem.getDate());
-
-		mText03 = (TextView) findViewById(R.id.notice_reply_count);
-		mText03.setText(Integer.toString(0));
+		mText02 = (TextView) findViewById(R.id.admin_subdata);
+		mText02.setText(aItem.getSubData());
 
 	}
 
@@ -37,8 +36,6 @@ public class MemberView extends LinearLayout {
 			mText01.setText(data);
 		} else if (index == 1) {
 			mText02.setText(data);
-		} else if (index == 2) {
-			mText03.setText(data);
 		} else {
 			throw new IllegalArgumentException();
 		}

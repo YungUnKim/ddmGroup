@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class NewsfeedFragment extends Fragment implements OnClickListener {
 
@@ -108,7 +109,7 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 		newsfeedListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-				NewsFeedItem curItem = (NewsFeedItem) newsfeedAdapter.getItem(position);
+				NewsFeedItem curItem = (NewsFeedItem) newsfeedAdapter.getItem(position-1);
 				moveToContentsActivity(curItem.getIndexNum(), curItem.getGroupName(), false);
 			}
 		});

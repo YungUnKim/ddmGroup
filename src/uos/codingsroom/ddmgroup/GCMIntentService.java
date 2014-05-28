@@ -39,14 +39,14 @@ public class GCMIntentService extends GCMBaseIntentService {
 
     	BasicInfo.RegistrationId = registrationId;
 
-    	sendToastMessage(context, "기기가 등록되었습니다..");
+//    	sendToastMessage(context, "기기가 등록되었습니다..");
     }
 
     @Override
     public void onUnregistered(Context context, String registrationId) {
     	Log.i(TAG, "onUnregistered called.");
 
-    	sendToastMessage(context, "등록이 해지되었습니다..");
+//    	sendToastMessage(context, "등록이 해지되었습니다..");
     }
 
     @Override

@@ -1,8 +1,11 @@
 package uos.codingsroom.ddmgroup;
+
 import java.util.ArrayList;
 
 import uos.codingsroom.ddmgroup.comm.Get_BoardList_Thread;
+import uos.codingsroom.ddmgroup.item.AdminItem;
 import uos.codingsroom.ddmgroup.item.BoardItem;
+import uos.codingsroom.ddmgroup.listview.AdminListAdapter;
 import uos.codingsroom.ddmgroup.listview.BoardListAdapter;
 import android.app.Activity;
 import android.content.Intent;
@@ -20,39 +23,37 @@ import android.widget.Toast;
 public class ManageBoardActivity extends Activity implements OnClickListener {
 
 	private ListView boardListView;
-	private BoardListAdapter boardListAdapter;
+	private AdminListAdapter boardListAdapter;
 
 	private ImageView backButton;
 	private TextView title_text;
 	private TextView title_text2;
-	
-	private ArrayList<BoardItem> boardItem = new ArrayList<BoardItem>(); // 공지사항 리스트 배열
+
+	private ArrayList<AdminItem> boardItem = new ArrayList<AdminItem>(); // 공지사항 리스트 배열
 	private int board_cnt = 0; // 게시판수
 
 	private int SELECT_BOARD_NUM = 0; // 선택한 게시판 위치
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_notice);
+		setContentView(R.layout.activity_admin_list);
 
-		boardListView = (ListView) findViewById(R.id.listview_notice);
-		boardListAdapter = new BoardListAdapter(this);
+		boardListView = (ListView) findViewById(R.id.listview_admin);
+		boardListAdapter = new AdminListAdapter(this);
 
-		backButton = (ImageView) findViewById(R.id.button_notice_back);
+		backButton = (ImageView) findViewById(R.id.admin_list_back);
 		backButton.setOnClickListener(this);
-		title_text = (TextView) findViewById(R.id.text_title);
+		title_text = (TextView) findViewById(R.id.admin_list_title);
 		title_text.setText("게시판 관리");
-		title_text2 = (TextView) findViewById(R.id.text_title2);
+		title_text2 = (TextView) findViewById(R.id.admin_list_header);
 		title_text2.setText("게시판 목록");
-		
-		// new UrlImageDownloadTask(testImage).execute("http://joongangdaily.joins.com/_data/photo/2010/01/25080514.jpg");
 
 		Get_BoardList_Thread mThread = new Get_BoardList_Thread(this, 120);
 		mThread.start();
 
 		setListView();
-		
+
 	}
 
 	// 핸들러에서 보낸 메시지를 토스트로 출력하는 함수
@@ -67,8 +68,8 @@ public class ManageBoardActivity extends Activity implements OnClickListener {
 	}
 
 	// 객체를 세팅하는 함수
-	public void setListItem(BoardItem mItem) {
-		Log.i("MyTag",">> " + mItem.getTitle());
+	public void setListItem(AdminItem mItem) {
+		Log.i("MyTag", ">> " + mItem.getTitle());
 		boardItem.add(board_cnt++, mItem);
 	}
 
@@ -76,10 +77,10 @@ public class ManageBoardActivity extends Activity implements OnClickListener {
 	public void setListView() {
 
 		for (int i = 0; i < board_cnt; i++) {
-			boardListAdapter.addItem(new BoardItem(boardItem.get(i).getNum(), // 인덱스 번호
-					boardItem.get(i).getTitle(), 	// 게시판 이름
-					boardItem.get(i).getCategory() 	// 대분류
-			));
+			boardListAdapter.addItem(new AdminItem(boardItem.get(i).getNum(), // 인덱스 번호
+					boardItem.get(i).getTitle(),
+					boardItem.get(i).getSubData() + " 그룹"
+					));
 		}
 
 		boardListView.setAdapter(boardListAdapter);
@@ -93,6 +94,7 @@ public class ManageBoardActivity extends Activity implements OnClickListener {
 				intent.putExtra("board_num", boardItem.get(SELECT_BOARD_NUM).getNum());
 				intent.putExtra("mode", true);
 				startActivity(intent);
+
 			}
 		});
 	}
@@ -100,7 +102,7 @@ public class ManageBoardActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.button_notice_back:
+		case R.id.admin_list_back:
 			finish();
 			break;
 

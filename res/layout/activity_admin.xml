@@ -12,7 +12,7 @@
 
         <ImageView
             android:id="@+id/button_notice_back_manage"
-            android:layout_width="wrap_content"
+            android:layout_width="45dp"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:src="@drawable/icon_back" />
@@ -22,6 +22,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/button_notice_back_manage"
+            android:focusable="true"
             android:gravity="center"
             android:text="관리자 메뉴"
             android:textColor="@color/content_gray"
@@ -35,132 +36,194 @@
             android:src="@drawable/ddmlogo2" />
     </RelativeLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        android:background="@drawable/rounded_green_box"
-        android:padding="10dp"
-        android:weightSum="3" >
+        android:layout_height="match_parent" >
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="회원"
-                android:textColor="@color/ddm_black_3" />
+                android:layout_margin="30dp"
+                android:background="@drawable/rounded_purple_box"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:weightSum="3" >
 
-            <TextView
-                android:id="@+id/text_member_count"
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="회원"
+                        android:textColor="#e4e4e4" />
+
+                    <TextView
+                        android:id="@+id/text_member_count"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:textColor="#ffffff"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="게시판"
+                        android:textColor="#e4e4e4" />
+
+                    <TextView
+                        android:id="@+id/text_board_count"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:textColor="#ffffff"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="게시물"
+                        android:textColor="#e4e4e4" />
+
+                    <TextView
+                        android:id="@+id/text_contents_count"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:textColor="#ffffff"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:orientation="vertical" >
+
+                <Button
+                    android:id="@+id/button_member_manage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/setting_box"
+                    android:text="회원 관리"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/button_board_manage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/setting_box"
+                    android:text="게시판 관리"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/button_board_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/setting_box"
+                    android:text="게시판 생성"
+                    android:textSize="16sp" />
+
+                <LinearLayout
+                    android:id="@+id/layout_board_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/rounded_white_box"
+                    android:orientation="vertical"
+                    android:padding="15dp"
+                    android:visibility="gone" >
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/apptheme_edit_text_holo_light"
+                        android:hint="모임 이름"
+                        android:maxLength="50"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="15dp"
+                        android:orientation="horizontal"
+                        android:weightSum="5" >
+
+                        <Button
+                            android:id="@+id/button_register_category"
+                            android:layout_width="0dip"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:background="@drawable/setting_box"
+                            android:text="카테고리"
+                            android:textSize="14sp" />
+
+                        <View
+                            android:layout_width="0dip"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5" />
+
+                        <Button
+                            android:id="@+id/button_make_board"
+                            android:layout_width="0dip"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2.5"
+                            android:background="@drawable/setting_admin_box"
+                            android:text="생성하기"
+                            android:textColor="#ffffff"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/button_notice_register_manage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/setting_box"
+                    android:text="공지사항 작성"
+                    android:textSize="16sp" />
+            </LinearLayout>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical" >
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="게시판"
-                android:textColor="@color/ddm_black_3" />
-
-            <TextView
-                android:id="@+id/text_board_count"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical" >
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="게시물"
-                android:textColor="@color/ddm_black_3" />
-
-            <TextView
-                android:id="@+id/text_contents_count"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:orientation="vertical" >
-
-        <Button
-            android:id="@+id/button_member_manage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/setting_box"
-            android:text="회원 관리" />
-
-        <Button
-            android:id="@+id/button_board_manage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/setting_box"
-            android:text="게시판 관리" />
-
-        <Button
-            android:id="@+id/button_notice_manage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/setting_box"
-            android:text="공지사항 보기" />
-
-        <Button
-            android:id="@+id/button_notice_register_manage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/setting_box"
-            android:text="공지사항 작성" />
-    </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

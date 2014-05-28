@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/kakao_link"
                 android:drawableRight="@drawable/kakao"
                 android:paddingLeft="25dp"
@@ -109,6 +109,10 @@
                 android:text="카카오 친구 초대하기"
                 android:textColor="#000000"
                 android:textSize="15sp" />
+            
+            <View 
+                android:layout_width="match_parent"
+                android:layout_height="15dp"/>
 
             <Button
                 android:id="@+id/button_admin"
@@ -116,9 +120,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/setting_admin_box"
                 android:text="관리자 모드"
+                android:textColor="#ffffff"
+                android:textSize="16sp"
                 android:visibility="gone" />
 
             <Button
@@ -127,9 +133,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/setting_box"
-                android:text="문의/제보" />
+                android:text="문의/제보"
+                android:textSize="16sp" />
 
             <Button
                 android:id="@+id/button_resign"
@@ -139,7 +146,8 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/setting_box"
-                android:text="탈퇴하기" />
+                android:text="탈퇴하기"
+                android:textSize="16sp" />
 
             <Button
                 android:id="@+id/button_logout"
@@ -149,7 +157,8 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/setting_box"
-                android:text="로그아웃" />
+                android:text="로그아웃"
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -157,9 +166,9 @@
                 android:layout_margin="20dp"
                 android:gravity="right"
                 android:paddingLeft="10dp"
-                android:textColor="@color/content_gray"
                 android:paddingRight="10dp"
-                android:text="made by UOS coding&apos;sRoom" />
+                android:text="made by UOS coding&apos;sRoom"
+                android:textColor="@color/content_gray" />
         </LinearLayout>
     </ScrollView>
 
