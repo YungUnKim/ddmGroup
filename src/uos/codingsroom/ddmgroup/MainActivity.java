@@ -29,13 +29,16 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnCloseListener;
@@ -68,6 +71,8 @@ public class MainActivity extends FragmentActivity {
 
 	private ListView groupListView;
 	private GroupListAdapter groupAdapter;
+
+	private EditText searchBox;
 
 	MakeMenu menu;
 	MakePreferences myPreference;
@@ -288,6 +293,21 @@ public class MainActivity extends FragmentActivity {
 
 		menuHelperLayout = (RelativeLayout) findViewById(R.id.main_menu_helper_layout);
 		menuLayout = (LinearLayout) findViewById(R.id.layout_menu);
+		searchBox = (EditText) findViewById(R.id.searchBox);
+		searchBox.setOnEditorActionListener(new OnEditorActionListener() {
+
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+				if ((actionId == EditorInfo.IME_ACTION_DONE) ||
+						(event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+					Toast.makeText(getApplicationContext(), "여기에 기능을 쓰면 됩니다.", Toast.LENGTH_SHORT).show();
+					searchBox.setText("");
+				}
+
+				return false;
+			}
+		});
 
 		menu.getMenu().setOnCloseListener(new OnCloseListener() {
 			@Override
