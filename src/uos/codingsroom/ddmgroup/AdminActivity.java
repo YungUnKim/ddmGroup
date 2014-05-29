@@ -1,6 +1,7 @@
 package uos.codingsroom.ddmgroup;
 
 import uos.codingsroom.ddmgroup.comm.Get_Manage_Thread;
+import uos.codingsroom.ddmgroup.comm.Insert_Board_Thread;
 import uos.codingsroom.ddmgroup.item.BoardItem;
 import uos.codingsroom.ddmgroup.util.SystemValue;
 import android.app.Activity;
@@ -80,7 +81,7 @@ public class AdminActivity extends Activity implements OnClickListener {
 		setCategoryBtn.setOnClickListener(this);
 		makeBoardBtn = (Button) findViewById(R.id.button_make_board);
 		makeBoardBtn.setOnClickListener(this);
-		
+
 		imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
 		// 스레드 실행
@@ -163,17 +164,20 @@ public class AdminActivity extends Activity implements OnClickListener {
 			categoryDialog.show();
 			break;
 		case R.id.button_make_board:
-			if (groupNameEditText.getText().toString().equals("") || groupDscrEditText.getText().toString().equals("") || initFlag == false) {
+			if (groupNameEditText.getText().toString().equals("") || groupDscrEditText.getText().toString().equals("")) {
 				Toast.makeText(getApplicationContext(), "빈칸을 입력해주세요!", Toast.LENGTH_SHORT).show();
+			} else if (initFlag == false) {
+				Toast.makeText(getApplicationContext(), "카테고리를 선택해주세요!", Toast.LENGTH_SHORT).show();
 			} else {
 				boardRegisterLayout.setVisibility(View.GONE);
 				board_register_btn.setSelected(false);
 				mItem.setTitle(groupNameEditText.getText().toString());
 				mItem.setDscr(groupDscrEditText.getText().toString());
 				imm.hideSoftInputFromWindow(groupDscrEditText.getWindowToken(), 0);
-				// 여기서 모임 등록 통신시작 -- 조인행
-				initForm();
-				// 스레드에서 위 함수를 호출할 것
+
+				// 모임 등록 스레드
+				Insert_Board_Thread iThread = new Insert_Board_Thread(AdminActivity.this, 122, mItem);
+				iThread.start();
 			}
 			break;
 		case R.id.button_notice_register_manage: // 공지사항 작성
@@ -191,5 +195,16 @@ public class AdminActivity extends Activity implements OnClickListener {
 		groupDscrEditText.setText("");
 		setCategoryBtn.setText("카테고리");
 		initFlag = false;
+	}
+
+	// 핸들러에서 보낸 메시지를 토스트로 출력하는 함수
+	public void viewMessage(String message) {
+		Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+	}
+
+	// 핸들러에서 보낸 메시지를 토스트로 출력하고 액티비티를 종료하는 함수
+	public void viewMessage(String message, int reaction) {
+		Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+		finish();
 	}
 }

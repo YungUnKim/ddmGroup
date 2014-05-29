@@ -1,5 +1,6 @@
 package uos.codingsroom.ddmgroup;
 
+import uos.codingsroom.ddmgroup.comm.Delete_Board_Thread;
 import uos.codingsroom.ddmgroup.comm.Get_BoardInfo_Thread;
 import uos.codingsroom.ddmgroup.item.BoardItem;
 import uos.codingsroom.ddmgroup.util.SystemValue;
@@ -130,6 +131,8 @@ public class ManageBoardInfoActivity extends Activity implements OnClickListener
 			break;
 		case R.id.button_delete_board:
 			// 게시판 삭제하기
+			Delete_Board_Thread dThread = new Delete_Board_Thread(ManageBoardInfoActivity.this,124,mItem.getNum());
+			dThread.start();
 			break;
 		case R.id.button_board_back:
 			finish();

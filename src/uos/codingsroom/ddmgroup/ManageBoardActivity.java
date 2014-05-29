@@ -2,6 +2,8 @@ package uos.codingsroom.ddmgroup;
 
 import java.util.ArrayList;
 
+import com.kakao.UserProfile;
+
 import uos.codingsroom.ddmgroup.comm.Get_BoardList_Thread;
 import uos.codingsroom.ddmgroup.item.AdminItem;
 import uos.codingsroom.ddmgroup.listview.AdminListAdapter;
@@ -39,7 +41,7 @@ public class ManageBoardActivity extends Activity implements OnClickListener {
 
 		boardListView = (ListView) findViewById(R.id.listview_admin);
 		boardListAdapter = new AdminListAdapter(this);
-
+		
 		backButton = (ImageView) findViewById(R.id.admin_list_back);
 		backButton.setOnClickListener(this);
 		title_text = (TextView) findViewById(R.id.admin_list_title);
@@ -49,9 +51,15 @@ public class ManageBoardActivity extends Activity implements OnClickListener {
 
 		Get_BoardList_Thread mThread = new Get_BoardList_Thread(this, 120);
 		mThread.start();
+	}
 
-		setListView();
-
+	protected void onResume() {
+		super.onResume();
+		// 게시판 목록 받아오는 스레드
+//		boardItem.clear();
+//		Get_BoardList_Thread mThread = new Get_BoardList_Thread(this, 120);
+//		mThread.start();
+		
 	}
 
 	// 핸들러에서 보낸 메시지를 토스트로 출력하는 함수
@@ -71,23 +79,22 @@ public class ManageBoardActivity extends Activity implements OnClickListener {
 		boardItem.add(board_cnt++, mItem);
 	}
 
-	// 초기에 액티비티 뷰 정의하는 함수
+	// 액티비티 뷰 갱신 및 생성하는 함수
 	public void setListView() {
-
+//		boardListAdapter.clearItem();
 		for (int i = 0; i < board_cnt; i++) {
 			boardListAdapter.addItem(new AdminItem(boardItem.get(i).getNum(), // 인덱스 번호
-					boardItem.get(i).getTitle(),
-					boardItem.get(i).getSubData() + " 그룹"
-					));
+					boardItem.get(i).getTitle(), boardItem.get(i).getSubData() + " 그룹"));
 		}
 
+//		boardListAdapter.notifyDataSetChanged();
 		boardListView.setAdapter(boardListAdapter);
 		boardListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 				SELECT_BOARD_NUM = arg2; // 댓글의 인덱스
-				Log.i("MyTag","선택 >> " + SELECT_BOARD_NUM + ">>" + boardItem.get(SELECT_BOARD_NUM).getNum());
-				
+				Log.i("MyTag", "선택 >> " + SELECT_BOARD_NUM + ">>" + boardItem.get(SELECT_BOARD_NUM).getNum());
+
 				Intent intent = new Intent(ManageBoardActivity.this, ManageBoardInfoActivity.class);
 				intent.putExtra("board_num", boardItem.get(SELECT_BOARD_NUM).getNum());
 				startActivity(intent);

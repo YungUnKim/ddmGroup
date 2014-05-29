@@ -55,6 +55,14 @@ public class Manage_EventHandler extends Handler {
 				((ManageBoardInfoActivity) mcontext).viewMessage("게시판 정보를 얻어오는데 실패하였습니다.", 0);
 			} else if (msg.what == 1210) { // 게시판 정보 받아오기 성공
 				((ManageBoardInfoActivity) mcontext).setView();
+			} else if (msg.what == -1220) { // 게시판 생성하기 실패
+				((AdminActivity) mcontext).viewMessage("게시판 생성하는데 실패하였습니다.");
+			} else if (msg.what == 1220) { // 게시판 생성하기 성공
+				((AdminActivity) mcontext).initForm();
+			} else if (msg.what == -1240) { // 게시판 삭제 실패
+				((ManageBoardInfoActivity) mcontext).viewMessage("게시판 삭제하는데 실패하였습니다.");
+			} else if (msg.what == 1240) { // 게시판 삭제 성공
+				((ManageBoardInfoActivity) mcontext).viewMessage("게시판을 삭제하였습니다.",0);
 			} else if (msg.what == -1300) { // 공지사항 리스트 받아오기 실패
 				((NoticeActivity) mcontext).viewMessage("공지사항 목록을 얻어오는데 실패하였습니다.", 0);
 			} else if (msg.what == 1300) { // 공지사항 리스트 받아오기 성공
