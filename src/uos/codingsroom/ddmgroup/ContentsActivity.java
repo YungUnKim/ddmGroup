@@ -181,9 +181,16 @@ public class ContentsActivity extends Activity implements OnClickListener {
 	// 받아온 댓글들을 뷰에 생성하는 함수
 	public void setListView() {
 		if (kind) { // 공지사항 경우
-			contentsMenuButton.setVisibility(View.GONE);
+			if (MainActivity.isAdmin) {
+				contentsMenuButton.setOnClickListener(this);
+				menuHelperLayout.setOnClickListener(this);
+				contentsLogo.setOnClickListener(this);
+				contentsMenuButton.setVisibility(View.VISIBLE);
+			} else {
+				contentsMenuButton.setVisibility(View.GONE);
+			}
 		} else { // 일반글 경우
-			if (conItem.getMemberNum() == MainActivity.getMyInfoItem().getMyMemNum()) {
+			if (conItem.getMemberNum() == MainActivity.getMyInfoItem().getMyMemNum() || MainActivity.isAdmin) {
 				contentsMenuButton.setOnClickListener(this);
 				menuHelperLayout.setOnClickListener(this);
 				contentsLogo.setOnClickListener(this);
@@ -216,7 +223,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		if (commentsListAdapter.getCount() == 0) {
 			contentsNoComment.setVisibility(View.VISIBLE);
 		}
-		if(MainActivity.isBlocked == true){
+		if (MainActivity.isBlocked == true) {
 			commentLayout.setVisibility(View.GONE);
 		}
 		progressDialog.dismissProgressDialog();
@@ -388,13 +395,13 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		final MyInfoItem myInfo = MainActivity.getMyInfoItem();
 		switch (v.getId()) {
 		case R.id.contents_name:
-//			boolean isAdmin = false;
-//			for(int i=0;i<myInfo.getMylevel().size();i++){
-//				if(myInfo.getMylevel().get(i) == 999){
-//					isAdmin = true;
-//				}
-//			}
-			if(MainActivity.isAdmin){
+			// boolean isAdmin = false;
+			// for(int i=0;i<myInfo.getMylevel().size();i++){
+			// if(myInfo.getMylevel().get(i) == 999){
+			// isAdmin = true;
+			// }
+			// }
+			if (MainActivity.isAdmin) {
 				adminDialog = createAdminDialog();
 				adminDialog.show();
 			}
@@ -560,5 +567,16 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		rThread.start(); // 댓글 받아오는 스레드
 
 		// contentsImage;
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (menuLayout.getVisibility() == View.VISIBLE) {
+			menuLayout.setVisibility(View.GONE);
+			menuHelperLayout.setVisibility(View.GONE);
+		} else {
+			super.onBackPressed();
+		}
+
 	}
 }

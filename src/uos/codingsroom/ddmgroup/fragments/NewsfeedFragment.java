@@ -47,6 +47,7 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 	public void onStart() {
 		super.onStart();
 
+		newsfeedAdapter.clearItem();
 		Get_Newsfeed_Thread mThread1 = new Get_Newsfeed_Thread(this.getActivity(), 12);
 		mThread1.start();
 	}
