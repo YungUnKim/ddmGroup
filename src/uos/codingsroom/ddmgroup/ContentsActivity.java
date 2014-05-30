@@ -69,6 +69,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 	private TextView menuEditButton;
 	private TextView menuDeleteButton;
 
+	private LinearLayout commentLayout;
 	private EditText commentEdit;
 	private TextView commentRegister;
 
@@ -150,6 +151,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		menuDeleteButton = (TextView) findViewById(R.id.contents_delete_btn);
 		menuDeleteButton.setOnClickListener(this);
 
+		commentLayout = (LinearLayout) findViewById(R.id.edittext_layout_box);
 		commentEdit = (EditText) findViewById(R.id.edittext_comment);
 		commentRegister = (TextView) findViewById(R.id.button_comment_register);
 		commentRegister.setOnClickListener(this);
@@ -202,7 +204,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 				SELECT_REPLY_NUM = arg2 - 1; // 댓글의 인덱스
 				final MyInfoItem myInfo = MainActivity.getMyInfoItem();
 
-				if (myInfo.getMyMemNum() == comItem.get(SELECT_REPLY_NUM).getMem_num()) { // 댓글 작성자인지 확인
+				if (myInfo.getMyMemNum() == comItem.get(SELECT_REPLY_NUM).getMem_num() || MainActivity.isAdmin == true) { // 댓글 작성자인지 확인
 					replyDialog = createReplyDialog();
 					replyDialog.show();
 				} else {
@@ -213,6 +215,9 @@ public class ContentsActivity extends Activity implements OnClickListener {
 
 		if (commentsListAdapter.getCount() == 0) {
 			contentsNoComment.setVisibility(View.VISIBLE);
+		}
+		if(MainActivity.isBlocked == true){
+			commentLayout.setVisibility(View.GONE);
 		}
 		progressDialog.dismissProgressDialog();
 	}
@@ -383,13 +388,13 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		final MyInfoItem myInfo = MainActivity.getMyInfoItem();
 		switch (v.getId()) {
 		case R.id.contents_name:
-			boolean isAdmin = false;
-			for(int i=0;i<myInfo.getMylevel().size();i++){
-				if(myInfo.getMylevel().get(i) == 999){
-					isAdmin = true;
-				}
-			}
-			if(isAdmin){
+//			boolean isAdmin = false;
+//			for(int i=0;i<myInfo.getMylevel().size();i++){
+//				if(myInfo.getMylevel().get(i) == 999){
+//					isAdmin = true;
+//				}
+//			}
+			if(MainActivity.isAdmin){
 				adminDialog = createAdminDialog();
 				adminDialog.show();
 			}
@@ -421,7 +426,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 			break;
 
 		case R.id.contents_delete_btn: // 글 삭제
-			if (conItem.getMemberNum() == myInfo.getMyMemNum()) { // 작성자인지 확인
+			if (conItem.getMemberNum() == myInfo.getMyMemNum() || MainActivity.isAdmin) { // 작성자인지 확인
 				new AlertDialog.Builder(this).setTitle("글을 삭제하시겠습니까?").setPositiveButton("확인", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {

@@ -46,7 +46,6 @@ public class SettingActivity extends Activity implements OnClickListener {
 	private static String nickName;
 	private static String profileBigImageURL;
 	private static Long kakaoCode;
-	private static Boolean isAdmin;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +53,6 @@ public class SettingActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.activity_setting);
 
 		Bundle bundle = getIntent().getExtras();
-		isAdmin = bundle.getBoolean("isAdmin");
 		nickName = bundle.getString("myName");
 		profileBigImageURL = bundle.getString("myProfileUrl");
 		kakaoCode = bundle.getLong("myCode");
@@ -78,7 +76,7 @@ public class SettingActivity extends Activity implements OnClickListener {
 		kakaoLinkButton = (Button) findViewById(R.id.kakaolink);
 		kakaoLinkButton.setOnClickListener(this);
 
-		if (isAdmin == true) {
+		if (MainActivity.isAdmin == true) {
 			adminButton.setVisibility(View.VISIBLE);
 		}
 

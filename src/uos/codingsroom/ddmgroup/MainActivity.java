@@ -104,6 +104,9 @@ public class MainActivity extends FragmentActivity {
 	private static Fragment[] fragments = new Fragment[FRAGMENT_COUNT];
 
 	public static LoadingProgressDialog progressDialog;
+	
+	public static Boolean isAdmin = false;			// 관리자인지
+	public static Boolean isBlocked = false;		// 블록당했는지
 
 	@SuppressLint("NewApi")
 	@Override
@@ -150,6 +153,16 @@ public class MainActivity extends FragmentActivity {
 	public void setPermission() {
 		myInfoItem.setMyboard(board);
 		myInfoItem.setMylevel(level);
+		
+		for (int i = 0; i < board.size(); i++) {
+			if (board.get(i) == 0) { // 관리자일 경우
+				if (level.get(i) == SystemValue.ADMIN) {
+					isAdmin = true;
+				} else {
+					isAdmin = false;
+				}
+			}
+		}
 		// Log.i("MyTag","board >> " + myInfoItem.getMyboard().get(0) + ", level >> " + myInfoItem.getMylevel().get(0));
 		// Log.i("MyTag","board >> " + myInfoItem.getMyboard().get(1) + ", level >> " + myInfoItem.getMylevel().get(1));
 		// Log.i("MyTag","board >> " + myInfoItem.getMyboard().get(2) + ", level >> " + myInfoItem.getMylevel().get(2));
@@ -468,15 +481,6 @@ public class MainActivity extends FragmentActivity {
 
 	private void moveToSettingActivity() {
 		final Intent intent = new Intent(this, SettingActivity.class);
-		for (int i = 0; i < board.size(); i++) {
-			if (board.get(i) == 0) { // 관리자일 경우
-				if (level.get(i) == SystemValue.ADMIN) {
-					intent.putExtra("isAdmin", true);
-				} else {
-					intent.putExtra("isAdmin", false);
-				}
-			}
-		}
 		intent.putExtra("myName", nickName);
 		intent.putExtra("myProfileUrl", profileBigImageURL);
 		intent.putExtra("myCode", kakaoCode);
