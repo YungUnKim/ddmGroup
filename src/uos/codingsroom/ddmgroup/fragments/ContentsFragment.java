@@ -222,14 +222,14 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.button_board_home:
+			((MainActivity) getActivity()).showFragment(0, false);
+			break;
+		case R.id.button_board_register:
 			if (MainActivity.isBlocked == true) {
 				Toast.makeText(getActivity(), "부적절한 게시물로 이용이 정지된 계정입니다. 문의해주세요", Toast.LENGTH_SHORT).show();
 			} else {
-				((MainActivity) getActivity()).showFragment(0, false);
+				((MainActivity) getActivity()).showFragment(2, false);
 			}
-			break;
-		case R.id.button_board_register:
-			((MainActivity) getActivity()).showFragment(2, false);
 			break;
 		case R.id.button_board_prev:
 			// 이전
