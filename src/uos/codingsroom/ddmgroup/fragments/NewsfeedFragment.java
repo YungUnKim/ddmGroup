@@ -41,13 +41,14 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 	public void onResume() {
 		super.onResume();
 
-		newsfeedAdapter.clearItem();
-		Get_Notice_Three_Thread mThread = new Get_Notice_Three_Thread(this.getActivity(), 11);
-		mThread.start();
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
 
 		Get_Newsfeed_Thread mThread1 = new Get_Newsfeed_Thread(this.getActivity(), 12);
 		mThread1.start();
-
 	}
 
 	@Override
@@ -104,12 +105,14 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 
 	// 뉴스피드 출력(20개)
 	public void setNewsFeedList() {
-		// Log.i("MyTag", "뉴스피드입력된다." + noticeCount);
+		Get_Notice_Three_Thread mThread = new Get_Notice_Three_Thread(this.getActivity(), 11);
+		mThread.start();
+
 		newsfeedListView.setAdapter(newsfeedAdapter);
 		newsfeedListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-				NewsFeedItem curItem = (NewsFeedItem) newsfeedAdapter.getItem(position-1);
+				NewsFeedItem curItem = (NewsFeedItem) newsfeedAdapter.getItem(position - 1);
 				moveToContentsActivity(curItem.getIndexNum(), curItem.getGroupName(), false);
 			}
 		});
