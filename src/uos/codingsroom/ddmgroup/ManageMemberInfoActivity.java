@@ -2,12 +2,14 @@ package uos.codingsroom.ddmgroup;
 
 import java.util.ArrayList;
 
+import uos.codingsroom.ddmgroup.comm.Delete_Per_Thread;
 import uos.codingsroom.ddmgroup.comm.Get_MemberInfo_Thread;
+import uos.codingsroom.ddmgroup.comm.Insert_Per_Thread;
 import uos.codingsroom.ddmgroup.item.MemberItem;
+import uos.codingsroom.ddmgroup.util.SystemValue;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -40,10 +42,12 @@ public class ManageMemberInfoActivity extends Activity implements OnClickListene
 
 	private MemberItem mItem = new MemberItem();
 	private static Integer mem_num;
-	
-	private ArrayList<Integer> board = new ArrayList<Integer>();	// 권한 게시판 번호
-	private ArrayList<Integer> level = new ArrayList<Integer>();	// 권한 게시판 레벨
-	
+
+	private Boolean isAdmin = false;
+	private Boolean isBlocked = false;
+	private ArrayList<Integer> board = new ArrayList<Integer>(); // 권한 게시판 번호
+	private ArrayList<Integer> level = new ArrayList<Integer>(); // 권한 게시판 레벨
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -65,7 +69,6 @@ public class ManageMemberInfoActivity extends Activity implements OnClickListene
 		backButton.setOnClickListener(this);
 		blacklistButton = (Button) findViewById(R.id.button_reg_blacklist);
 		blacklistButton.setOnClickListener(this);
-		blacklistButton.setVisibility(View.GONE);
 		managerButton = (Button) findViewById(R.id.button_reg_manager);
 		managerButton.setOnClickListener(this);
 		managerButton.setVisibility(View.GONE);
@@ -84,13 +87,17 @@ public class ManageMemberInfoActivity extends Activity implements OnClickListene
 		ContentCntText.setText(mItem.getContent_cnt() + " 개");
 		ReplyCntText.setText(mItem.getReply_cnt() + " 개");
 		ConditionText.setText("일반유저");
-		
-		for(int i=0;i<mItem.getMylevel().size();i++){
-			if (mItem.getMylevel().get(i) == 999) {
+
+		for (int i = 0; i < mItem.getMylevel().size(); i++) {
+			if (mItem.getMylevel().get(i) == SystemValue.ADMIN) {
 				ConditionText.setText("관리자");
+				blacklistButton.setVisibility(View.GONE);
+				isAdmin = true;
 				break;
-			} else if (mItem.getMylevel().get(i) == 111) {
+			} else if (mItem.getMylevel().get(i) == SystemValue.BLACK) { // 블랙리스트 유저일 경우
 				ConditionText.setText("블랙리스트");
+				blacklistButton.setText("블랙리스트 취소");
+				isBlocked = true;
 				break;
 			}
 		}
@@ -120,25 +127,49 @@ public class ManageMemberInfoActivity extends Activity implements OnClickListene
 		mItem = tItem;
 	}
 
-	public void setBoardNum(int num){
+	public void setBoardNum(int num) {
 		board.add(num);
 	}
-	
-	public void setLevel(int num){
+
+	public void setLevel(int num) {
 		level.add(num);
 	}
-	
+
 	// 게시판 번호와 권한 레벨 객체에 저장하기
-	public void setPermission(){
+	public void setPermission() {
 		mItem.setMyboard(board);
 		mItem.setMylevel(level);
 	}
-	
+
+	// 블랙리스트 지정에 따른 버튼 변경
+	public void setBlacklist(Boolean what) {
+		if (what) { // 블랙리스트 지정
+			ConditionText.setText("블랙리스트");
+			blacklistButton.setText("블랙리스트 취소");
+			isBlocked = true;
+			Toast.makeText(this, "해당 유저가 블랙리스트로 지정되었습니다.", Toast.LENGTH_LONG).show();
+		} else { // 블랙리스트 취소
+			ConditionText.setText("일반 유저");
+			blacklistButton.setText("블랙리스트로 등록");
+			isBlocked = false;
+			Toast.makeText(this, "해당 유저가 블랙리스트에서 취소되었습니다.", Toast.LENGTH_LONG).show();
+		}
+	}
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.button_reg_blacklist:
-			// 블랙리트스로 등록 스레드
+			if(isBlocked) { // 블랙리스트 유저
+				// 블랙리스트 취소 스레드
+				Delete_Per_Thread dThread = new Delete_Per_Thread(ManageMemberInfoActivity.this, 114, mItem.getNum());
+				dThread.start();
+			} else { // 일반 유저
+				// 블랙리스트 등록 스레드
+				Insert_Per_Thread iThread = new Insert_Per_Thread(ManageMemberInfoActivity.this, 112, mItem.getNum(), SystemValue.BLACK, 0);
+				iThread.start();
+			}
+
 			break;
 		case R.id.button_reg_manager:
 			// 관리자로 등록 스레드
@@ -154,12 +185,9 @@ public class ManageMemberInfoActivity extends Activity implements OnClickListene
 	}
 
 	/*
-	private void alert(String message) {
-		new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert).setTitle(R.string.app_name).setMessage(message)
-				.setPositiveButton(android.R.string.ok, null).create().show();
-	}
+	 * private void alert(String message) { new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert).setTitle(R.string.app_name).setMessage(message) .setPositiveButton(android.R.string.ok, null).create().show(); }
 	 */
-	
+
 	// 프로필 사진 설정하는 함수
 	public void setProfileURL(final String profileImageURL) {
 		if (profilePictureLayout != null && profileImageURL != null) {
