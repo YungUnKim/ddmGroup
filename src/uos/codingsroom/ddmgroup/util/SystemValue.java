@@ -3,6 +3,7 @@ package uos.codingsroom.ddmgroup.util;
 public class SystemValue {
 
 	public static final int ADMIN = 999;
+	public static final int BLACK = 77;
 	public static final int GENERAL = 101;
 	public static final boolean isAdmin = true;
 

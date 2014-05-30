@@ -104,9 +104,9 @@ public class MainActivity extends FragmentActivity {
 	private static Fragment[] fragments = new Fragment[FRAGMENT_COUNT];
 
 	public static LoadingProgressDialog progressDialog;
-	
-	public static Boolean isAdmin = false;			// 관리자인지
-	public static Boolean isBlocked = false;		// 블록당했는지
+
+	public static Boolean isAdmin = false; // 관리자인지
+	public static Boolean isBlocked = false; // 블록당했는지
 
 	@SuppressLint("NewApi")
 	@Override
@@ -153,12 +153,16 @@ public class MainActivity extends FragmentActivity {
 	public void setPermission() {
 		myInfoItem.setMyboard(board);
 		myInfoItem.setMylevel(level);
-		
+
 		for (int i = 0; i < board.size(); i++) {
 			if (board.get(i) == 0) { // 관리자일 경우
 				if (level.get(i) == SystemValue.ADMIN) {
 					isAdmin = true;
-				} else {
+				} else if (level.get(i) == SystemValue.BLACK) { // 블랙리스트 유저
+					isBlocked = true;
+					isAdmin = false;
+				} else { // 일반 유저
+					isBlocked = false;
 					isAdmin = false;
 				}
 			}
@@ -278,8 +282,7 @@ public class MainActivity extends FragmentActivity {
 				profileBigImageURL = talkProfile.getProfileImageURL();
 				kakaoCode = userProfile.getId();
 
-				Login_Profile_Thread mThread = new Login_Profile_Thread(context, 10, nickName, profileImageURL, kakaoCode,
-						SystemValue.RegistrationId);
+				Login_Profile_Thread mThread = new Login_Profile_Thread(context, 10, nickName, profileImageURL, kakaoCode, SystemValue.RegistrationId);
 				mThread.start();
 				progressDialog.startProgressDialog();
 			}
@@ -315,8 +318,7 @@ public class MainActivity extends FragmentActivity {
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
-				if ((actionId == EditorInfo.IME_ACTION_DONE) ||
-						(event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+				if ((actionId == EditorInfo.IME_ACTION_DONE) || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
 					Toast.makeText(getApplicationContext(), "여기에 기능을 쓰면 됩니다.", Toast.LENGTH_SHORT).show();
 					searchBox.setText("");
 				}
