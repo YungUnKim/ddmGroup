@@ -18,7 +18,6 @@ import uos.codingsroom.ddmgroup.util.LoadingProgressDialog;
 import uos.codingsroom.ddmgroup.util.MakeMenu;
 import uos.codingsroom.ddmgroup.util.MakePreferences;
 import uos.codingsroom.ddmgroup.util.SystemValue;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,6 +28,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -332,12 +332,14 @@ public class MainActivity extends FragmentActivity {
 		menu.getMenu().setOnCloseListener(new OnCloseListener() {
 			@Override
 			public void onClose() {
+				menuHelperLayout.setAnimation(AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_out));
 				menuHelperLayout.setVisibility(View.GONE);
 			}
 		});
 		menu.getMenu().setOnOpenListener(new OnOpenListener() {
 			@Override
 			public void onOpen() {
+				menuHelperLayout.setAnimation(AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_in));
 				menuHelperLayout.setVisibility(View.VISIBLE);
 			}
 		});
