@@ -39,5 +39,9 @@
 	<color name="ss_red">#a91f41</color>
 	<color name="ss_purple">#75539f</color>
 	
+	<color name="daum_blue">#5F8EFC</color>
+	<color name="daum_red">#F0625A</color>
+	<color name="daum_yellow">#FCB800</color>
+	<color name="daum_green">#A0BF00</color>	
 	
 </resources>
