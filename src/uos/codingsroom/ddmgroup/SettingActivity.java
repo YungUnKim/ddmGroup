@@ -3,6 +3,7 @@ package uos.codingsroom.ddmgroup;
 import uos.codingsroom.ddmgroup.comm.Delete_Member_Thread;
 import uos.codingsroom.ddmgroup.comm.Delete_Notice_Thread;
 import uos.codingsroom.ddmgroup.util.LoadingProgressDialog;
+import uos.codingsroom.ddmgroup.util.MakePreferences;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Application;
@@ -34,6 +35,7 @@ public class SettingActivity extends Activity implements OnClickListener {
 
 	KakaoLink kakaoLink;
 	KakaoTalkLinkMessageBuilder kakaoTalkLinkMessageBuilder;
+	MakePreferences myPreference;
 
 	private ImageView backButton;
 	private Button logoutButton;
@@ -132,9 +134,10 @@ public class SettingActivity extends Activity implements OnClickListener {
 		} else if(where == 1){ // 로그아웃
 			
 		}
+		removePreference();
 		Intent intent = new Intent(this, KakaoLoginActivity.class);
 		startActivity(intent);
-		finish();
+		finish();		
 	}
 
 	@Override
@@ -169,7 +172,6 @@ public class SettingActivity extends Activity implements OnClickListener {
 			break;
 		case R.id.button_resign: // 탈퇴하기
 			onClickUnlink();	// 카톡 연동 삭제
-
 			break;
 		case R.id.kakaolink:
 			sendKakaoLink();
@@ -220,6 +222,13 @@ public class SettingActivity extends Activity implements OnClickListener {
 
 		Intent i = new Intent(Intent.ACTION_SENDTO, emailUri);
 		startActivity(i);
+	}
+	
+	private void removePreference(){
+		myPreference = new MakePreferences(this);
+		
+		myPreference.getMyPrefEditor().remove("favoriteName");
+		myPreference.commitMyPref();
 	}
 
 	public void onClickUnlink() {

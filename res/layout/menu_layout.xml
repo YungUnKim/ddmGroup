@@ -153,13 +153,13 @@
                 <RelativeLayout
                     android:id="@+id/menu_7"
                     style="@style/menu_item_layout" >
-                    
+
                     <ImageView
                         android:id="@+id/menu_icon_7"
                         style="@style/menu_icon"
                         android:src="@drawable/menu_7" />
 
-                     <TextView
+                    <TextView
                         style="@style/menu_item"
                         android:layout_below="@id/menu_icon_7"
                         android:text="여행" />
@@ -183,7 +183,6 @@
         android:layout_width="match_parent"
         android:layout_height="46dp"
         android:layout_alignParentBottom="true"
-        android:background="#55000000"
         android:orientation="horizontal"
         android:weightSum="3" >
 
@@ -192,6 +191,7 @@
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/menu_button"
             android:padding="5dp"
             android:src="@drawable/favorite_icon" />
 
@@ -200,6 +200,7 @@
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/menu_button"
             android:padding="3dp"
             android:src="@drawable/icon_notice" />
 
@@ -208,6 +209,7 @@
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/menu_button"
             android:padding="3dp"
             android:src="@drawable/icon_setting" />
     </LinearLayout>

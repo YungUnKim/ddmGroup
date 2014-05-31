@@ -108,7 +108,6 @@ public class MainActivity extends FragmentActivity {
 	public static Boolean isAdmin = false; // 관리자인지
 	public static Boolean isBlocked = false; // 블록당했는지
 
-	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
