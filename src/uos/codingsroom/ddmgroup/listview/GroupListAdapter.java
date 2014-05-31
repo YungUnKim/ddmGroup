@@ -27,6 +27,10 @@ public class GroupListAdapter extends BaseAdapter {
 		mItems.clear();
 	}
 
+	public void removeItem(int position){
+		mItems.remove(position);
+	}
+	
 	public void addItem(int position, GroupItem it) {
 		mItems.add(position, it);
 	}

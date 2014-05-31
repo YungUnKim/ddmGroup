@@ -33,7 +33,8 @@ public class ManageBoardActivity extends Activity implements OnClickListener {
 	private int board_cnt = 0; // 게시판수
 
 	private int SELECT_BOARD_NUM = 0; // 선택한 게시판 위치
-
+	int REQUEST_CODE_DELETE = 1;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -97,8 +98,7 @@ public class ManageBoardActivity extends Activity implements OnClickListener {
 
 				Intent intent = new Intent(ManageBoardActivity.this, ManageBoardInfoActivity.class);
 				intent.putExtra("board_num", boardItem.get(SELECT_BOARD_NUM).getNum());
-				startActivity(intent);
-
+				startActivityForResult(intent, REQUEST_CODE_DELETE);
 			}
 		});
 	}
@@ -114,5 +114,27 @@ public class ManageBoardActivity extends Activity implements OnClickListener {
 			break;
 		}
 
+	}
+	
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		switch (resultCode) {
+		case 1:	// 공지사항 삭제 뒤 목록에서 삭제
+			Integer num = data.getIntExtra("num",0);
+
+			for(int i =0;i<boardItem.size(); i++){
+				if(boardItem.get(i).getNum() == num){
+					boardItem.remove(i);
+					boardListAdapter.removeItem(i);
+				}
+			}
+			
+			boardListAdapter.notifyDataSetChanged();
+			break;
+		
+		default:
+			break;
+		}
 	}
 }

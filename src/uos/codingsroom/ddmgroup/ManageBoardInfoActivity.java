@@ -2,12 +2,14 @@ package uos.codingsroom.ddmgroup;
 
 import uos.codingsroom.ddmgroup.comm.Delete_Board_Thread;
 import uos.codingsroom.ddmgroup.comm.Get_BoardInfo_Thread;
+import uos.codingsroom.ddmgroup.comm.Modify_Board_Thread;
 import uos.codingsroom.ddmgroup.item.BoardItem;
 import uos.codingsroom.ddmgroup.util.SystemValue;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,7 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ManageBoardInfoActivity extends Activity implements OnClickListener{
+public class ManageBoardInfoActivity extends Activity implements OnClickListener {
 
 	private ImageView backButton;
 	private Button modifyButton;
@@ -58,12 +60,12 @@ public class ManageBoardInfoActivity extends Activity implements OnClickListener
 		modifyButton.setOnClickListener(this);
 		deleteButton = (Button) findViewById(R.id.button_delete_board);
 		deleteButton.setOnClickListener(this);
-		
+
 		Get_BoardInfo_Thread mThread = new Get_BoardInfo_Thread(this, 121, board_num);
 		mThread.start();
-		
+
 	}
-	
+
 	private AlertDialog createCategoryDialog() {
 		AlertDialog.Builder ab = new AlertDialog.Builder(this);
 		ab.setTitle("카테고리");
@@ -86,7 +88,7 @@ public class ManageBoardInfoActivity extends Activity implements OnClickListener
 
 		return ab.create();
 	}
-	
+
 	private void setDismiss(Dialog dialog) {
 		if (dialog != null && dialog.isShowing())
 			dialog.dismiss();
@@ -109,6 +111,11 @@ public class ManageBoardInfoActivity extends Activity implements OnClickListener
 	// 핸들러에서 보낸 메시지를 토스트로 출력하고 액티비티를 종료하는 함수
 	public void viewMessage(String message, int reaction) {
 		Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+		if (reaction > 0) { // 그룹 삭제시
+			Intent intent = new Intent();
+			intent.putExtra("num", mItem.getNum());
+			setResult(reaction, intent);
+		}
 		finish();
 	}
 
@@ -126,13 +133,28 @@ public class ManageBoardInfoActivity extends Activity implements OnClickListener
 			break;
 		case R.id.button_modify_board:
 			mItem.setDscr(BoardDSCR.getText().toString());
-			
-			//여기서 mItem으로 통신 시작
+			// 게시판 수정 스레드
+			Modify_Board_Thread mThread = new Modify_Board_Thread(ManageBoardInfoActivity.this, 123, mItem);
+			mThread.start();
+
 			break;
 		case R.id.button_delete_board:
-			// 게시판 삭제하기
-			Delete_Board_Thread dThread = new Delete_Board_Thread(ManageBoardInfoActivity.this,124,mItem.getNum());
-			dThread.start();
+			new AlertDialog.Builder(this).setTitle("해당 모임을 삭제하시겠습니까?").setPositiveButton("확인", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// 게시판 삭제 스레드
+					Delete_Board_Thread dThread = new Delete_Board_Thread(ManageBoardInfoActivity.this, 124, mItem.getNum());
+					dThread.start();
+				}
+			}).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					dialog.cancel();
+				}
+			}).show();
+
 			break;
 		case R.id.button_board_back:
 			finish();

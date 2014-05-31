@@ -217,7 +217,7 @@ public class MainActivity extends FragmentActivity {
 		showFragment(BOARD, false);
 		((ContentsFragment) fragments[BOARD]).contentFragmentStart();
 	}
-
+	
 	public void setLittleListView() {
 		// 그룹 게시판 보기 터치했을때
 		groupAdapter.addItem(0, new GroupItem("돌아가기", "전체 카테고리로 돌아갑니다."));

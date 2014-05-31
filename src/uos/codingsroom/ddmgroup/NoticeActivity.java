@@ -29,7 +29,8 @@ public class NoticeActivity extends Activity implements OnClickListener {
 	private int noti_cnt = 0; // 공지사항 개수
 
 	private int SELECT_NOTICE_NUM = 0; // 선택한 공지사항 위치
-
+	int REQUEST_CODE_DELETE = 1;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -49,7 +50,7 @@ public class NoticeActivity extends Activity implements OnClickListener {
 		Get_NoticeList_Thread mThread = new Get_NoticeList_Thread(this, 130);
 		mThread.start();
 
-		setListView();
+//		setListView();
 	}
 
 	// 핸들러에서 보낸 메시지를 토스트로 출력하는 함수
@@ -88,7 +89,7 @@ public class NoticeActivity extends Activity implements OnClickListener {
 				intent.putExtra("content_num", noticeItem.get(SELECT_NOTICE_NUM).getNum());
 				intent.putExtra("group_name", "공지사항");
 				intent.putExtra("mode", true);
-				startActivity(intent);
+				startActivityForResult(intent, REQUEST_CODE_DELETE);
 			}
 		});
 	}
@@ -106,4 +107,25 @@ public class NoticeActivity extends Activity implements OnClickListener {
 
 	}
 
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		switch (resultCode) {
+		case 1:	// 공지사항 삭제 뒤 목록에서 삭제
+			Integer num = data.getIntExtra("num",0);
+
+			for(int i =0;i<noticeItem.size(); i++){
+				if(noticeItem.get(i).getNum() == num){
+					noticeItem.remove(i);
+					noticeListAdapter.removeItem(i);
+				}
+			}
+			
+			noticeListAdapter.notifyDataSetChanged();
+			break;
+		
+		default:
+			break;
+		}
+	}
 }

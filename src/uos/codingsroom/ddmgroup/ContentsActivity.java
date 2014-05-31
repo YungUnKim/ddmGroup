@@ -3,6 +3,7 @@ package uos.codingsroom.ddmgroup;
 import java.util.ArrayList;
 
 import uos.codingsroom.ddmgroup.comm.Delete_Content_Thread;
+import uos.codingsroom.ddmgroup.comm.Delete_Notice_Thread;
 import uos.codingsroom.ddmgroup.comm.Delete_Reply_Thread;
 import uos.codingsroom.ddmgroup.comm.Get_Content_Thread;
 import uos.codingsroom.ddmgroup.comm.Get_Notice_Thread;
@@ -20,7 +21,6 @@ import uos.codingsroom.ddmgroup.util.SystemValue;
 import uos.codingsroom.ddmgroup.util.UrlImageDownloadTask;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Application;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -39,9 +39,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.android.volley.toolbox.NetworkImageView;
-import com.kakao.GlobalApplication;
 
 public class ContentsActivity extends Activity implements OnClickListener {
 
@@ -92,6 +89,8 @@ public class ContentsActivity extends Activity implements OnClickListener {
 	private int SELECT_REPLY_NUM = 0; // 선택한 댓글의 위치
 	private int ADD_REPLY_NUM = -1; // 새로 추가한 댓글의 번호
 	private String MODIFY_ARTICLE; // 수정할 댓글 내용
+
+	int REQUEST_CODE_MODIFY = 2;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -171,6 +170,14 @@ public class ContentsActivity extends Activity implements OnClickListener {
 	// 핸들러에서 보낸 메시지를 토스트로 출력하고 액티비티를 종료하는 함수
 	public void viewMessage(String message, int reaction) {
 		Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+		if(kind){	// 공지사항
+			Intent intent = new Intent();
+			intent.putExtra("num", noticeItem.getNum());
+			setResult(reaction, intent);
+		}else if(reaction > 0){	// 글
+			setResult(reaction);
+		}
+		
 		finish();
 	}
 
@@ -201,6 +208,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 			}
 		}
 
+		commentsListAdapter.clearItem();
 		for (int i = 0; i < comItem.size(); i++) {
 			commentsListAdapter.addItem(comItem.get(i));
 		}
@@ -439,7 +447,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 
 		case R.id.contents_edit_btn: // 글 수정
 			if (kind) { // 공지사항일 경우
-				Toast.makeText(getApplicationContext(), "삭제기능을 이용해주세요", Toast.LENGTH_SHORT).show();
+				editThisContent();
 				return;
 			}
 			if (conItem.getMemberNum() == myInfo.getMyMemNum()) { // 작성자인지 확인
@@ -449,12 +457,24 @@ public class ContentsActivity extends Activity implements OnClickListener {
 
 		case R.id.contents_delete_btn: // 글 삭제
 			if (kind) { // 공지사항일 경우
-				Toast.makeText(getApplicationContext(), "삭제기능!!", Toast.LENGTH_SHORT).show();
-				// 공지사항 삭제하는 스레드
-				// 조인행
+				new AlertDialog.Builder(this).setTitle("공지사항을 삭제하시겠습니까?").setPositiveButton("확인", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// 공지사항 삭제하는 스레드
+						Delete_Notice_Thread dThread = new Delete_Notice_Thread(ContentsActivity.this, 143, noticeItem.getNum());
+						dThread.start();
+					}
+				}).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						dialog.cancel();
+					}
+				}).show();
 				return;
 			}
-			
+
 			if (conItem.getMemberNum() == myInfo.getMyMemNum()) { // 작성자인지 확인
 				new AlertDialog.Builder(this).setTitle("글을 삭제하시겠습니까?").setPositiveButton("확인", new DialogInterface.OnClickListener() {
 					@Override
@@ -528,7 +548,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		intent.putExtra("group_name", group_name);
 		intent.putExtra("mode", kind);
 
-		startActivity(intent);
+		startActivityForResult(intent, REQUEST_CODE_MODIFY);
 
 		menuLayout.setVisibility(View.GONE);
 		menuHelperLayout.setVisibility(View.GONE);
@@ -559,8 +579,11 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		if (conItem.getImgUrl().length() > 10) {
 			new UrlImageDownloadTask(contentsImage).execute(SystemValue.imageConn + "" + conItem.getImgUrl());
 			contentsImage.setVisibility(View.VISIBLE);
+		} else {
+			contentsImage.setVisibility(View.GONE);
 		}
 
+		comItem.clear();
 		Get_Reply_Thread rThread = new Get_Reply_Thread(this, 28, currentContentNum, false);
 		rThread.start(); // 댓글 받아오는 스레드
 
@@ -580,6 +603,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 
 		if (noticeItem.getImgurl().length() > 10) {
 			new UrlImageDownloadTask(contentsImage).execute(SystemValue.imageConn + "" + noticeItem.getImgurl());
+			contentsImage.setVisibility(View.VISIBLE);
 		} else {
 			contentsImage.setVisibility(View.GONE);
 		}
@@ -599,5 +623,24 @@ public class ContentsActivity extends Activity implements OnClickListener {
 			super.onBackPressed();
 		}
 
+	}
+
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		switch (resultCode) {
+		case 2:	// 글 수정 후 글을 갱신
+			if (kind == false) {
+				Get_Content_Thread mThread = new Get_Content_Thread(this, 24, currentContentNum);
+				mThread.start(); // 글 내용 받아오는 스레드
+			} else if (kind == true) {
+				Get_Notice_Thread nThread = new Get_Notice_Thread(this, 34, currentContentNum);
+				nThread.start(); // 공지사항 받아오는 스레드
+			}
+			break;
+
+		default:
+			break;
+		}
 	}
 }

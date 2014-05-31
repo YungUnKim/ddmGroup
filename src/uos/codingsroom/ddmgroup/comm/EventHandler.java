@@ -2,6 +2,7 @@ package uos.codingsroom.ddmgroup.comm;
 
 import uos.codingsroom.ddmgroup.ContentsActivity;
 import uos.codingsroom.ddmgroup.MainActivity;
+import uos.codingsroom.ddmgroup.ModifyActivity;
 import uos.codingsroom.ddmgroup.NoticeActivity;
 import android.content.Context;
 import android.os.Handler;
@@ -60,16 +61,17 @@ public class EventHandler extends Handler {
 				// Log.i("MyTag", "글 얻어오기 핸들러 실패");
 				((ContentsActivity) mcontext).viewMessage("글 얻어오는데 실패하였습니다.", 0);
 			} else if (msg.what == -25) {
-				Log.i("MyTag", "글 수정하기 핸들러 실패");
+//				Log.i("MyTag", "글 수정하기 핸들러 실패");
+				((ModifyActivity) mcontext).viewMessage("글 수정하는데 실패하였습니다.");
 			} else if (msg.what == 25) {
-				Log.i("MyTag", "글 수정하기 핸들러 성공");
-				// ((ContentsActivity) mcontext).setContentView();
+//				Log.i("MyTag", "글 수정하기 핸들러 성공");
+				((ModifyActivity) mcontext).viewMessage("글을 수정하였습니다.", 2);
 			} else if (msg.what == -26) {
 				// Log.i("MyTag", "글 삭제 핸들러 실패");
 				((ContentsActivity) mcontext).viewMessage("글 삭제에 실패하였습니다.");
 			} else if (msg.what == 26) {
 				// Log.i("MyTag", "글 삭제 핸들러 성공");
-				((ContentsActivity) mcontext).viewMessage("글 삭제에 성공하였습니다.", 0);
+				((ContentsActivity) mcontext).viewMessage("글 삭제에 성공하였습니다.", 1);
 			} else if (msg.what == 27) {
 				((ContentsActivity) mcontext).addComment();
 				// Log.i("MyTag", "댓글 삽입 핸들러 성공");

@@ -11,15 +11,12 @@ import java.net.URLEncoder;
 
 import org.xmlpull.v1.XmlPullParser;
 
-import uos.codingsroom.ddmgroup.util.SystemValue;
 import android.content.Context;
 import android.util.Log;
 
-public class Modify_Content_Thread extends Communication_Thread {
+public class Modify_Notice_Thread extends Manage_Communication_Thread {
 	private String uploadFilePath = null; // 이미지 경로
 	private int menu;
-	private int mem_num;
-	private int board_num;
 	private int content_num;
 	private String title;
 	private String article;
@@ -28,11 +25,9 @@ public class Modify_Content_Thread extends Communication_Thread {
 	int serverResponseCode = 0;
 
 	// 글 등록하기
-	public Modify_Content_Thread(Context context, int menu, int mem_num, int board_num, int content_num, String title, String article, String path, String del_path) {
+	public Modify_Notice_Thread(Context context, int menu, int content_num, String title, String article, String path, String del_path) {
 		super(context, menu);
 		this.menu = menu;
-		this.mem_num = mem_num;
-		this.board_num = board_num;
 		this.content_num = content_num;
 		this.title = title;
 		this.article = article;
@@ -44,12 +39,11 @@ public class Modify_Content_Thread extends Communication_Thread {
 	@Override
 	public void run() {
 		try {
-			Log.i("MyTag", "test [" + uploadFilePath + "][" + deleteFilePath + "]");
+			Log.i("MyTag", "test [" + uploadFilePath + "][" + deleteFilePath + "]"+ this.menu);
 			if (deleteFilePath == null && uploadFilePath == null) { // 그림이 없거나 수정하지 않은 경우
 				try {
-					url += "&mem_num=" + mem_num + "&board_num=" + board_num + "&content_num=" + content_num + "&title="
-							+ URLEncoder.encode(title, "UTF-8") + "&article=" + URLEncoder.encode(article, "UTF-8") + "&del_img=" + ""
-							+ "&del_mode=not";
+					url += "&content_num=" + content_num + "&title=" + URLEncoder.encode(title, "UTF-8") + "&article="
+							+ URLEncoder.encode(article, "UTF-8") + "&del_img=" + "" + "&del_mode=not";
 					Log.i("MyTag", "url [" + url + "]");
 				} catch (UnsupportedEncodingException e) {
 					// TODO Auto-generated catch block
@@ -58,9 +52,10 @@ public class Modify_Content_Thread extends Communication_Thread {
 				xmlParser(connect(url)); // XML 파싱 함수
 			} else if (uploadFilePath.equals("del")) { // 그림을 삭제할 경우
 				try {
-					url += "&mem_num=" + mem_num + "&board_num=" + board_num + "&content_num=" + content_num + "&title="
-							+ URLEncoder.encode(title, "UTF-8") + "&article=" + URLEncoder.encode(article, "UTF-8") + "&del_img="
-							+ URLEncoder.encode(deleteFilePath, "UTF-8") + "&del_mode=del";;
+					url += "&content_num=" + content_num + "&title=" + URLEncoder.encode(title, "UTF-8") + "&article="
+							+ URLEncoder.encode(article, "UTF-8") + "&del_img=" + URLEncoder.encode(deleteFilePath, "UTF-8")
+							+ "&del_mode=del";
+					;
 					Log.i("MyTag", "url [" + url + "]");
 				} catch (UnsupportedEncodingException e) {
 					// TODO Auto-generated catch block
@@ -96,7 +91,7 @@ public class Modify_Content_Thread extends Communication_Thread {
 		} else {
 			try {
 				// open a URL connection to the Servlet
-				String imgurl = "http://14.63.199.182/ddmgroup/ddmgroup.php";
+				String imgurl = "http://14.63.199.182/ddmgroup/ddm_manage.php";
 				FileInputStream fileInputStream = new FileInputStream(sourceFile);
 				URL Httpurl = new URL(imgurl);
 
@@ -142,10 +137,6 @@ public class Modify_Content_Thread extends Communication_Thread {
 				dos.writeBytes(lineEnd + twoHyphens + boundary + lineEnd);
 				dos.writeBytes("Content-Disposition: form-data; name='menu';" + lineEnd + lineEnd + this.menu);
 				dos.writeBytes(lineEnd + twoHyphens + boundary + lineEnd);
-				dos.writeBytes("Content-Disposition: form-data; name='mem_num';" + lineEnd + lineEnd + this.mem_num);
-				dos.writeBytes(lineEnd + twoHyphens + boundary + lineEnd);
-				dos.writeBytes("Content-Disposition: form-data; name='board_num';" + lineEnd + lineEnd + this.board_num);
-				dos.writeBytes(lineEnd + twoHyphens + boundary + lineEnd);
 				dos.writeBytes("Content-Disposition: form-data; name='content_num';" + lineEnd + lineEnd + this.content_num);
 				dos.writeBytes(lineEnd + twoHyphens + boundary + lineEnd);
 				dos.writeBytes("Content-Disposition: form-data; name='title';" + lineEnd + lineEnd);
@@ -172,11 +163,11 @@ public class Modify_Content_Thread extends Communication_Thread {
 				if (serverResponseCode == 200) {
 					// 이미지 전송 완료
 					Log.i("MyTag", "이미지 전송 완료");
-					msg.what = 25;
+					msg.what = 1420;
 					mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다
 				} else {
 					Log.i("MyTag", "이미지 전송 실패");
-					msg.what = -25;
+					msg.what = -1420;
 					mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다
 				}
 
@@ -217,17 +208,15 @@ public class Modify_Content_Thread extends Communication_Thread {
 					tagname = xpp.getName();
 					if (tagname.equals("mode")) {
 						if (ret.equals("fail")) {
-							msg.what = -25;
-							mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다
+							msg.what = -1420;
 						} else {
-							msg.what = 25;
-							Log.i("MyTag", "test >> 333");
-							mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다
+							msg.what = 1420;
 						}
 					}
 				}
 				eventType = xpp.next();
 			} // end while
+			mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다
 		} catch (Exception e) {
 			e.getMessage();
 		}

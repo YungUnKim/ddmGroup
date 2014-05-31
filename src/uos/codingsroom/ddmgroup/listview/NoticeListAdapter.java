@@ -28,6 +28,10 @@ public class NoticeListAdapter extends BaseAdapter {
 	public void clearItem() {
 		mItems.clear();
 	}
+	
+	public void removeItem(int position){
+		mItems.remove(position);
+	}
 
 	public void addItem(int position, NoticeItem it) {
 		mItems.add(position, it);

@@ -60,6 +60,8 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 
 	Set<String> favoriteStringSet;
 
+	int REQUEST_CODE_DELETE = 1;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -125,7 +127,7 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 	public void setPageNum(int num) {
 		page = num;
 	}
-	
+
 	public void setKeyWord(String KeyWord) {
 		keyWord = KeyWord;
 	}
@@ -212,7 +214,7 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 		intent.putExtra("content_num", contentNum);
 		intent.putExtra("group_name", currentGroupName);
 		intent.putExtra("mode", false);
-		startActivity(intent);
+		startActivityForResult(intent, REQUEST_CODE_DELETE);
 	}
 
 	public void showPrevButton() {
@@ -279,5 +281,18 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 			break;
 		}
 
+	}
+
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		switch (resultCode) {
+		case 1:	// 글 삭제 뒤 목록 갱신
+			contentFragmentStart();
+			break;
+		
+		default:
+			break;
+		}
 	}
 }

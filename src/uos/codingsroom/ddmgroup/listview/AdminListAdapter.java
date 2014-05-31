@@ -29,6 +29,10 @@ public class AdminListAdapter extends BaseAdapter {
 	public void clearItem() {
 		mItems.clear();
 	}
+	
+	public void removeItem(int position){
+		mItems.remove(position);
+	}
 
 	public void addItem(int position, AdminItem it) {
 		mItems.add(position, it);
