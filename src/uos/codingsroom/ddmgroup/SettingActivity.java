@@ -1,5 +1,8 @@
 package uos.codingsroom.ddmgroup;
 
+import uos.codingsroom.ddmgroup.comm.Delete_Member_Thread;
+import uos.codingsroom.ddmgroup.comm.Delete_Notice_Thread;
+import uos.codingsroom.ddmgroup.util.LoadingProgressDialog;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Application;
@@ -13,6 +16,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.kakao.APIErrorResult;
@@ -26,6 +30,7 @@ import com.kakao.UnlinkResponseCallback;
 import com.kakao.UserManagement;
 
 public class SettingActivity extends Activity implements OnClickListener {
+	public LoadingProgressDialog progressDialog;
 
 	KakaoLink kakaoLink;
 	KakaoTalkLinkMessageBuilder kakaoTalkLinkMessageBuilder;
@@ -46,16 +51,20 @@ public class SettingActivity extends Activity implements OnClickListener {
 	private static String nickName;
 	private static String profileBigImageURL;
 	private static Long kakaoCode;
+	private static Integer myNum;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_setting);
 
+		progressDialog = new LoadingProgressDialog(this, true);
+
 		Bundle bundle = getIntent().getExtras();
 		nickName = bundle.getString("myName");
 		profileBigImageURL = bundle.getString("myProfileUrl");
 		kakaoCode = bundle.getLong("myCode");
+		myNum = bundle.getInt("myNum");
 
 		profilePictureLayout = (NetworkImageView) findViewById(R.id.profile_setting_image);
 
@@ -97,17 +106,32 @@ public class SettingActivity extends Activity implements OnClickListener {
 		UserManagement.requestLogout(new LogoutResponseCallback() {
 			@Override
 			protected void onSuccess(final long userId) {
-				redirectLoginActivity();
+				redirectLoginActivity("", 1);
 			}
 
 			@Override
 			protected void onFailure(final APIErrorResult apiErrorResult) {
-				redirectLoginActivity();
+				redirectLoginActivity("", 1);
 			}
 		});
 	}
 
-	private void redirectLoginActivity() {
+	// 회원탈퇴하는 스레드 함수
+	private void resignMember(){
+//		progressDialog.startProgressDialog();
+		// 회원탈퇴하는 스레드
+		Delete_Member_Thread dThread = new Delete_Member_Thread(SettingActivity.this, 9, myNum);
+		dThread.start();
+	}
+	
+	// 첫 로그인 화면으로 돌아가는 함수
+	public void redirectLoginActivity(String message, int where) {
+		if(where == 0){	// 회원 탈퇴 후
+			Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+//			progressDialog.dismissProgressDialog();
+		} else if(where == 1){ // 로그아웃
+			
+		}
 		Intent intent = new Intent(this, KakaoLoginActivity.class);
 		startActivity(intent);
 		finish();
@@ -116,22 +140,36 @@ public class SettingActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.button_logout:
-			onClickLogout();
-			MainActivity.preActivity.finish();
+		case R.id.button_logout: // 로그아웃
+			new AlertDialog.Builder(this).setTitle("로그아웃 하시겠습니까?").setPositiveButton("확인", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					onClickLogout();
+					MainActivity.preActivity.finish();
+				}
+			}).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					dialog.cancel();
+				}
+			}).show();
+
 			break;
-		case R.id.button_admin:
+		case R.id.button_admin: // 관리자 메뉴
 			final Intent intent = new Intent(SettingActivity.this, AdminActivity.class);
 			startActivity(intent);
 			break;
-		case R.id.button_contact:
+		case R.id.button_contact: // 문의사항
 			sendMail();
 			break;
 		case R.id.button_setting_back:
 			finish();
 			break;
-		case R.id.button_resign:
-			onClickUnlink();
+		case R.id.button_resign: // 탈퇴하기
+			onClickUnlink();	// 카톡 연동 삭제
+
 			break;
 		case R.id.kakaolink:
 			sendKakaoLink();
@@ -143,13 +181,26 @@ public class SettingActivity extends Activity implements OnClickListener {
 
 	}
 
+	// 핸들러에서 보낸 메시지를 토스트로 출력하는 함수
+	public void viewMessage(String message) {
+		Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+		progressDialog.dismissProgressDialog();
+	}
+
+	// 핸들러에서 보낸 메시지를 토스트로 출력하고 액티비티를 종료하는 함수
+	public void viewMessage(String message, int reaction) {
+		Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+		progressDialog.dismissProgressDialog();
+		finish();
+	}
+
 	private void sendKakaoLink() {
 		try {
 			kakaoTalkLinkMessageBuilder.addText("동대문 그룹에 초대합니다! \n 카카오톡으로 간편하게 가입하시고 모임에 대한 이야기를 나눠보세요!");
 
-			kakaoTalkLinkMessageBuilder.addAppButton("앱으로 이동",
-					new AppActionBuilder()
-							.setAndroidExecuteURLParam("target=main")
+			kakaoTalkLinkMessageBuilder.addAppButton(
+					"앱으로 이동",
+					new AppActionBuilder().setAndroidExecuteURLParam("target=main")
 							.setIOSExecuteURLParam("target=main", AppActionBuilder.DEVICE_TYPE.PHONE).build());
 
 			kakaoLink.sendMessage(kakaoTalkLinkMessageBuilder.build(), this);
@@ -160,12 +211,8 @@ public class SettingActivity extends Activity implements OnClickListener {
 	}
 
 	private void alert(String message) {
-		new AlertDialog.Builder(this)
-				.setIcon(android.R.drawable.ic_dialog_alert)
-				.setTitle(R.string.app_name)
-				.setMessage(message)
-				.setPositiveButton(android.R.string.ok, null)
-				.create().show();
+		new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert).setTitle(R.string.app_name).setMessage(message)
+				.setPositiveButton(android.R.string.ok, null).create().show();
 	}
 
 	private void sendMail() {
@@ -175,41 +222,37 @@ public class SettingActivity extends Activity implements OnClickListener {
 		startActivity(i);
 	}
 
-	private void onClickUnlink() {
+	public void onClickUnlink() {
 		final String appendMessage = getString(com.kakao.sdk.R.string.com_kakao_confirm_unlink);
-		new AlertDialog.Builder(this)
-				.setMessage(appendMessage)
-				.setPositiveButton(getString(com.kakao.sdk.R.string.com_kakao_ok_button),
-						new DialogInterface.OnClickListener() {
+		new AlertDialog.Builder(this).setMessage(appendMessage)
+				.setPositiveButton(getString(com.kakao.sdk.R.string.com_kakao_ok_button), new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						UserManagement.requestUnlink(new UnlinkResponseCallback() {
 							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								UserManagement.requestUnlink(new UnlinkResponseCallback() {
-									@Override
-									protected void onSuccess(final long userId) {
-										redirectLoginActivity();
-									}
-
-									@Override
-									protected void onSessionClosedFailure(final APIErrorResult errorResult) {
-										redirectLoginActivity();
-									}
-
-									@Override
-									protected void onFailure(final APIErrorResult errorResult) {
-										// Logger.getInstance().d("failed to unlink. msg=" + ErrorResult);
-										redirectLoginActivity();
-									}
-								});
-								dialog.dismiss();
+							protected void onSuccess(final long userId) {
+								resignMember();	// 통신 스레드
 							}
-						})
-				.setNegativeButton(getString(com.kakao.sdk.R.string.com_kakao_cancel_button),
-						new DialogInterface.OnClickListener() {
+
 							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								dialog.dismiss();
+							protected void onSessionClosedFailure(final APIErrorResult errorResult) {
+								resignMember();	// 통신 스레드
 							}
-						}).show();
+
+							@Override
+							protected void onFailure(final APIErrorResult errorResult) {
+								// Logger.getInstance().d("failed to unlink. msg=" + ErrorResult);
+								resignMember();	// 통신 스레드
+							}
+						});
+						dialog.dismiss();
+					}
+				}).setNegativeButton(getString(com.kakao.sdk.R.string.com_kakao_cancel_button), new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				}).show();
 
 	}
 

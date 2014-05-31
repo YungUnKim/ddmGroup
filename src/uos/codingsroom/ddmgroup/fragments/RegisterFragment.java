@@ -130,7 +130,8 @@ public class RegisterFragment extends Fragment {
 				ImgPath);
 		
 		iThread.start(); // 글 업로드하는 스레드
-
+		((MainActivity) getActivity()).progressDialog.startProgressDialog();
+		
 		// rDialog = createRegisterDialog();
 		// rDialog.show();
 
