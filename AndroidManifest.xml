@@ -114,7 +114,7 @@
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
 
-        <service android:name="uos.codingsroom.ddmgroup.GCMIntentService" />
+        <service android:name="uos.codingsroom.ddmgroup.util.GCMIntentService" />
 
         <!-- GCM 서비스로부터 브로드캐스트 메시지를 받을 수신자 -->
         <receiver
