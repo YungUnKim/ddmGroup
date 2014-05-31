@@ -36,6 +36,7 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 	private static Integer currentGroup = 0;
 	private static Integer page = 0;
 	private static String currentGroupName;
+	private static String keyWord;
 
 	private ListView boardListView;
 	private RelativeLayout boardListViewLayout;
@@ -98,7 +99,7 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 
 	public void contentFragmentStart() {
 		boardListAdapter.clearItem();
-		Get_ContentList_Thread mThread = new Get_ContentList_Thread(this.getActivity(), 13, currentGroup, getPageNum());
+		Get_ContentList_Thread mThread = new Get_ContentList_Thread(this.getActivity(), 13, currentGroup, getPageNum(), keyWord);
 		mThread.start();
 		((MainActivity) getActivity()).progressDialog.startProgressDialog();
 	}
@@ -123,6 +124,10 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 
 	public void setPageNum(int num) {
 		page = num;
+	}
+	
+	public void setKeyWord(String KeyWord) {
+		keyWord = KeyWord;
 	}
 
 	// 게시글 1개씩 입력

@@ -17,9 +17,10 @@ public class Get_ContentList_Thread extends Communication_Thread {
 	private static Integer pre_page = 0;
 
 	// 생성자
-	public Get_ContentList_Thread(Context context, int menu, int groupNum, int pageNum) {
+	public Get_ContentList_Thread(Context context, int menu, int groupNum, int pageNum, String keyWord) {
 		super(context, menu);
-		url += "&key_word=&board=" + groupNum 
+		url += "&key_word=" + keyWord 
+				+ "&board=" + groupNum 
 				+ "&page_num=" + pageNum;
 		Log.i("MyTag", url);
 	}
