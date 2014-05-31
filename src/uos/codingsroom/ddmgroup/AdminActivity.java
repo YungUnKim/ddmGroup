@@ -92,7 +92,7 @@ public class AdminActivity extends Activity implements OnClickListener {
 	// 서버에서 받아온 count를 저장하는 함수
 	public void setText(String key, int value) {
 		if (key.equals("member")) {
-			member_cnt = value;
+			member_cnt = value-1;
 		} else if (key.equals("board")) {
 			board_cnt = value - 1;
 		} else if (key.equals("contents")) {
