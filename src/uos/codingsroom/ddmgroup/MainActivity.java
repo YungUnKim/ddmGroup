@@ -119,7 +119,6 @@ public class MainActivity extends FragmentActivity {
 		// setBigListView();
 
 		myPreference = new MakePreferences(this);
-		favoriteStringSet = myPreference.getMyPreference().getStringSet("favoriteName", new HashSet<String>());
 
 		showFragment(NEWSFEED, false);
 	}
@@ -243,7 +242,7 @@ public class MainActivity extends FragmentActivity {
 					GroupItem curItem = (GroupItem) groupAdapter.getItem(position);
 					progressDialog.startProgressDialog();
 					((ContentsFragment) fragments[BOARD]).setCurrentGroupNum(curItem.getIndexNum());
-					((ContentsFragment) fragments[BOARD]).setTitleLabel(curItem.getTitle());
+					((ContentsFragment) fragments[BOARD]).setTitleLabel(curItem.getTitle(), curItem.getDescription());
 					((ContentsFragment) fragments[BOARD]).setPageNum(0);
 					((ContentsFragment) fragments[BOARD]).setKeyWord("");
 					((ContentsFragment) fragments[BOARD]).contentFragmentStart();
@@ -452,12 +451,15 @@ public class MainActivity extends FragmentActivity {
 
 	public void openFavorite() {
 		groupAdapter.clearItem();
+		
+		favoriteStringSet = myPreference.getMyPreference().getStringSet("favoriteName", new HashSet<String>());
 
 		for (String string : favoriteStringSet) {
-			String[] dataSet = new String(string).split(" ");
+			String[] dataSet = new String(string).split("\\|");
 			groupItem = new GroupItem();
 			groupItem.setIndexNum((Integer.parseInt(dataSet[0])));
-			groupItem.setTitle(string.substring(dataSet[0].length()));
+			groupItem.setTitle(dataSet[1]);
+			groupItem.setDescription(dataSet[2]);
 			addGroupItem(groupItem);
 		}
 		setLittleListView();

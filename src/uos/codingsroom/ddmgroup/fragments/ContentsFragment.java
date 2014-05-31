@@ -36,6 +36,7 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 	private static Integer currentGroup = 0;
 	private static Integer page = 0;
 	private static String currentGroupName;
+	private static String currentGroupDscr;
 	private static String keyWord;
 
 	private ListView boardListView;
@@ -106,8 +107,9 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 		((MainActivity) getActivity()).progressDialog.startProgressDialog();
 	}
 
-	public void setTitleLabel(String title) {
+	public void setTitleLabel(String title, String dscr) {
 		currentGroupName = title;
+		currentGroupDscr = dscr;
 		boardLabelTitle.setText(title);
 	}
 
@@ -145,7 +147,7 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 
 		favoriteStringSet = myPreference.getMyPreference().getStringSet("favoriteName", new HashSet<String>());
 		for (String string : favoriteStringSet) {
-			String[] dataSet = new String(string).split(" ");
+			String[] dataSet = new String(string).split("\\|");
 			if (Integer.parseInt(dataSet[0]) == currentGroup) {
 				favoriteStar.setSelected(true);
 				favoriteThisGroup = true;
@@ -161,7 +163,7 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 			noboardMessage.setVisibility(View.VISIBLE);
 			boardListViewLayout.setVisibility(View.GONE);
 			boardNextButton.setVisibility(View.INVISIBLE);
-		} else if(boardListAdapter.getCount() < 10){
+		} else if (boardListAdapter.getCount() < 10) {
 			boardNextButton.setVisibility(View.INVISIBLE);
 		} else {
 			noboardMessage.setVisibility(View.GONE);
@@ -259,7 +261,7 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 				Toast.makeText(getActivity(), "즐겨찾기에 추가되었습니다.", Toast.LENGTH_SHORT).show();
 				favoriteStar.setSelected(true);
 				favoriteThisGroup = true;
-				favoriteStringSet.add(Integer.toString(currentGroup) + " " + currentGroupName);
+				favoriteStringSet.add(Integer.toString(currentGroup) + "|" + currentGroupName + "|" + currentGroupDscr);
 				// for (String string : favoriteStringSet) {
 				// Log.i("setTag", string);
 				// }
@@ -270,7 +272,7 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 				Toast.makeText(getActivity(), "즐겨찾기가 해제되었습니다.", Toast.LENGTH_SHORT).show();
 				favoriteStar.setSelected(false);
 				favoriteThisGroup = false;
-				favoriteStringSet.remove(Integer.toString(currentGroup) + " " + currentGroupName);
+				favoriteStringSet.remove(Integer.toString(currentGroup) + "|" + currentGroupName + "|" + currentGroupDscr);
 				// for (String string : favoriteStringSet) {
 				// Log.i("setTag", string);
 				// }
