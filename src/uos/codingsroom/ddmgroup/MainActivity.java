@@ -215,6 +215,7 @@ public class MainActivity extends FragmentActivity {
 		((RegisterFragment) fragments[REGISTER]).clearContent();
 		showFragment(BOARD, false);
 		((ContentsFragment) fragments[BOARD]).contentFragmentStart();
+		progressDialog.dismissProgressDialog();
 	}
 	
 	public void setLittleListView() {
@@ -491,6 +492,7 @@ public class MainActivity extends FragmentActivity {
 		intent.putExtra("myName", nickName);
 		intent.putExtra("myProfileUrl", profileBigImageURL);
 		intent.putExtra("myCode", kakaoCode);
+		intent.putExtra("myNum", myMemNum);
 		startActivity(intent);
 	}
 
@@ -499,6 +501,19 @@ public class MainActivity extends FragmentActivity {
 		startActivity(intent);
 	}
 
+	// 핸들러에서 보낸 메시지를 토스트로 출력하는 함수
+	public void viewMessage(String message) {
+		Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+		progressDialog.dismissProgressDialog();
+	}
+
+	// 핸들러에서 보낸 메시지를 토스트로 출력하고 액티비티를 종료하는 함수
+	public void viewMessage(String message, int reaction) {
+		Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+		progressDialog.dismissProgressDialog();
+		finish();
+	}
+	
 	public boolean onKeyDown(int keycode, KeyEvent e) {
 		switch (keycode) {
 		case KeyEvent.KEYCODE_MENU:

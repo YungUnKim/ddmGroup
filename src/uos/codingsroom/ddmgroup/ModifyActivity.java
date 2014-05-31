@@ -4,6 +4,7 @@ import java.io.File;
 
 import uos.codingsroom.ddmgroup.comm.Modify_Content_Thread;
 import uos.codingsroom.ddmgroup.comm.Modify_Notice_Thread;
+import uos.codingsroom.ddmgroup.util.LoadingProgressDialog;
 import uos.codingsroom.ddmgroup.util.SystemValue;
 import uos.codingsroom.ddmgroup.util.UrlImageDownloadTask;
 import android.app.Activity;
@@ -25,6 +26,8 @@ import android.widget.Toast;
 
 public class ModifyActivity extends Activity implements OnClickListener {
 
+	public LoadingProgressDialog progressDialog;
+	
 	ImageView backButton;
 
 	TextView groupNameText;
@@ -57,6 +60,8 @@ public class ModifyActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		progressDialog = new LoadingProgressDialog(this, true);
+		
 		Bundle bundle = getIntent().getExtras();
 		currentContentNum = bundle.getInt("content_num");
 		title = bundle.getString("title");
@@ -93,30 +98,7 @@ public class ModifyActivity extends Activity implements OnClickListener {
 			break;
 		case R.id.button_content_modify:
 			if (modifycheck()) { // 글 수정 통신하기 전에 수정 여부 확인하기
-				String Title = null;
-				String Article = null;
-
-				// 글수정 통신 스레드
-				Title = titleText.getText().toString();
-				Article = articleText.getText().toString();
-
-				if (!img_change) {
-					ImgPath = null;
-					imageUrl = null;
-				} else if (img_change && ImgPath == null) {
-					ImgPath = "del";
-				}
-				if (kind) {
-					// 공지사항 수정 스레드
-					Modify_Notice_Thread nThread = new Modify_Notice_Thread(ModifyActivity.this, 142, currentContentNum, Title, Article, ImgPath,
-							imageUrl);
-					nThread.start();
-				} else {
-					// 글 수정 스레드
-					Modify_Content_Thread mThread = new Modify_Content_Thread(ModifyActivity.this, 25, MainActivity.getMyInfoItem().getMyMemNum(),
-							group_num, currentContentNum, Title, Article, ImgPath, imageUrl);
-					mThread.start();
-				}
+				modify();
 			} else {
 				Toast.makeText(getApplicationContext(), "수정된 내용이 없습니다.", Toast.LENGTH_LONG).show();
 			}
@@ -127,6 +109,36 @@ public class ModifyActivity extends Activity implements OnClickListener {
 		}
 	}
 
+	// 수정하기 위한 통신을 시작하는 함수
+	public void modify(){
+		String Title = null;
+		String Article = null;
+
+		// 글수정 통신 스레드
+		Title = titleText.getText().toString();
+		Article = articleText.getText().toString();
+
+		if (!img_change) {
+			ImgPath = null;
+			imageUrl = null;
+		} else if (img_change && ImgPath == null) {
+			ImgPath = "del";
+		}
+		
+		progressDialog.startProgressDialog();
+		if (kind) {
+			// 공지사항 수정 스레드
+			Modify_Notice_Thread nThread = new Modify_Notice_Thread(ModifyActivity.this, 142, currentContentNum, Title, Article, ImgPath,
+					imageUrl);
+			nThread.start();
+		} else {
+			// 글 수정 스레드
+			Modify_Content_Thread mThread = new Modify_Content_Thread(ModifyActivity.this, 25, MainActivity.getMyInfoItem().getMyMemNum(),
+					group_num, currentContentNum, Title, Article, ImgPath, imageUrl);
+			mThread.start();
+		}
+	}
+	
 	private void initializeView() {
 		setContentView(R.layout.activity_modify);
 
@@ -177,12 +189,14 @@ public class ModifyActivity extends Activity implements OnClickListener {
 	// 핸들러에서 보낸 메시지를 토스트로 출력하는 함수
 	public void viewMessage(String message) {
 		Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+		progressDialog.dismissProgressDialog();
 	}
 
 	// 핸들러에서 보낸 메시지를 토스트로 출력하고 액티비티를 종료하는 함수
 	public void viewMessage(String message, int reaction) {
 		Toast.makeText(this, message, Toast.LENGTH_LONG).show();
 		setResult(reaction);
+		progressDialog.dismissProgressDialog();
 		finish();
 	}
 
