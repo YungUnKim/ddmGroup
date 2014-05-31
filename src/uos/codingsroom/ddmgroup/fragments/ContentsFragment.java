@@ -161,6 +161,8 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 			noboardMessage.setVisibility(View.VISIBLE);
 			boardListViewLayout.setVisibility(View.GONE);
 			boardNextButton.setVisibility(View.INVISIBLE);
+		} else if(boardListAdapter.getCount() < 10){
+			boardNextButton.setVisibility(View.INVISIBLE);
 		} else {
 			noboardMessage.setVisibility(View.GONE);
 			boardListViewLayout.setVisibility(View.VISIBLE);
@@ -287,10 +289,10 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 		super.onActivityResult(requestCode, resultCode, data);
 
 		switch (resultCode) {
-		case 1:	// 글 삭제 뒤 목록 갱신
+		case 1: // 글 삭제 뒤 목록 갱신
 			contentFragmentStart();
 			break;
-		
+
 		default:
 			break;
 		}
