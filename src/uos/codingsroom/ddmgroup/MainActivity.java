@@ -320,7 +320,6 @@ public class MainActivity extends FragmentActivity {
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
 				if ((actionId == EditorInfo.IME_ACTION_DONE) || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
-					Toast.makeText(getApplicationContext(), "여기에 기능을 쓰면 됩니다.", Toast.LENGTH_SHORT).show();
 					((ContentsFragment) fragments[BOARD]).setPageNum(0);
 					((ContentsFragment) fragments[BOARD]).setKeyWord(searchBox.getText().toString());
 					((ContentsFragment) fragments[BOARD]).contentFragmentStart();
