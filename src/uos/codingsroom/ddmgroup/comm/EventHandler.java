@@ -31,7 +31,7 @@ public class EventHandler extends Handler {
 				((SettingActivity) mcontext).redirectLoginActivity("회원 탈퇴하였습니다.", 0);
 			} else if (msg.what == -9) { // 회원탈퇴 실패
 				((SettingActivity) mcontext).viewMessage("회원탈퇴에 실패하였습니다.");
-			} else if (msg.what == -10) {	// 로그인 실패
+			} else if (msg.what == -10) { // 로그인 실패
 
 			} else if (msg.what == 10) { // 로그인 성공
 				((MainActivity) mcontext).setPermission();
@@ -47,37 +47,37 @@ public class EventHandler extends Handler {
 				((NoticeActivity) mcontext).setListView();
 			} else if (msg.what == -14) { // 공지사항 목록 얻어오기 실패
 				((NoticeActivity) mcontext).viewMessage("공지사항 목록을 얻어오는데 실패하였습니다.", 0);
-			} else if (msg.what == 20) {	// 소분류 얻어오기 성공
+			} else if (msg.what == 20) { // 소분류 얻어오기 성공
 				((MainActivity) mcontext).setLittleListView();
-			} else if (msg.what == 22) {	// 글 올리기 성공
+			} else if (msg.what == 22) { // 글 올리기 성공
 				((MainActivity) mcontext).clearRegisterFragment();
-			} else if (msg.what == -22) {	// 글 올리기 실패
+			} else if (msg.what == -22) { // 글 올리기 실패
 				((MainActivity) mcontext).viewMessage("글 올리기에 실패하였습니다.");
-			} else if (msg.what == 24) {	// 글 얻어오기 성공
+			} else if (msg.what == 24) { // 글 얻어오기 성공
 				((ContentsActivity) mcontext).setContentView();
-			} else if (msg.what == -24) {	// 글 얻어오기 실패
+			} else if (msg.what == -24) { // 글 얻어오기 실패
 				((ContentsActivity) mcontext).viewMessage("글 얻어오는데 실패하였습니다.", 0);
-			} else if (msg.what == -25) {	// 글 수정 실패
+			} else if (msg.what == -25) { // 글 수정 실패
 				((ModifyActivity) mcontext).viewMessage("글 수정하는데 실패하였습니다.");
-			} else if (msg.what == 25) {	// 글 수정 성공
+			} else if (msg.what == 25) { // 글 수정 성공
 				((ModifyActivity) mcontext).viewMessage("글을 수정하였습니다.", 2);
-			} else if (msg.what == -26) {	// 글 삭제 실패
+			} else if (msg.what == -26) { // 글 삭제 실패
 				((ContentsActivity) mcontext).viewMessage("글 삭제에 실패하였습니다.");
-			} else if (msg.what == 26) {	// 글 삭제 성공
+			} else if (msg.what == 26) { // 글 삭제 성공
 				((ContentsActivity) mcontext).viewMessage("글 삭제에 성공하였습니다.", 1);
-			} else if (msg.what == 27) {	// 댓글 삽입 성공
+			} else if (msg.what == 27) { // 댓글 삽입 성공
 				((ContentsActivity) mcontext).addComment();
-			} else if (msg.what == -27) {	// 댓글 삽입 실패
+			} else if (msg.what == -27) { // 댓글 삽입 실패
 				((ContentsActivity) mcontext).viewMessage("댓글 추가에 실패하였습니다.");
-			} else if (msg.what == 28) {	// 댓글 얻어오기 성공
+			} else if (msg.what == 28) { // 댓글 얻어오기 성공
 				((ContentsActivity) mcontext).setListView();
-			} else if (msg.what == 29) {	// 댓글 수정 성공
+			} else if (msg.what == 29) { // 댓글 수정 성공
 				((ContentsActivity) mcontext).modifyComment();
-			} else if (msg.what == -29) {	// 댓글 수정 실패
+			} else if (msg.what == -29) { // 댓글 수정 실패
 				((ContentsActivity) mcontext).viewMessage("댓글 수정에 실패하였습니다.");
-			} else if (msg.what == 30) {	// 댓글 삭제 성공
+			} else if (msg.what == 30) { // 댓글 삭제 성공
 				((ContentsActivity) mcontext).deleteComment();
-			} else if (msg.what == -30) {	// 댓글 삭제 실패
+			} else if (msg.what == -30) { // 댓글 삭제 실패
 				((ContentsActivity) mcontext).viewMessage("댓글 삭제에 실패하였습니다.");
 			} else if (msg.what == 34) { // 공지사항 내용 얻어오기
 				((ContentsActivity) mcontext).setNoticeView();

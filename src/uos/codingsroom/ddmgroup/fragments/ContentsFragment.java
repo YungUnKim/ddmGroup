@@ -164,6 +164,8 @@ public class ContentsFragment extends Fragment implements OnClickListener {
 			boardListViewLayout.setVisibility(View.GONE);
 			boardNextButton.setVisibility(View.INVISIBLE);
 		} else if (boardListAdapter.getCount() < 10) {
+			noboardMessage.setVisibility(View.GONE);
+			boardListViewLayout.setVisibility(View.VISIBLE);
 			boardNextButton.setVisibility(View.INVISIBLE);
 		} else {
 			noboardMessage.setVisibility(View.GONE);
