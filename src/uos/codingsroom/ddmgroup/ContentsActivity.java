@@ -457,7 +457,10 @@ public class ContentsActivity extends Activity implements OnClickListener {
 
 		case R.id.contents_delete_btn: // 글 삭제
 			if (kind) { // 공지사항일 경우
-				new AlertDialog.Builder(this).setTitle("공지사항을 삭제하시겠습니까?").setPositiveButton("확인", new DialogInterface.OnClickListener() {
+				new AlertDialog.Builder(this)
+				.setTitle("공지사항 삭제")
+				.setMessage("현재 공지사항을 삭제하시겠습니까?")
+				.setPositiveButton("확인", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						// 공지사항 삭제하는 스레드
@@ -476,7 +479,10 @@ public class ContentsActivity extends Activity implements OnClickListener {
 			}
 
 			if (conItem.getMemberNum() == myInfo.getMyMemNum()) { // 작성자인지 확인
-				new AlertDialog.Builder(this).setTitle("글을 삭제하시겠습니까?").setPositiveButton("확인", new DialogInterface.OnClickListener() {
+				new AlertDialog.Builder(this)
+				.setTitle("게시물 삭제")
+				.setMessage("현재 게시물을 삭제하시겠습니까?")
+				.setPositiveButton("확인", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						Delete_Content_Thread dThread = new Delete_Content_Thread(ContentsActivity.this, 26, conItem.getIndexNum());
