@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uos.codingsroom.ddmgroup.item.CommentItem;
-import uos.codingsroom.ddmgroup.item.ContentItem;
-import uos.codingsroom.ddmgroup.item.NewsFeedItem;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;

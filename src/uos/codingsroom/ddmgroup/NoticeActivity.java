@@ -3,13 +3,11 @@ package uos.codingsroom.ddmgroup;
 import java.util.ArrayList;
 
 import uos.codingsroom.ddmgroup.comm.Get_NoticeList_Thread;
-import uos.codingsroom.ddmgroup.comm.Get_Notice_Thread;
 import uos.codingsroom.ddmgroup.item.NoticeItem;
 import uos.codingsroom.ddmgroup.listview.NoticeListAdapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;

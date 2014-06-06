@@ -2,7 +2,6 @@ package uos.codingsroom.ddmgroup.comm;
 
 import org.xmlpull.v1.XmlPullParser;
 
-import uos.codingsroom.ddmgroup.MainActivity;
 import uos.codingsroom.ddmgroup.ManageMemberInfoActivity;
 import uos.codingsroom.ddmgroup.item.MemberItem;
 import android.content.Context;

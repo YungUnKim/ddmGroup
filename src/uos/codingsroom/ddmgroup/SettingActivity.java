@@ -1,7 +1,6 @@
 package uos.codingsroom.ddmgroup;
 
 import uos.codingsroom.ddmgroup.comm.Delete_Member_Thread;
-import uos.codingsroom.ddmgroup.comm.Delete_Notice_Thread;
 import uos.codingsroom.ddmgroup.util.LoadingProgressDialog;
 import uos.codingsroom.ddmgroup.util.MakePreferences;
 import android.app.Activity;

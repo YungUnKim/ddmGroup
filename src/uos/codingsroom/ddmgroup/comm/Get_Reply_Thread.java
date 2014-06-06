@@ -6,7 +6,6 @@ import uos.codingsroom.ddmgroup.ContentsActivity;
 import uos.codingsroom.ddmgroup.item.CommentItem;
 import uos.codingsroom.ddmgroup.util.TimeFormat;
 import android.content.Context;
-import android.util.Log;
 
 public class Get_Reply_Thread extends Communication_Thread {
 	CommentItem comItem;

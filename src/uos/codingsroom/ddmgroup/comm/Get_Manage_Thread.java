@@ -4,7 +4,6 @@ import org.xmlpull.v1.XmlPullParser;
 
 import uos.codingsroom.ddmgroup.AdminActivity;
 import android.content.Context;
-import android.util.Log;
 
 public class Get_Manage_Thread extends Manage_Communication_Thread {
 

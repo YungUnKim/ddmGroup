@@ -4,7 +4,6 @@ import org.xmlpull.v1.XmlPullParser;
 
 import uos.codingsroom.ddmgroup.ManageBoardActivity;
 import uos.codingsroom.ddmgroup.item.AdminItem;
-import uos.codingsroom.ddmgroup.item.BoardItem;
 import uos.codingsroom.ddmgroup.util.SystemValue;
 import android.content.Context;
 

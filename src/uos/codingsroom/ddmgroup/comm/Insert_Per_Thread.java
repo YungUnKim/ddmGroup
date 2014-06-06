@@ -1,12 +1,7 @@
 package uos.codingsroom.ddmgroup.comm;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 import org.xmlpull.v1.XmlPullParser;
 
-import uos.codingsroom.ddmgroup.ContentsActivity;
-import uos.codingsroom.ddmgroup.item.BoardItem;
 import android.content.Context;
 import android.util.Log;
 

@@ -2,8 +2,6 @@ package uos.codingsroom.ddmgroup;
 
 import java.util.ArrayList;
 
-import com.kakao.UserProfile;
-
 import uos.codingsroom.ddmgroup.comm.Get_BoardList_Thread;
 import uos.codingsroom.ddmgroup.item.AdminItem;
 import uos.codingsroom.ddmgroup.listview.AdminListAdapter;

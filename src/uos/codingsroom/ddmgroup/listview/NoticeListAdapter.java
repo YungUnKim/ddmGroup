@@ -3,8 +3,6 @@ package uos.codingsroom.ddmgroup.listview;
 import java.util.ArrayList;
 import java.util.List;
 
-import uos.codingsroom.ddmgroup.item.GroupItem;
-import uos.codingsroom.ddmgroup.item.NewsFeedItem;
 import uos.codingsroom.ddmgroup.item.NoticeItem;
 import android.content.Context;
 import android.view.View;

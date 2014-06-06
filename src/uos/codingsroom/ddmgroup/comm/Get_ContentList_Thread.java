@@ -3,7 +3,6 @@ package uos.codingsroom.ddmgroup.comm;
 import org.xmlpull.v1.XmlPullParser;
 
 import uos.codingsroom.ddmgroup.MainActivity;
-import uos.codingsroom.ddmgroup.fragments.ContentsFragment;
 import uos.codingsroom.ddmgroup.item.ContentItem;
 import uos.codingsroom.ddmgroup.util.TimeFormat;
 import android.content.Context;

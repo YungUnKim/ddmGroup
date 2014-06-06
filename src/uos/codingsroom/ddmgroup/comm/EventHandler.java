@@ -8,7 +8,6 @@ import uos.codingsroom.ddmgroup.SettingActivity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 public class EventHandler extends Handler {
 	Context mcontext;

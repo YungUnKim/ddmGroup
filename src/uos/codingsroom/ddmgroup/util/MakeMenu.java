@@ -2,8 +2,6 @@ package uos.codingsroom.ddmgroup.util;
 
 import uos.codingsroom.ddmgroup.MainActivity;
 import uos.codingsroom.ddmgroup.R;
-import uos.codingsroom.ddmgroup.R.dimen;
-import uos.codingsroom.ddmgroup.R.layout;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 

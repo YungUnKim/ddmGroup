@@ -16,7 +16,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import com.google.android.gcm.GCMRegistrar;
-import com.google.android.gcm.server.Sender;
 import com.kakao.Session;
 import com.kakao.SessionCallback;
 import com.kakao.exception.KakaoException;

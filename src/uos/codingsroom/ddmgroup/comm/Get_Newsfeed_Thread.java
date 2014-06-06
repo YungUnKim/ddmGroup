@@ -3,11 +3,9 @@ package uos.codingsroom.ddmgroup.comm;
 import org.xmlpull.v1.XmlPullParser;
 
 import uos.codingsroom.ddmgroup.MainActivity;
-import uos.codingsroom.ddmgroup.item.GroupItem;
 import uos.codingsroom.ddmgroup.item.NewsFeedItem;
 import uos.codingsroom.ddmgroup.util.TimeFormat;
 import android.content.Context;
-import android.util.Log;
 
 public class Get_Newsfeed_Thread extends Communication_Thread {
 	NewsFeedItem newsFeedItem;

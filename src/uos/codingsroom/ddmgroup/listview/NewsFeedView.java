@@ -1,7 +1,6 @@
 package uos.codingsroom.ddmgroup.listview;
 
 import uos.codingsroom.ddmgroup.R;
-import uos.codingsroom.ddmgroup.item.GroupItem;
 import uos.codingsroom.ddmgroup.item.NewsFeedItem;
 import android.content.Context;
 import android.view.LayoutInflater;

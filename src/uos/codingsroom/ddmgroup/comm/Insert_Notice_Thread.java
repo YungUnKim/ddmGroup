@@ -11,7 +11,6 @@ import java.net.URLEncoder;
 
 import org.xmlpull.v1.XmlPullParser;
 
-import uos.codingsroom.ddmgroup.util.SystemValue;
 import android.content.Context;
 import android.util.Log;
 

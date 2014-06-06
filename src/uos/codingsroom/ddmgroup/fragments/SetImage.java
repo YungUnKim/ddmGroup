@@ -1,11 +1,6 @@
 package uos.codingsroom.ddmgroup.fragments;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;

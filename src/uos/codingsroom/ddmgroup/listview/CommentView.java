@@ -1,18 +1,15 @@
 package uos.codingsroom.ddmgroup.listview;
 
-import com.android.volley.toolbox.NetworkImageView;
-import com.kakao.GlobalApplication;
-
 import uos.codingsroom.ddmgroup.R;
 import uos.codingsroom.ddmgroup.item.CommentItem;
-import uos.codingsroom.ddmgroup.item.ContentItem;
-import uos.codingsroom.ddmgroup.item.GroupItem;
-import uos.codingsroom.ddmgroup.item.NewsFeedItem;
 import android.app.Application;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.android.volley.toolbox.NetworkImageView;
+import com.kakao.GlobalApplication;
 
 public class CommentView extends LinearLayout {
 
