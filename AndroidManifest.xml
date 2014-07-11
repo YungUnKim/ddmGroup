@@ -127,7 +127,7 @@
                 <!-- 등록 ID 수신 -->
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
-                <category android:name="uos.codingsroom.ddmgroup" />
+                <category android:name="uos.codingsroom.ddmgroup.util" />
             </intent-filter>
         </receiver>
     </application>
