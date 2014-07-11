@@ -1,12 +1,12 @@
-package uos.codingsroom.ddmgroup.util;
+package uos.codingsroom.ddmgroup;
 
 import static uos.codingsroom.ddmgroup.util.SystemValue.PROJECT_ID;
 import static uos.codingsroom.ddmgroup.util.SystemValue.TOAST_MESSAGE_ACTION;
 
 import java.util.StringTokenizer;
 
-import uos.codingsroom.ddmgroup.ContentsActivity;
 import uos.codingsroom.ddmgroup.R;
+import uos.codingsroom.ddmgroup.util.SystemValue;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
