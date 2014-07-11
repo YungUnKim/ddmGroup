@@ -18,7 +18,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:orientation="horizontal"
                 android:weightSum="10" >
 
@@ -31,15 +31,8 @@
                     android:paddingLeft="15dp"
                     android:textColor="#ffffff"
                     android:textSize="17sp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:id="@+id/ddm_logo"
-                    android:layout_width="0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:padding="5dp"
-                    android:src="@drawable/ddmlogo2" />
+                    android:textStyle="bold"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout
@@ -56,12 +49,14 @@
                     android:layout_margin="8dp"
                     android:background="@drawable/rounded_edit_box"
                     android:drawableRight="@drawable/icon_search"
+                    android:textCursorDrawable="@null"
                     android:imeOptions="actionDone"
                     android:inputType="text"
                     android:paddingLeft="10dp"
                     android:paddingRight="8dp"
-                    android:visibility="gone"
-                    android:textSize="18sp" />
+                    android:textColor="#ffffff"
+                    android:textSize="18sp"
+                    android:visibility="gone" />
             </LinearLayout>
         </LinearLayout>
 

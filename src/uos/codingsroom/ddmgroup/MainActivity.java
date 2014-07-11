@@ -51,7 +51,7 @@ import com.kakao.UserProfile;
 
 public class MainActivity extends FragmentActivity {
 	public static MainActivity preActivity;
-	private static final int menus = 7;
+	private static final int menus = 6;
 	private static int currentCategory = 0;
 
 	private UserProfile userProfile;
@@ -59,7 +59,6 @@ public class MainActivity extends FragmentActivity {
 	private ImageView settingButton;
 	private ImageView favoriteButton;
 	private ImageView noticeButton;
-	private ImageView ddmLogo;
 	private ImageView menuBackButton;
 	private ImageView menuOpener;
 
@@ -67,13 +66,12 @@ public class MainActivity extends FragmentActivity {
 
 	private LinearLayout menuLayout;
 	private RelativeLayout[] menuButtons = new RelativeLayout[menus];
-	private Integer[] menuButtonView = { R.id.menu_1, R.id.menu_2, R.id.menu_3, R.id.menu_4, R.id.menu_5, R.id.menu_6, R.id.menu_7 };
+	private Integer[] menuButtonView = { R.id.menu_1, R.id.menu_2, R.id.menu_3, R.id.menu_4, R.id.menu_5, R.id.menu_6 };
 
 	private ListView groupListView;
 	private GroupListAdapter groupAdapter;
 
 	private EditText searchBox;
-	private Integer[] headerImage = { R.drawable.header, R.drawable.header1, R.drawable.header2 };
 	private LinearLayout headerLayout;
 
 	MakeMenu menu;
@@ -365,7 +363,6 @@ public class MainActivity extends FragmentActivity {
 		transaction.commit();
 
 		currentFragment = fragmentIndex;
-		headerLayout.setBackgroundResource(headerImage[fragmentIndex]);
 		if (fragmentIndex == 1) {
 			searchBox.setVisibility(View.VISIBLE);
 		} else {
@@ -416,16 +413,6 @@ public class MainActivity extends FragmentActivity {
 			@Override
 			public void onClick(View v) {
 				moveToNoticeActivity();
-			}
-		});
-
-		ddmLogo = (ImageView) findViewById(R.id.ddm_logo);
-		ddmLogo.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (currentFragment != 0) {
-					showFragment(0, false);
-				}
 			}
 		});
 

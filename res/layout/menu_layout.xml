@@ -14,7 +14,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="44dp"
-            android:background="#55000000" >
+            android:background="#bad76b" >
 
             <ImageView
                 android:id="@+id/menu_title_icon"
@@ -30,7 +30,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@id/menu_title_icon"
                 android:gravity="center"
-                android:text="그룹 선택"
+                android:text="마을 게시판"
                 android:textColor="#ffffff"
                 android:textSize="20sp" />
 
@@ -58,45 +58,51 @@
                     android:id="@+id/menu_1"
                     style="@style/menu_item_layout" >
 
-                    <ImageView
-                        android:id="@+id/menu_icon_1"
-                        style="@style/menu_icon"
-                        android:src="@drawable/menu_1" />
+                    <LinearLayout style="@style/center_wrapping_layout" >
 
-                    <TextView
-                        style="@style/menu_item"
-                        android:layout_below="@id/menu_icon_1"
-                        android:text="마을공동체" />
+                        <ImageView
+                            android:id="@+id/menu_icon_1"
+                            style="@style/menu_icon"
+                            android:src="@drawable/menu_1" />
+
+                        <TextView
+                            style="@style/menu_item"
+                            android:text="우리마을\n이야기" />
+                    </LinearLayout>
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/menu_2"
                     style="@style/menu_item_layout" >
 
-                    <ImageView
-                        android:id="@+id/menu_icon_2"
-                        style="@style/menu_icon"
-                        android:src="@drawable/menu_2" />
+                    <LinearLayout style="@style/center_wrapping_layout" >
 
-                    <TextView
-                        style="@style/menu_item"
-                        android:layout_below="@id/menu_icon_2"
-                        android:text="청소년" />
+                        <ImageView
+                            android:id="@+id/menu_icon_2"
+                            style="@style/menu_icon"
+                            android:src="@drawable/menu_2" />
+
+                        <TextView
+                            style="@style/menu_item"
+                            android:text="육아 부모\n" />
+                    </LinearLayout>
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/menu_3"
                     style="@style/menu_item_layout" >
 
-                    <ImageView
-                        android:id="@+id/menu_icon_3"
-                        style="@style/menu_icon"
-                        android:src="@drawable/menu_3" />
+                    <LinearLayout style="@style/center_wrapping_layout" >
 
-                    <TextView
-                        style="@style/menu_item"
-                        android:layout_below="@id/menu_icon_3"
-                        android:text="대학생" />
+                        <ImageView
+                            android:id="@+id/menu_icon_3"
+                            style="@style/menu_icon"
+                            android:src="@drawable/menu_3" />
+
+                        <TextView
+                            style="@style/menu_item"
+                            android:text="청년\n" />
+                    </LinearLayout>
                 </RelativeLayout>
             </LinearLayout>
 
@@ -106,64 +112,55 @@
                     android:id="@+id/menu_4"
                     style="@style/menu_item_layout" >
 
-                    <ImageView
-                        android:id="@+id/menu_icon_4"
-                        style="@style/menu_icon"
-                        android:src="@drawable/menu_4" />
+                    <LinearLayout style="@style/center_wrapping_layout" >
 
-                    <TextView
-                        style="@style/menu_item"
-                        android:layout_below="@id/menu_icon_4"
-                        android:text="직장인" />
+                        <ImageView
+                            android:id="@+id/menu_icon_4"
+                            style="@style/menu_icon"
+                            android:src="@drawable/menu_4" />
+
+                        <TextView
+                            style="@style/menu_item"
+                            android:text="마을 QnA\n" />
+                    </LinearLayout>
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/menu_5"
                     style="@style/menu_item_layout" >
 
-                    <ImageView
-                        android:id="@+id/menu_icon_5"
-                        style="@style/menu_icon"
-                        android:src="@drawable/menu_5" />
+                    <LinearLayout style="@style/center_wrapping_layout" >
 
-                    <TextView
-                        style="@style/menu_item"
-                        android:layout_below="@id/menu_icon_5"
-                        android:text="운동" />
+                        <ImageView
+                            android:id="@+id/menu_icon_5"
+                            style="@style/menu_icon"
+                            android:src="@drawable/menu_5" />
+
+                        <TextView
+                            style="@style/menu_item"
+                            android:text="마을도서관 사랑방" />
+                    </LinearLayout>
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/menu_6"
                     style="@style/menu_item_layout" >
 
-                    <ImageView
-                        android:id="@+id/menu_icon_6"
-                        style="@style/menu_icon"
-                        android:src="@drawable/menu_6" />
+                    <LinearLayout style="@style/center_wrapping_layout" >
 
-                    <TextView
-                        style="@style/menu_item"
-                        android:layout_below="@id/menu_icon_6"
-                        android:text="IT" />
+                        <ImageView
+                            android:id="@+id/menu_icon_6"
+                            style="@style/menu_icon"
+                            android:src="@drawable/menu_6" />
+
+                        <TextView
+                            style="@style/menu_item"
+                            android:text="공유마당" />
+                    </LinearLayout>
                 </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout style="@style/inner_horizotal_menu" >
-
-                <RelativeLayout
-                    android:id="@+id/menu_7"
-                    style="@style/menu_item_layout" >
-
-                    <ImageView
-                        android:id="@+id/menu_icon_7"
-                        style="@style/menu_icon"
-                        android:src="@drawable/menu_7" />
-
-                    <TextView
-                        style="@style/menu_item"
-                        android:layout_below="@id/menu_icon_7"
-                        android:text="여행" />
-                </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
 
