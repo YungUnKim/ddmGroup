@@ -11,6 +11,7 @@ import java.net.URLEncoder;
 
 import org.xmlpull.v1.XmlPullParser;
 
+import uos.codingsroom.ddmgroup.util.SystemValue;
 import android.content.Context;
 import android.util.Log;
 
@@ -76,7 +77,7 @@ public class Insert_Notice_Thread extends Manage_Communication_Thread {
 	          {
 	          	try {
 	          		// open a URL connection to the Servlet
-	          		String imgurl = "http://14.63.199.182/ddmgroup/ddm_manage.php";
+	          		String imgurl = SystemValue.m_conn_public;
 	          		FileInputStream fileInputStream = new FileInputStream(sourceFile);
 	          		URL Httpurl = new URL(imgurl);
 	          		

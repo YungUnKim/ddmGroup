@@ -11,6 +11,8 @@ public class SystemValue {
 
 	public static final Boolean test = false;
 
+	public static final String conn_public = "http://14.63.212.85/ddmgroup/ddmgroup.php";
+	public static final String m_conn_public = "http://14.63.212.85/ddmgroup/ddm_manage.php";
 	public static final String conn = "http://14.63.212.85/ddmgroup/ddmgroup.php?menu=";
 	public static final String m_conn = "http://14.63.212.85/ddmgroup/ddm_manage.php?menu=";
 	public static final String imageConn = "http://14.63.212.85/ddmgroup/image/";

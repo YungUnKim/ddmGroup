@@ -11,6 +11,7 @@ import java.net.URLEncoder;
 
 import org.xmlpull.v1.XmlPullParser;
 
+import uos.codingsroom.ddmgroup.util.SystemValue;
 import android.content.Context;
 import android.util.Log;
 
@@ -81,7 +82,7 @@ public class Insert_Content_Thread extends Communication_Thread {
 	          {
 	          	try {
 	          		// open a URL connection to the Servlet
-	          		String imgurl = "http://14.63.199.182/ddmgroup/ddmgroup.php";
+	          		String imgurl = SystemValue.conn_public;
 	          		FileInputStream fileInputStream = new FileInputStream(sourceFile);
 	          		URL Httpurl = new URL(imgurl);
 	          		
