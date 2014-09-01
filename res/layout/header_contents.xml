@@ -68,10 +68,42 @@
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/contents_image"
+            android:id="@+id/contents_image_01"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
+            android:adjustViewBounds="true"
+            android:visibility="gone" />
+        
+        <ImageView
+            android:id="@+id/contents_image_02"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:adjustViewBounds="true"
+            android:visibility="gone" />
+        
+        <ImageView
+            android:id="@+id/contents_image_03"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:adjustViewBounds="true"
+            android:visibility="gone" />
+        
+        <ImageView
+            android:id="@+id/contents_image_04"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:adjustViewBounds="true"
+            android:visibility="gone" />
+        
+        <ImageView
+            android:id="@+id/contents_image_05"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:adjustViewBounds="true"
             android:visibility="gone" />
 

@@ -55,7 +55,11 @@ public class ContentsActivity extends Activity implements OnClickListener {
 	private TextView contentsArticle;
 	private TextView contentsNoComment;
 
-	private ImageView contentsImage;
+	// private ImageView contentsImage;
+
+	private ImageView[] contentsImage = new ImageView[5];
+	private int[] imageId = { R.id.contents_image_01, R.id.contents_image_02, R.id.contents_image_03, R.id.contents_image_04,
+			R.id.contents_image_05 };
 
 	private ImageView contentsLogo;
 	private ImageView contentsMenuButton;
@@ -136,7 +140,9 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		contentsArticle = (TextView) findViewById(R.id.contents_article);
 		contentsNoComment = (TextView) findViewById(R.id.contents_no_comment);
 
-		contentsImage = (ImageView) findViewById(R.id.contents_image);
+		for (int i = 0; i < 5; i++) {
+			contentsImage[i] = (ImageView) findViewById(imageId[i]);
+		}
 		contentsLogo = (ImageView) findViewById(R.id.contents_logo_img);
 
 		contentsMenuButton = (ImageView) findViewById(R.id.contents_menu_btn);
@@ -155,8 +161,8 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		commentEdit = (EditText) findViewById(R.id.edittext_comment);
 		commentRegister = (TextView) findViewById(R.id.button_comment_register);
 		commentRegister.setOnClickListener(this);
-		
-		Log.i("DDM","ContentsActivity 111 >> ");
+
+		Log.i("DDM", "ContentsActivity 111 >> ");
 	}
 
 	private View header() {
@@ -172,14 +178,14 @@ public class ContentsActivity extends Activity implements OnClickListener {
 	// 핸들러에서 보낸 메시지를 토스트로 출력하고 액티비티를 종료하는 함수
 	public void viewMessage(String message, int reaction) {
 		Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-		if(kind){	// 공지사항
+		if (kind) { // 공지사항
 			Intent intent = new Intent();
 			intent.putExtra("num", noticeItem.getNum());
 			setResult(reaction, intent);
-		}else if(reaction > 0){	// 글
+		} else if (reaction > 0) { // 글
 			setResult(reaction);
 		}
-		
+
 		finish();
 	}
 
@@ -248,7 +254,8 @@ public class ContentsActivity extends Activity implements OnClickListener {
 	// 댓글 한 개를 뷰에 추가하는 함수
 	public void addComment() {
 		final MyInfoItem myInfo = MainActivity.getMyInfoItem();
-		CommentItem addItem = new CommentItem(ADD_REPLY_NUM, myInfo.getMyMemNum(), commentEdit.getEditableText().toString(), "방금 막", myInfo.getMyName(),
+		CommentItem addItem = new CommentItem(ADD_REPLY_NUM, myInfo.getMyMemNum(), commentEdit.getEditableText().toString(), "방금 막",
+				myInfo.getMyName(),
 				myInfo.getMyProfileUrl()); // 임시
 
 		commentsListAdapter.addItem(addItem);
@@ -312,7 +319,8 @@ public class ContentsActivity extends Activity implements OnClickListener {
 					dThread.start();
 				} else if (which == 1) {
 					// 블랙리스트 등록 스레드
-					Insert_Per_Thread iThread = new Insert_Per_Thread(ContentsActivity.this, 112, conItem.getMemberNum(), SystemValue.BLACK, 1);
+					Insert_Per_Thread iThread = new Insert_Per_Thread(ContentsActivity.this, 112, conItem.getMemberNum(),
+							SystemValue.BLACK, 1);
 					iThread.start();
 				}
 			}
@@ -343,7 +351,8 @@ public class ContentsActivity extends Activity implements OnClickListener {
 					// 댓글 내용, 위치 넘겨야 함
 				} else if (which == 1) {
 					// Log.i("MyTag", "댓글 삭제하기");
-					Delete_Reply_Thread drThread = new Delete_Reply_Thread(ContentsActivity.this, 30, comItem.get(SELECT_REPLY_NUM).getIndexNum(),
+					Delete_Reply_Thread drThread = new Delete_Reply_Thread(ContentsActivity.this, 30, comItem.get(SELECT_REPLY_NUM)
+							.getIndexNum(),
 							kind);
 					drThread.start();
 				}
@@ -386,7 +395,8 @@ public class ContentsActivity extends Activity implements OnClickListener {
 					Toast.makeText(getApplicationContext(), "내용을 입력해주세요!", Toast.LENGTH_SHORT).show();
 				} else {
 					MODIFY_ARTICLE = comment;
-					Modify_Reply_Thread mThread = new Modify_Reply_Thread(ContentsActivity.this, 29, comItem.get(SELECT_REPLY_NUM).getIndexNum(),
+					Modify_Reply_Thread mThread = new Modify_Reply_Thread(ContentsActivity.this, 29, comItem.get(SELECT_REPLY_NUM)
+							.getIndexNum(),
 							MODIFY_ARTICLE, kind);
 					mThread.start(); // 댓글 수정하는 스레드
 				}
@@ -460,44 +470,46 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		case R.id.contents_delete_btn: // 글 삭제
 			if (kind) { // 공지사항일 경우
 				new AlertDialog.Builder(this)
-				.setTitle("공지사항 삭제")
-				.setMessage("현재 공지사항을 삭제하시겠습니까?")
-				.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// 공지사항 삭제하는 스레드
-						Delete_Notice_Thread dThread = new Delete_Notice_Thread(ContentsActivity.this, 143, noticeItem.getNum());
-						dThread.start();
-					}
-				}).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+						.setTitle("공지사항 삭제")
+						.setMessage("현재 공지사항을 삭제하시겠습니까?")
+						.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								// 공지사항 삭제하는 스레드
+								Delete_Notice_Thread dThread = new Delete_Notice_Thread(ContentsActivity.this, 143, noticeItem
+										.getNum());
+								dThread.start();
+							}
+						}).setNegativeButton("취소", new DialogInterface.OnClickListener() {
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
-						dialog.cancel();
-					}
-				}).show();
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								// TODO Auto-generated method stub
+								dialog.cancel();
+							}
+						}).show();
 				return;
 			}
 
 			if (conItem.getMemberNum() == myInfo.getMyMemNum()) { // 작성자인지 확인
 				new AlertDialog.Builder(this)
-				.setTitle("게시물 삭제")
-				.setMessage("현재 게시물을 삭제하시겠습니까?")
-				.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						Delete_Content_Thread dThread = new Delete_Content_Thread(ContentsActivity.this, 26, conItem.getIndexNum());
-						dThread.start();
-					}
-				}).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+						.setTitle("게시물 삭제")
+						.setMessage("현재 게시물을 삭제하시겠습니까?")
+						.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								Delete_Content_Thread dThread = new Delete_Content_Thread(ContentsActivity.this, 26, conItem
+										.getIndexNum());
+								dThread.start();
+							}
+						}).setNegativeButton("취소", new DialogInterface.OnClickListener() {
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
-						dialog.cancel();
-					}
-				}).show();
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								// TODO Auto-generated method stub
+								dialog.cancel();
+							}
+						}).show();
 
 			}
 			break;
@@ -513,7 +525,8 @@ public class ContentsActivity extends Activity implements OnClickListener {
 				Toast.makeText(this, "댓글 내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
 			} else {
 				if (kind) { // 공지사항
-					Insert_Reply_Thread iThread = new Insert_Reply_Thread(this, 27, noticeItem.getNum(), MainActivity.getMyInfoItem().getMyMemNum(),
+					Insert_Reply_Thread iThread = new Insert_Reply_Thread(this, 27, noticeItem.getNum(), MainActivity.getMyInfoItem()
+							.getMyMemNum(),
 							commentText, kind);
 					iThread.start(); // 댓글 삽입하는 스레드
 				} else {
@@ -584,18 +597,18 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		contentsDate.setText(conItem.getDate());
 		contentsArticle.setText(conItem.getArticle());
 
-		if (conItem.getImgUrl().length() > 10) {
-			new UrlImageDownloadTask(contentsImage).execute(SystemValue.imageConn + "" + conItem.getImgUrl());
-			contentsImage.setVisibility(View.VISIBLE);
-		} else {
-			contentsImage.setVisibility(View.GONE);
-		}
+//		if (noticeItem.getImgurl().length() > 10) {
+//			String[] imgUrls = noticeItem.getImgurl().split(" ");
+//			for (int i = 0; i < imgUrls.length; i++) {
+//				new UrlImageDownloadTask(contentsImage[i]).execute(SystemValue.imageConn + "" + imgUrls[i]);
+//				contentsImage[i].setVisibility(View.VISIBLE);
+//			}
+//		}
 
 		comItem.clear();
 		Get_Reply_Thread rThread = new Get_Reply_Thread(this, 28, currentContentNum, false);
 		rThread.start(); // 댓글 받아오는 스레드
 
-		// contentsImage;
 	}
 
 	// 뷰에 공지사항 정보 추가하는 함수
@@ -607,19 +620,17 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		contentsName.setText("동대문구청");
 		contentsDate.setText(noticeItem.getDate());
 		contentsArticle.setText(noticeItem.getArticle());
-		// setProfileURL("");
 
-		if (noticeItem.getImgurl().length() > 10) {
-			new UrlImageDownloadTask(contentsImage).execute(SystemValue.imageConn + "" + noticeItem.getImgurl());
-			contentsImage.setVisibility(View.VISIBLE);
-		} else {
-			contentsImage.setVisibility(View.GONE);
-		}
+//		if (noticeItem.getImgurl().length() > 10) {
+//			String[] imgUrls = noticeItem.getImgurl().split(" ");
+//			for (int i = 0; i < imgUrls.length; i++) {
+//				new UrlImageDownloadTask(contentsImage[i]).execute(SystemValue.imageConn + "" + imgUrls[i]);
+//				contentsImage[i].setVisibility(View.VISIBLE);
+//			}
+//		}
 
 		Get_Reply_Thread rThread = new Get_Reply_Thread(this, 28, currentContentNum, true);
 		rThread.start(); // 댓글 받아오는 스레드
-
-		// contentsImage;
 	}
 
 	@Override
@@ -627,10 +638,10 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		if (menuLayout.getVisibility() == View.VISIBLE) {
 			menuLayout.setVisibility(View.GONE);
 			menuHelperLayout.setVisibility(View.GONE);
-			Log.i("DDM","ContentsActivity 222 >> ");
+			Log.i("DDM", "ContentsActivity 222 >> ");
 		} else {
 			super.onBackPressed();
-			Log.i("DDM","ContentsActivity 333 >> ");
+			Log.i("DDM", "ContentsActivity 333 >> ");
 		}
 
 	}
@@ -639,7 +650,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		super.onActivityResult(requestCode, resultCode, data);
 
 		switch (resultCode) {
-		case 2:	// 글 수정 후 글을 갱신
+		case 2: // 글 수정 후 글을 갱신
 			if (kind == false) {
 				Get_Content_Thread mThread = new Get_Content_Thread(this, 24, currentContentNum);
 				mThread.start(); // 글 내용 받아오는 스레드
