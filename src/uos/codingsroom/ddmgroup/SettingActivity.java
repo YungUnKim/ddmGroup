@@ -59,7 +59,7 @@ public class SettingActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_setting);
 
-		progressDialog = new LoadingProgressDialog(this, true);
+		progressDialog = new LoadingProgressDialog(this);
 
 		Bundle bundle = getIntent().getExtras();
 		nickName = bundle.getString("myName");

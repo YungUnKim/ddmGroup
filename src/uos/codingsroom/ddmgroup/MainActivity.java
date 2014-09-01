@@ -110,7 +110,7 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		progressDialog = new LoadingProgressDialog(this, true);
+		progressDialog = new LoadingProgressDialog(this);
 		initializeView(); // 뷰를 초기화
 		readProfile(this);
 		// setProfile();

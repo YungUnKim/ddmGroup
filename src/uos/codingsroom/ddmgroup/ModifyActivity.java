@@ -60,7 +60,7 @@ public class ModifyActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		progressDialog = new LoadingProgressDialog(this, true);
+		progressDialog = new LoadingProgressDialog(this);
 		
 		Bundle bundle = getIntent().getExtras();
 		currentContentNum = bundle.getInt("content_num");

@@ -11,11 +11,11 @@ public class LoadingProgressDialog {
 
 	ProgressDialog progressDialog;
 
-	public LoadingProgressDialog(final Context context, Boolean cancelFlag) {
+	public LoadingProgressDialog(final Context context) {
 		progressDialog = new ProgressDialog(context);
 		progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		progressDialog.setMessage("로딩중입니다.");
-		progressDialog.setCancelable(cancelFlag);
+		progressDialog.setCancelable(false);
 		progressDialog.setOnCancelListener(new OnCancelListener() {
 			@Override
 			public void onCancel(DialogInterface dialog) {

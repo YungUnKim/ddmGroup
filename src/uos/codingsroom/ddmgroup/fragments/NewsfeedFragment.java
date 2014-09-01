@@ -47,9 +47,7 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 	public void onStart() {
 		super.onStart();
 		Log.i("DDM","NewsfeedFragment 222 >> ");
-		newsfeedAdapter.clearItem();
-		Get_Newsfeed_Thread mThread1 = new Get_Newsfeed_Thread(this.getActivity(), 12);
-		mThread1.start();
+		
 		Log.i("DDM","NewsfeedFragment 333 >> ");
 	}
 
@@ -74,6 +72,11 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 		}
 
 		Log.i("DDM","NewsfeedFragment 444 >> ");
+		
+		newsfeedAdapter.clearItem();
+		Get_Newsfeed_Thread mThread1 = new Get_Newsfeed_Thread(this.getActivity(), 12);
+		mThread1.start();
+		
 		return view;
 	}
 

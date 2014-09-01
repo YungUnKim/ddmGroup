@@ -105,7 +105,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		kind = bundle.getBoolean("mode"); // 공지사항 여부
 
 		initializeView();
-		progressDialog = new LoadingProgressDialog(this, true);
+		progressDialog = new LoadingProgressDialog(this);
 		progressDialog.startProgressDialog();
 
 		if (kind == false) {
