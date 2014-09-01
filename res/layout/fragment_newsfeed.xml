@@ -1,7 +1,17 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="match_parent" >
+    
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/content_gray"
+        android:text="안녕하세요!\n\n동대문 구청 마을 공동체\n\n모임을 위한 App 입니다."/>
+    
 
     <ListView
         android:id="@+id/listview_newsfeed"
@@ -16,4 +26,4 @@
         android:scrollbars="none" >
     </ListView>
 
-</LinearLayout>
+</RelativeLayout>
