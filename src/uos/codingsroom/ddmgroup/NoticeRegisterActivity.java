@@ -24,16 +24,23 @@ public class NoticeRegisterActivity extends Activity implements OnClickListener 
 
 	private static String currentGroupName = "공지사항 작성";
 
-	private String ImgPath;
-
 	EditText EditTitle;
 	EditText EditMemo;
-	Button BtnUpload;
 	Button BtnRegister;
 	Button BtnBack;
-	ImageView temp_img;
 	TextView title_text;
-	
+
+	String[] ImgPath = new String[5];
+	ImageView[] img = new ImageView[5];
+	int[] img_id = { R.id.edit_img_01, R.id.edit_img_02, R.id.edit_img_03, R.id.edit_img_04, R.id.edit_img_05 };
+	Intent img_intent;
+
+	final int REQUEST_CODE_IMAGE_01 = 1;
+	final int REQUEST_CODE_IMAGE_02 = 2;
+	final int REQUEST_CODE_IMAGE_03 = 3;
+	final int REQUEST_CODE_IMAGE_04 = 4;
+	final int REQUEST_CODE_IMAGE_05 = 5;
+
 	int REQUEST_CODE_IMAGE = 1;
 
 	TextView groupTitle;
@@ -49,13 +56,18 @@ public class NoticeRegisterActivity extends Activity implements OnClickListener 
 		groupTitle.setText(currentGroupName);
 		title_text = (TextView) findViewById(R.id.text_register_groupname_textview);
 		title_text.setText("");
-		BtnUpload = (Button) findViewById(R.id.button_img_upload);
-		temp_img = (ImageView) findViewById(R.id.temp_img);
-		BtnUpload.setOnClickListener(this);
+
+		for (int i = 0; i < 5; i++) {
+			img[i] = (ImageView) findViewById(img_id[i]);
+			img[i].setOnClickListener(this);
+		}
+
 		BtnRegister = (Button) findViewById(R.id.button_content_register);
 		BtnRegister.setOnClickListener(this);
 		BtnBack = (Button) findViewById(R.id.button_content_back);
 		BtnBack.setOnClickListener(this);
+		
+		img_intent = new Intent(Intent.ACTION_PICK);
 	}
 
 	// 글 업로드 하는 함수
@@ -69,17 +81,19 @@ public class NoticeRegisterActivity extends Activity implements OnClickListener 
 			return;
 		}
 
-		Insert_Notice_Thread iThread = new Insert_Notice_Thread(this, 140, Title, Memo, ImgPath);
+		Insert_Notice_Thread iThread = new Insert_Notice_Thread(this, 140, Title, Memo, "hello img path");
 		iThread.start(); // 글 업로드하는 스레드
 
 	}
 
 	// 글 업로드 성공 후 수행하는 함수
 	public void clearContent() {
-		temp_img.setImageBitmap(null);
+		for (int i=0; i<5;i++){
+			img[i].setImageResource(R.drawable.icon_img_plus);
+			ImgPath[i] = null;
+		}
 		EditTitle.setText("");
 		EditMemo.setText("");
-		ImgPath = null;
 
 		finish();
 	}
@@ -93,16 +107,37 @@ public class NoticeRegisterActivity extends Activity implements OnClickListener 
 
 			Cursor c = this.getContentResolver().query(Uri.parse(data.getDataString()), null, null, null, null);
 			c.moveToNext();
-			ImgPath = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
-			Uri uri = Uri.fromFile(new File(ImgPath));
+			String tempPath = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
+			Uri uri = Uri.fromFile(new File(tempPath));
 			Log.e("flag", uri.toString() + "\n" + ImgPath);
 			c.close();
 
-			final Bitmap b = BitmapFactory.decodeFile(ImgPath, options);
+			final Bitmap b = BitmapFactory.decodeFile(tempPath, options);
 
-			// temp_img.setImageURI(data.getData());
-			temp_img.setImageBitmap(b);
-			temp_img.setVisibility(View.VISIBLE);
+			switch (requestCode) {
+			case REQUEST_CODE_IMAGE_01:
+				img[0].setImageBitmap(b);
+				ImgPath[0] = tempPath;
+				break;
+			case REQUEST_CODE_IMAGE_02:
+				img[1].setImageBitmap(b);
+				ImgPath[1] = tempPath;
+				break;
+			case REQUEST_CODE_IMAGE_03:
+				img[2].setImageBitmap(b);
+				ImgPath[2] = tempPath;
+				break;
+			case REQUEST_CODE_IMAGE_04:
+				img[3].setImageBitmap(b);
+				ImgPath[3] = tempPath;
+				break;
+			case REQUEST_CODE_IMAGE_05:
+				img[4].setImageBitmap(b);
+				ImgPath[4] = tempPath;
+				break;
+			default:
+				break;
+			}
 		} catch (Exception e) {
 
 		}
@@ -112,22 +147,39 @@ public class NoticeRegisterActivity extends Activity implements OnClickListener 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.button_img_upload: // 이미지 업로드
-			Intent intent = new Intent(Intent.ACTION_PICK);
-			intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
-			intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-			startActivityForResult(intent, REQUEST_CODE_IMAGE);
-			break;
 		case R.id.button_content_register: // 글 업로드 버튼
 			registerContent();
 			break;
 		case R.id.button_content_back:
 			finish();
 			break;
-
+		case R.id.edit_img_01:
+			clickImgButton(0, REQUEST_CODE_IMAGE_01);
+			break;
+		case R.id.edit_img_02:
+			clickImgButton(1, REQUEST_CODE_IMAGE_02);
+			break;
+		case R.id.edit_img_03:
+			clickImgButton(2, REQUEST_CODE_IMAGE_03);
+			break;
+		case R.id.edit_img_04:
+			clickImgButton(3, REQUEST_CODE_IMAGE_04);
+			break;
+		case R.id.edit_img_05:
+			clickImgButton(4, REQUEST_CODE_IMAGE_05);
+			break;
 		default:
 			break;
 		}
-
+	}
+	public void clickImgButton(int position, int requestCode) {
+		if (ImgPath[position] == null) {
+			img_intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+			img_intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+			startActivityForResult(img_intent, requestCode);
+		} else {
+			ImgPath[position] = null;
+			img[position].setImageResource(R.drawable.icon_img_plus);
+		}
 	}
 }

@@ -33,21 +33,28 @@ public class RegisterFragment extends Fragment {
 	private static String currentGroupName;
 
 	private Uri ImgUrl;
-	private String ImgPath;
 
 	EditText EditTitle;
 	EditText EditMemo;
-	Button BtnUpload;
 	Button BtnRegister;
 	Button BtnBack;
-	ImageView temp_img;
-	int REQUEST_CODE_IMAGE = 1;
+	
+	String[] ImgPath = new String[5];
+	ImageView[] img = new ImageView[5];
+	int[] img_id = { R.id.edit_img_01, R.id.edit_img_02, R.id.edit_img_03, R.id.edit_img_04, R.id.edit_img_05 };
+
+	final int REQUEST_CODE_IMAGE_01 = 1;
+	final int REQUEST_CODE_IMAGE_02 = 2;
+	final int REQUEST_CODE_IMAGE_03 = 3;
+	final int REQUEST_CODE_IMAGE_04 = 4;
+	final int REQUEST_CODE_IMAGE_05 = 5;
 
 	// GCM 메세지를 보낼 변수
 	AsyncTask<Void, Void, Void> mSendTask;
 	Sender sender;
 
 	TextView groupTitle;
+	Intent img_intent;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -64,13 +71,18 @@ public class RegisterFragment extends Fragment {
 		groupTitle = (TextView) view.findViewById(R.id.text_register_groupname);
 
 		clickListener click = new clickListener();
-		BtnUpload = (Button) view.findViewById(R.id.button_img_upload);
-		temp_img = (ImageView) view.findViewById(R.id.temp_img);
-		BtnUpload.setOnClickListener(click);
+
+		for (int i = 0; i < 5; i++) {
+			img[i] = (ImageView) view.findViewById(img_id[i]);
+			img[i].setOnClickListener(click);
+		}
+
 		BtnRegister = (Button) view.findViewById(R.id.button_content_register);
 		BtnRegister.setOnClickListener(click);
 		BtnBack = (Button) view.findViewById(R.id.button_content_back);
 		BtnBack.setOnClickListener(click);
+
+		img_intent = new Intent(Intent.ACTION_PICK);
 
 		return view;
 	}
@@ -96,22 +108,40 @@ public class RegisterFragment extends Fragment {
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
-			case R.id.button_img_upload: // 이미지 업로드
-				Intent intent = new Intent(Intent.ACTION_PICK);
-				intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
-				intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-				startActivityForResult(intent, REQUEST_CODE_IMAGE);
-				break;
 			case R.id.button_content_register: // 글 업로드 버튼
 				registerContent();
 				break;
 			case R.id.button_content_back:
 				((MainActivity) getActivity()).showFragment(1, false);
 				break;
+			case R.id.edit_img_01:
+				clickImgButton(0, REQUEST_CODE_IMAGE_01);
+				break;
+			case R.id.edit_img_02:
+				clickImgButton(1, REQUEST_CODE_IMAGE_02);
+				break;
+			case R.id.edit_img_03:
+				clickImgButton(2, REQUEST_CODE_IMAGE_03);
+				break;
+			case R.id.edit_img_04:
+				clickImgButton(3, REQUEST_CODE_IMAGE_04);
+				break;
+			case R.id.edit_img_05:
+				clickImgButton(4, REQUEST_CODE_IMAGE_05);
+				break;
 			}
-
 		}
+	}
 
+	public void clickImgButton(int position, int requestCode) {
+		if (ImgPath[position] == null) {
+			img_intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+			img_intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+			startActivityForResult(img_intent, requestCode);
+		} else {
+			ImgPath[position] = null;
+			img[position].setImageResource(R.drawable.icon_img_plus);
+		}
 	}
 
 	// 글 업로드 하는 함수
@@ -121,31 +151,27 @@ public class RegisterFragment extends Fragment {
 
 		if (Title.equals("") || Memo.equals("")) {
 			Toast.makeText(getActivity(), "필수입력사항을 입력하세요!", Toast.LENGTH_LONG).show();
-			// EditText가 비워있으면 null 오류가 뜨기 때문에 리턴해줘서 다시 입력하게 해야한다.
 			return;
 		}
 		Log.i("MyTag", Title + " >> " + Memo);
 
-		Insert_Content_Thread iThread = new Insert_Content_Thread(this.getActivity(), 22, MainActivity.getMyInfoItem().getMyMemNum(), currentGroup, Title, Memo,
-				ImgPath);
-		
+		Insert_Content_Thread iThread = new Insert_Content_Thread(this.getActivity(), 22, MainActivity.getMyInfoItem().getMyMemNum(),
+				currentGroup, Title, Memo,
+				"prevent Error");
+
 		iThread.start(); // 글 업로드하는 스레드
 		((MainActivity) getActivity()).progressDialog.startProgressDialog();
-		
-		// rDialog = createRegisterDialog();
-		// rDialog.show();
-
 	}
 
 	// 글 업로드 성공 후 수행하는 함수
-	public void clearContent(){
-		temp_img.setImageBitmap(null);
+	public void clearContent() {
 		EditTitle.setText("");
 		EditMemo.setText("");
-		ImgPath = null;
+		for (int i=0; i<5;i++){
+			img[i].setImageResource(R.drawable.icon_img_plus);
+			ImgPath[i] = null;
+		}
 	}
-	
-
 
 	public void setNoticeTitle(String title, int index) {
 
@@ -160,21 +186,42 @@ public class RegisterFragment extends Fragment {
 
 			Cursor c = getActivity().getContentResolver().query(Uri.parse(data.getDataString()), null, null, null, null);
 			c.moveToNext();
-			ImgPath = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
-			Uri uri = Uri.fromFile(new File(ImgPath));
-			Log.e("flag", uri.toString() + "\n" + ImgPath);
+			String tempPath = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
+			Uri uri = Uri.fromFile(new File(tempPath));
+			Log.e("flag", uri.toString() + "\n" + tempPath);
 			c.close();
 
-			final Bitmap b = BitmapFactory.decodeFile(ImgPath, options);
-			// Log.i("flag", data.getData().toString());
+			final Bitmap b = BitmapFactory.decodeFile(tempPath, options);
 
 			// temp_img.setImageURI(data.getData());
-			temp_img.setImageBitmap(b);
-			temp_img.setVisibility(View.VISIBLE);
+			switch (requestCode) {
+			case REQUEST_CODE_IMAGE_01:
+				img[0].setImageBitmap(b);
+				ImgPath[0] = tempPath;
+				break;
+			case REQUEST_CODE_IMAGE_02:
+				img[1].setImageBitmap(b);
+				ImgPath[1] = tempPath;
+				break;
+			case REQUEST_CODE_IMAGE_03:
+				img[2].setImageBitmap(b);
+				ImgPath[2] = tempPath;
+				break;
+			case REQUEST_CODE_IMAGE_04:
+				img[3].setImageBitmap(b);
+				ImgPath[3] = tempPath;
+				break;
+			case REQUEST_CODE_IMAGE_05:
+				img[4].setImageBitmap(b);
+				ImgPath[4] = tempPath;
+				break;
+			default:
+				break;
+			}
 		} catch (Exception e) {
 
 		}
 
-	}// end onActivityResult Method
+	}
 
 }
