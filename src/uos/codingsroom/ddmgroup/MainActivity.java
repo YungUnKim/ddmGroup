@@ -25,6 +25,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -118,6 +119,7 @@ public class MainActivity extends FragmentActivity {
 		myPreference = new MakePreferences(this);
 
 		showFragment(NEWSFEED, false);
+		Log.i("DDM","MainActivity 111 >> ");
 	}
 
 	protected void onResume() {
@@ -126,6 +128,7 @@ public class MainActivity extends FragmentActivity {
 		// if (userProfile != null) {
 		// setProfileURL(userProfile.getThumbnailImagePath());
 		// }
+		Log.i("DDM","MainActivity 222 >> ");
 	}
 
 	public static MyInfoItem getMyInfoItem() {
@@ -183,12 +186,15 @@ public class MainActivity extends FragmentActivity {
 	// 뉴스피드
 	// 뉴스피드 아이템 추가
 	public void setNewsFeed(NewsFeedItem newsFeedItem) {
+		
 		((NewsfeedFragment) fragments[NEWSFEED]).setNewsFeed(newsFeedItem);
 	}
 
 	// 뉴스피드 아이템 갱신
 	public void setNewsFeedList() {
+		Log.i("DDM","MainActivity 444 >> ");
 		((NewsfeedFragment) fragments[NEWSFEED]).setNewsFeedList();
+		Log.i("DDM","MainActivity 555 >> ");
 	}
 
 	// 게시글
@@ -292,6 +298,7 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	private void initializeView() {
+		Log.i("DDM","MainActivity 333 >> ");
 		setContentView(R.layout.activity_main);
 		preActivity = this;
 		menu = new MakeMenu(this);
@@ -345,9 +352,11 @@ public class MainActivity extends FragmentActivity {
 		initializeButtons();
 		initializeProfileView();
 		initializeListView();
+
 	}
 
 	public void showFragment(int fragmentIndex, boolean addToBackStack) {
+		Log.i("DDM","MainActivity 666 >> ");
 		FragmentManager fm = getSupportFragmentManager();
 		FragmentTransaction transaction = fm.beginTransaction();
 		for (int i = 0; i < fragments.length; i++) {
@@ -368,6 +377,7 @@ public class MainActivity extends FragmentActivity {
 		} else {
 			searchBox.setVisibility(View.GONE);
 		}
+		Log.i("DDM","MainActivity 777 >> ");
 	}
 
 	private void initializeProfileView() {
@@ -514,13 +524,18 @@ public class MainActivity extends FragmentActivity {
 
 	@Override
 	public void onBackPressed() {
+		Log.i("DDM","MainActivity 888 >> ");
 		if (menu.getMenu().isMenuShowing()) {
+			Log.i("DDM","MainActivity 888-1 >> ");
 			menu.getMenu().showContent();
 		} else if (currentFragment == 2) {
+			Log.i("DDM","MainActivity 888-2 >> ");
 			showFragment(1, false);
 		} else if (currentFragment == 1) {
+			Log.i("DDM","MainActivity 888-3 >> ");
 			showFragment(0, false);
 		} else {
+			Log.i("DDM","MainActivity 888-4 >> ");
 			super.onBackPressed();
 		}
 	}

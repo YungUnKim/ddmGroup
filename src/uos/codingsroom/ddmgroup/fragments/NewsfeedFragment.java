@@ -9,6 +9,7 @@ import uos.codingsroom.ddmgroup.listview.NewsFeedListAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -39,16 +40,17 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 	@Override
 	public void onResume() {
 		super.onResume();
-
+		Log.i("DDM","NewsfeedFragment 111 >> ");
 	}
 
 	@Override
 	public void onStart() {
 		super.onStart();
-
+		Log.i("DDM","NewsfeedFragment 222 >> ");
 		newsfeedAdapter.clearItem();
 		Get_Newsfeed_Thread mThread1 = new Get_Newsfeed_Thread(this.getActivity(), 12);
 		mThread1.start();
+		Log.i("DDM","NewsfeedFragment 333 >> ");
 	}
 
 	@Override
@@ -71,6 +73,7 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 			noticeTitleText[i].setOnClickListener(this);
 		}
 
+		Log.i("DDM","NewsfeedFragment 444 >> ");
 		return view;
 	}
 
@@ -83,10 +86,12 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 
 	// 공지사항 출력 (3개)
 	public void setNoticeTitle() {
+		Log.i("DDM","NewsfeedFragment 555 >> ");
 		for (int i = 0; i < noticeCount; i++) {
 			noticeTitleText[i].setText(getSubString(noticeTitle[i]));
 			noticeTitleText[i].setVisibility(View.VISIBLE);
 		}
+		Log.i("DDM","NewsfeedFragment 666 >> ");
 	}
 
 	public String getSubString(String notice) {
@@ -105,6 +110,7 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 
 	// 뉴스피드 출력(20개)
 	public void setNewsFeedList() {
+		Log.i("DDM","NewsfeedFragment 777 >> ");
 		Get_Notice_Three_Thread mThread = new Get_Notice_Three_Thread(this.getActivity(), 11);
 		mThread.start();
 
@@ -116,6 +122,7 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 				moveToContentsActivity(curItem.getIndexNum(), curItem.getGroupName(), false);
 			}
 		});
+		Log.i("DDM","NewsfeedFragment 888 >> ");
 	}
 
 	@Override
@@ -137,11 +144,13 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 	}
 
 	public void moveToContentsActivity(Integer contentNum, String groupName, boolean kind) {
+		Log.i("DDM","NewsfeedFragment 999 >> ");
 		Intent intent = new Intent(this.getActivity(), ContentsActivity.class);
 		intent.putExtra("content_num", contentNum);
 		intent.putExtra("group_name", groupName);
 		intent.putExtra("mode", kind);
 		startActivity(intent);
+		Log.i("DDM","NewsfeedFragment 000 >> ");
 	}
 
 }

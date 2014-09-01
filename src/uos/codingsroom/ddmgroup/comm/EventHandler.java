@@ -8,6 +8,7 @@ import uos.codingsroom.ddmgroup.SettingActivity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 public class EventHandler extends Handler {
 	Context mcontext;
@@ -24,6 +25,7 @@ public class EventHandler extends Handler {
 
 	public void handleMessage(Message msg) {
 		try {
+			Log.i("DDM","EventHandler 000 >> " + msg.what);
 			if (msg.what == 0) {
 
 			} else if (msg.what == 9) { // 회원탈퇴 성공
@@ -37,8 +39,10 @@ public class EventHandler extends Handler {
 				((MainActivity) mcontext).setProfile();
 				((MainActivity) mcontext).setGroupButtonClickListener();
 			} else if (msg.what == 11) { // 공지사항 3개 얻어오기 성공
+				Log.i("DDM","EventHandler 111 >> ");
 				((MainActivity) mcontext).setNoticeTitle();
 			} else if (msg.what == 12) { // 뉴스피드 목록 얻어오기 성공
+				Log.i("DDM","EventHandler 222 >> ");
 				((MainActivity) mcontext).setNewsFeedList();
 			} else if (msg.what == 13) { // 게시글 목록 얻어오기 성공
 				((MainActivity) mcontext).setContent();

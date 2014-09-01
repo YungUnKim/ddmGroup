@@ -26,6 +26,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
@@ -154,6 +155,8 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		commentEdit = (EditText) findViewById(R.id.edittext_comment);
 		commentRegister = (TextView) findViewById(R.id.button_comment_register);
 		commentRegister.setOnClickListener(this);
+		
+		Log.i("DDM","ContentsActivity 111 >> ");
 	}
 
 	private View header() {
@@ -624,8 +627,10 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		if (menuLayout.getVisibility() == View.VISIBLE) {
 			menuLayout.setVisibility(View.GONE);
 			menuHelperLayout.setVisibility(View.GONE);
+			Log.i("DDM","ContentsActivity 222 >> ");
 		} else {
 			super.onBackPressed();
+			Log.i("DDM","ContentsActivity 333 >> ");
 		}
 
 	}
