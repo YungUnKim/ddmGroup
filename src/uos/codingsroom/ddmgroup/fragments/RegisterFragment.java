@@ -41,6 +41,7 @@ public class RegisterFragment extends Fragment {
 	
 	String[] ImgPath = new String[5];
 	ImageView[] img = new ImageView[5];
+	int ImgNum = 0;
 	int[] img_id = { R.id.edit_img_01, R.id.edit_img_02, R.id.edit_img_03, R.id.edit_img_04, R.id.edit_img_05 };
 
 	final int REQUEST_CODE_IMAGE_01 = 1;
@@ -135,10 +136,14 @@ public class RegisterFragment extends Fragment {
 
 	public void clickImgButton(int position, int requestCode) {
 		if (ImgPath[position] == null) {
+//			Log.i("MyTag", "Add ImgPath[" + ImgPath[position] + "]");
+			ImgNum++;
 			img_intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
 			img_intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 			startActivityForResult(img_intent, requestCode);
 		} else {
+//			Log.i("MyTag", "Remove ImgPath[" + ImgPath[position] + "]");
+			ImgNum--;
 			ImgPath[position] = null;
 			img[position].setImageResource(R.drawable.icon_img_plus);
 		}
@@ -153,12 +158,9 @@ public class RegisterFragment extends Fragment {
 			Toast.makeText(getActivity(), "필수입력사항을 입력하세요!", Toast.LENGTH_LONG).show();
 			return;
 		}
-		Log.i("MyTag", Title + " >> " + Memo);
+		Log.i("MyTag", Title + " >> " + Memo + " Img >> " + ImgNum );
 
-		Insert_Content_Thread iThread = new Insert_Content_Thread(this.getActivity(), 22, MainActivity.getMyInfoItem().getMyMemNum(),
-				currentGroup, Title, Memo,
-				"prevent Error");
-
+		Insert_Content_Thread iThread = new Insert_Content_Thread(this.getActivity(), 22, MainActivity.getMyInfoItem().getMyMemNum(),currentGroup, Title, Memo, ImgPath, ImgNum);
 		iThread.start(); // 글 업로드하는 스레드
 		((MainActivity) getActivity()).progressDialog.startProgressDialog();
 	}
@@ -167,6 +169,8 @@ public class RegisterFragment extends Fragment {
 	public void clearContent() {
 		EditTitle.setText("");
 		EditMemo.setText("");
+		ImgNum = 0;
+		
 		for (int i=0; i<5;i++){
 			img[i].setImageResource(R.drawable.icon_img_plus);
 			ImgPath[i] = null;
@@ -188,7 +192,7 @@ public class RegisterFragment extends Fragment {
 			c.moveToNext();
 			String tempPath = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
 			Uri uri = Uri.fromFile(new File(tempPath));
-			Log.e("flag", uri.toString() + "\n" + tempPath);
+//			Log.e("flag", uri.toString() + "\n" + tempPath);
 			c.close();
 
 			final Bitmap b = BitmapFactory.decodeFile(tempPath, options);

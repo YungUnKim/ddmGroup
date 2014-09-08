@@ -51,7 +51,7 @@ public class Get_Content_Thread extends Communication_Thread {
 					} else if (tagname.equals("CONTENT_ARTICLE")) {
 						conItem.setArticle(ret);
 					} else if (tagname.equals("CONTENT_IMG")) {
-						conItem.setImgUrl(ret);
+						conItem.setImgurl(ret);
 					} else if (tagname.equals("CONTENT_REPLY")) {
 						conItem.setReplyCount(Integer.parseInt(ret));
 					} else if (tagname.equals("CONTENT_DATE")) {

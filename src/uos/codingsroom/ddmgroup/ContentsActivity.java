@@ -563,7 +563,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 			intent.putExtra("content_num", conItem.getIndexNum()); // 글 번호
 			intent.putExtra("title", conItem.getTitle()); // 글 제목
 			intent.putExtra("article", conItem.getArticle()); // 글 내용
-			intent.putExtra("img_url", conItem.getImgUrl()); // 그림 url
+			intent.putExtra("img_url", conItem.getImgurl()); // 그림 url
 			intent.putExtra("group_num", conItem.getBoardCategory()); // 그룹번호
 		}
 		intent.putExtra("group_name", group_name);
@@ -597,13 +597,13 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		contentsDate.setText(conItem.getDate());
 		contentsArticle.setText(conItem.getArticle());
 
-//		if (noticeItem.getImgurl().length() > 10) {
-//			String[] imgUrls = noticeItem.getImgurl().split(" ");
-//			for (int i = 0; i < imgUrls.length; i++) {
-//				new UrlImageDownloadTask(contentsImage[i]).execute(SystemValue.imageConn + "" + imgUrls[i]);
-//				contentsImage[i].setVisibility(View.VISIBLE);
-//			}
-//		}
+		if (conItem.getImgurl().length() > 10) {
+			String[] imgUrls = conItem.getImgurl().split(" ");
+			for (int i = 0; i < imgUrls.length; i++) {
+				new UrlImageDownloadTask(contentsImage[i]).execute(SystemValue.imageConn + "" + imgUrls[i]);
+				contentsImage[i].setVisibility(View.VISIBLE);
+			}
+		}
 
 		comItem.clear();
 		Get_Reply_Thread rThread = new Get_Reply_Thread(this, 28, currentContentNum, false);

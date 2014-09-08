@@ -138,11 +138,11 @@ public class ContentItem {
 		this.article = article;
 	}
 
-	public String getImgUrl() {
+	public String getImgurl() {
 		return img_url;
 	}
 
-	public void setImgUrl(String img_url) {
+	public void setImgurl(String img_url) {
 		this.img_url = img_url;
 	}
 

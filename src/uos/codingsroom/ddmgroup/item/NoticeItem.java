@@ -5,7 +5,7 @@ public class NoticeItem {
 	private int reply_count;
 	private String title;
 	private String article;
-	private String imgurl;
+	private String img_url;
 	private String date;
 	
 	public NoticeItem(){
@@ -20,12 +20,12 @@ public class NoticeItem {
 		this.date = date;
 	}
 	
-	public NoticeItem(int num, int reply_count, String title, String article, String imgurl, String date) {
+	public NoticeItem(int num, int reply_count, String title, String article, String img_url, String date) {
 		this.num = num;
 		this.reply_count = reply_count;
 		this.title = title;
 		this.article = article;
-		this.imgurl = imgurl;
+		this.img_url = img_url;
 		this.date = date;
 	}
 
@@ -70,11 +70,11 @@ public class NoticeItem {
 	}
 
 	public String getImgurl() {
-		return imgurl;
+		return img_url;
 	}
 
 	public void setImgurl(String imgurl) {
-		this.imgurl = imgurl;
+		this.img_url = imgurl;
 	}
 
 }
