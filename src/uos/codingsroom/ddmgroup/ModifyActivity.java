@@ -84,18 +84,18 @@ public class ModifyActivity extends Activity implements OnClickListener {
 		case R.id.button_content_back_modify:
 			finish();
 			break;
-		case R.id.button_img_remove:
-			if (myImage != null) {
-				myImage.setImageBitmap(null);
-				img_change = true;
-			}
-			break;
-		case R.id.button_img_modify:
-			Intent intent = new Intent(Intent.ACTION_PICK);
-			intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
-			intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-			startActivityForResult(intent, REQUEST_CODE_IMAGE);
-			break;
+//		case R.id.button_img_remove:
+//			if (myImage != null) {
+//				myImage.setImageBitmap(null);
+//				img_change = true;
+//			}
+//			break;
+//		case R.id.button_img_modify:
+//			Intent intent = new Intent(Intent.ACTION_PICK);
+//			intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+//			intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//			startActivityForResult(intent, REQUEST_CODE_IMAGE);
+//			break;
 		case R.id.button_content_modify:
 			if (modifycheck()) { // 글 수정 통신하기 전에 수정 여부 확인하기
 				modify();
