@@ -16,29 +16,41 @@ import android.content.Context;
 import android.util.Log;
 
 public class Insert_Notice_Thread extends Manage_Communication_Thread {
-	private String uploadFilePath;	// 이미지 경로
+	String[] ImgPath = new String[5];		// 이미지 경로
+	private int img_num = 0;
 	private int menu;
 	private String title;
 	private String article;
 	
-	int serverResponseCode = 0;
+	private static String CRLF = "\r\n";
+	private static String twoHyphens = "--";
+	private static String boundary = "*****mgd*****";
+
+	private HttpURLConnection conn = null;
+	private DataOutputStream dos = null;
+
+	private int serverResponseCode = 0;
+	
+	int i = 0;
 	
 	// 글 등록하기
-	public Insert_Notice_Thread(Context context, int menu, String title, String article, String path) {
+	public Insert_Notice_Thread(Context context, int menu, String title, String article, String[] path, int img_num) {
 		super(context,menu);
 		this.menu = menu;
 		this.title = title;
 		this.article = article;
-		this.uploadFilePath = path;
+		this.ImgPath = path;
+		this.img_num = img_num;
+		Log.i("MyTag","Insert_Notice_Thread >> " + this.ImgPath[0] + " >> " + this.ImgPath[1] + " >> " + this.ImgPath[2] + " >> " + this.ImgPath[3] + " >> " + this.ImgPath[4]);
 	}
 
 	// 스레드 기본 함수
 	@Override
 	public void run() {
 		try {
-			if(uploadFilePath == null){	// 그림이 없는 경우
+			if(this.img_num == 0){	// 그림이 없는 경우
 				try {
-					url += "&title=" + URLEncoder.encode(title, "UTF-8") + "&article=" + URLEncoder.encode(article, "UTF-8");
+					url += "&title=" + URLEncoder.encode(title, "UTF-8") + "&article=" + URLEncoder.encode(article, "UTF-8") + "&img_num=" + img_num;
 					Log.i("MyTag", "url >> " + url);
 				} catch (UnsupportedEncodingException e) {
 					// TODO Auto-generated catch block
@@ -47,7 +59,8 @@ public class Insert_Notice_Thread extends Manage_Communication_Thread {
 				xmlParser(connect(url));	// XML 파싱 함수
 			}
 			else{			// 그림이 있는 경우
-				uploadFile(this.uploadFilePath);
+//				uploadFile(this.uploadFilePath);
+				uploadFile();	// 서버에 파일 및 정보 전송
 			}
 			
 		} catch (Exception e) {
@@ -55,6 +68,135 @@ public class Insert_Notice_Thread extends Manage_Communication_Thread {
 		}
 	}
 	
+	public int uploadFile() {
+		String[] sourceFileUri = new String[5];		// 이미지 경로
+		File[] sourceFile = new File[5];
+		FileInputStream[] fileInputStream = new FileInputStream[5];
+		
+		try {
+			int j = 0;
+			for(int i=0; i<5; i++){
+				if(this.ImgPath[i] == null){	// 이미지 경로가 없을 경우
+//					Log.i("MyTag","Insert_Conent_Thread Image >> " + i);
+				}
+				else{		// 이미지 경로가 있을 경우
+//					Log.i("MyTag","Insert_Conent_Thread Image exist >> " + i);
+					sourceFileUri[j] = this.ImgPath[i];
+					sourceFile[j] = new File(sourceFileUri[j]);
+					fileInputStream[j] = new FileInputStream(sourceFile[j]);
+					j++;
+				}
+			}
+
+			// open a URL connection to the Servlet
+			String imgurl = SystemValue.m_conn_public;
+			URL Httpurl = new URL(imgurl);
+
+			// Open a HTTP connection to the URL
+			conn = (HttpURLConnection) Httpurl.openConnection();
+			conn.setDoInput(true); // Allow Inputs
+			conn.setDoOutput(true); // Allow Outputs
+			conn.setUseCaches(false); // Don't use a Cached Copy
+			conn.setRequestMethod("POST");
+			conn.setRequestProperty("Connection", "Keep-Alive");
+			conn.setRequestProperty("ENCTYPE", "multipart/form-data");
+			conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+			
+			dos = new DataOutputStream(conn.getOutputStream());
+          		
+			// 파일 이외에 파라미터로 넘길 값들
+			writeFormField("menu", String.valueOf(menu));
+			writeFormField("img_num", String.valueOf(img_num));
+			writeFormField("title", title);
+			writeFormField("article", article);
+			
+			// 올릴 파일
+			for(i=0; i<this.img_num; i++){
+				writeFileField("InputFile_" + i, sourceFileUri[i], fileInputStream[i]);
+			}
+			dos.writeBytes(twoHyphens + boundary + twoHyphens + CRLF);
+
+			// Responses from the server (code and message)
+			serverResponseCode = conn.getResponseCode();
+			String serverResponseMessage = conn.getResponseMessage();
+
+			Log.i("MyTag", "HTTP Response is : " + serverResponseMessage + ": " + serverResponseCode);
+
+			if (serverResponseCode == 200) {
+				// 이미지 전송 완료
+				Log.i("MyTag", "이미지 전송 완료");
+				msg.what = 1400;
+				mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다
+			} else {
+				Log.i("MyTag", "이미지 전송 실패");
+				msg.what = -1400;
+				mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다
+			}
+
+			// close the streams //
+			for(i=0; i<this.img_num; i++){
+				fileInputStream[i].close();
+			}
+			dos.flush();
+			dos.close();
+
+		} catch (MalformedURLException ex) {
+			// url 실패
+			ex.printStackTrace();
+			Log.i("MyTag", "error: " + ex.getMessage(), ex);
+		} catch (Exception e) {
+			// 기타 이상
+			e.printStackTrace();
+			Log.i("MyTag", "error: " + e.getMessage(), e);
+		}
+		return serverResponseCode;
+
+	}
+	
+	private void writeFormField(String fieldName, String fieldValue) {
+		try {
+			dos.writeBytes(twoHyphens + boundary + CRLF);
+			dos.writeBytes("Content-Disposition: form-data; name=\"" + fieldName + "\"" + CRLF);
+			dos.writeBytes(CRLF);
+			dos.write(fieldValue.getBytes("utf-8"));
+			dos.writeBytes(CRLF);
+		} catch (Exception e) {
+			Log.i("MyTag", "GeoPictureUploader.writeFormField: got: " + e.getMessage());
+		}
+	}
+
+	private void writeFileField(String fieldName, String fieldValue, FileInputStream fis) {
+		try {
+			// opening boundary line
+			dos.writeBytes(twoHyphens + boundary + CRLF);
+			dos.writeBytes("Content-Disposition: form-data; name=\"" + fieldName + "\";filename=\"");
+			dos.write(fieldValue.getBytes("utf-8"));
+			dos.writeBytes("\"" + CRLF);
+			dos.writeBytes(CRLF);
+
+			// create a buffer of maximum size
+			int bytesAvailable = fis.available();
+			int maxBufferSize = 1024;
+			int bufferSize = Math.min(bytesAvailable, maxBufferSize);
+			byte[] buffer = new byte[bufferSize];
+
+			// read file and write it into form...
+			int bytesRead = fis.read(buffer, 0, bufferSize);
+			while (bytesRead > 0) {
+				dos.write(buffer, 0, bufferSize);
+				bytesAvailable = fis.available();
+				bufferSize = Math.min(bytesAvailable, maxBufferSize);
+				bytesRead = fis.read(buffer, 0, bufferSize);
+			}
+			
+			// closing CRLF
+			dos.writeBytes(CRLF);
+		} catch (Exception e) {
+			Log.i("MyTag", "GeoPictureUploader.writeFormField: got: " + e.getMessage());
+		}
+	}
+	
+	/*
 	public int uploadFile(String sourceFileUri) {
 	          String fileName = sourceFileUri;
 
@@ -167,7 +309,7 @@ public class Insert_Notice_Thread extends Manage_Communication_Thread {
 	               
 	          } // End else block 
 	} 
-	
+	*/
 	// 글 등록하는 함수
 	public void xmlParser(XmlPullParser xpp) {
 		// ------------------------------------- xml 파서 ------------------------------------//
@@ -190,7 +332,6 @@ public class Insert_Notice_Thread extends Manage_Communication_Thread {
 							mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다
 						} else {
 							msg.what = 1400;
-							Log.i("MyTag","test >> 333");
 							mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다
 						}
 					}

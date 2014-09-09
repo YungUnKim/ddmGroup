@@ -88,7 +88,7 @@ public class Manage_EventHandler extends Handler {
 			}
 			
 			else if (msg.what == -1400) { // 공지사항 올리기 실패
-				Log.i("MyTag", "글 올리기 핸들러 실패");
+				((NoticeRegisterActivity) mcontext).viewMessage("공지사항 올리는데 실패하였습니다.");
 			} else if (msg.what == 1400) { // 공지사항 올리기 성공
 				((NoticeRegisterActivity) mcontext).clearContent();
 			} else if (msg.what == -1420) { // 공지사항 수정 실패

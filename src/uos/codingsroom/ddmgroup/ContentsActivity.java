@@ -621,13 +621,13 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		contentsDate.setText(noticeItem.getDate());
 		contentsArticle.setText(noticeItem.getArticle());
 
-//		if (noticeItem.getImgurl().length() > 10) {
-//			String[] imgUrls = noticeItem.getImgurl().split(" ");
-//			for (int i = 0; i < imgUrls.length; i++) {
-//				new UrlImageDownloadTask(contentsImage[i]).execute(SystemValue.imageConn + "" + imgUrls[i]);
-//				contentsImage[i].setVisibility(View.VISIBLE);
-//			}
-//		}
+		if (noticeItem.getImgurl().length() > 10) {
+			String[] imgUrls = noticeItem.getImgurl().split(" ");
+			for (int i = 0; i < imgUrls.length; i++) {
+				new UrlImageDownloadTask(contentsImage[i]).execute(SystemValue.imageConn + "" + imgUrls[i]);
+				contentsImage[i].setVisibility(View.VISIBLE);
+			}
+		}
 
 		Get_Reply_Thread rThread = new Get_Reply_Thread(this, 28, currentContentNum, true);
 		rThread.start(); // 댓글 받아오는 스레드

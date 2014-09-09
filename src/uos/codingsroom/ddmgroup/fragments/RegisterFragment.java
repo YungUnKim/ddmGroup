@@ -43,7 +43,8 @@ public class RegisterFragment extends Fragment {
 	ImageView[] img = new ImageView[5];
 	int ImgNum = 0;
 	int[] img_id = { R.id.edit_img_01, R.id.edit_img_02, R.id.edit_img_03, R.id.edit_img_04, R.id.edit_img_05 };
-
+	Intent img_intent;
+	
 	final int REQUEST_CODE_IMAGE_01 = 1;
 	final int REQUEST_CODE_IMAGE_02 = 2;
 	final int REQUEST_CODE_IMAGE_03 = 3;
@@ -54,8 +55,7 @@ public class RegisterFragment extends Fragment {
 	AsyncTask<Void, Void, Void> mSendTask;
 	Sender sender;
 
-	TextView groupTitle;
-	Intent img_intent;
+	TextView groupTitle;	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

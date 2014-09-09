@@ -32,6 +32,7 @@ public class NoticeRegisterActivity extends Activity implements OnClickListener 
 
 	String[] ImgPath = new String[5];
 	ImageView[] img = new ImageView[5];
+	int ImgNum = 0;
 	int[] img_id = { R.id.edit_img_01, R.id.edit_img_02, R.id.edit_img_03, R.id.edit_img_04, R.id.edit_img_05 };
 	Intent img_intent;
 
@@ -44,7 +45,7 @@ public class NoticeRegisterActivity extends Activity implements OnClickListener 
 	int REQUEST_CODE_IMAGE = 1;
 
 	TextView groupTitle;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -80,8 +81,9 @@ public class NoticeRegisterActivity extends Activity implements OnClickListener 
 			// EditText가 비워있으면 null 오류가 뜨기 때문에 리턴해줘서 다시 입력하게 해야한다.
 			return;
 		}
-
-		Insert_Notice_Thread iThread = new Insert_Notice_Thread(this, 140, Title, Memo, "hello img path");
+		Log.i("MyTag", Title + " >> " + Memo + " Img >> " + ImgNum );
+		
+		Insert_Notice_Thread iThread = new Insert_Notice_Thread(this, 140, Title, Memo, ImgPath, ImgNum);
 		iThread.start(); // 글 업로드하는 스레드
 
 	}
@@ -94,10 +96,22 @@ public class NoticeRegisterActivity extends Activity implements OnClickListener 
 		}
 		EditTitle.setText("");
 		EditMemo.setText("");
-
+		ImgNum = 0;
+		
 		finish();
 	}
 
+	// 핸들러에서 보낸 메시지를 토스트로 출력하는 함수
+	public void viewMessage(String message) {
+		Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+	}
+
+	// 핸들러에서 보낸 메시지를 토스트로 출력하고 액티비티를 종료하는 함수
+	public void viewMessage(String message, int reaction) {
+		Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+		finish();
+	}
+		
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
@@ -174,10 +188,12 @@ public class NoticeRegisterActivity extends Activity implements OnClickListener 
 	}
 	public void clickImgButton(int position, int requestCode) {
 		if (ImgPath[position] == null) {
+			ImgNum++;
 			img_intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
 			img_intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 			startActivityForResult(img_intent, requestCode);
 		} else {
+			ImgNum--;
 			ImgPath[position] = null;
 			img[position].setImageResource(R.drawable.icon_img_plus);
 		}
