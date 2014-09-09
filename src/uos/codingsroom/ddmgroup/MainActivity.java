@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import uos.codingsroom.ddmgroup.comm.Get_Groups_Thread;
+import uos.codingsroom.ddmgroup.comm.Get_Newsfeed_Thread;
 import uos.codingsroom.ddmgroup.comm.Login_Profile_Thread;
 import uos.codingsroom.ddmgroup.fragments.ContentsFragment;
 import uos.codingsroom.ddmgroup.fragments.NewsfeedFragment;
@@ -397,7 +398,9 @@ public class MainActivity extends FragmentActivity {
 				}
 			});
 		}
-		progressDialog.dismissProgressDialog();
+		Get_Newsfeed_Thread mThread1 = new Get_Newsfeed_Thread(this, 12);
+		mThread1.start();
+//		progressDialog.dismissProgressDialog();
 	}
 
 	public void initializeButtons() {

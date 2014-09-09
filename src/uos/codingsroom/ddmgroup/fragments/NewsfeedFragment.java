@@ -1,6 +1,7 @@
 package uos.codingsroom.ddmgroup.fragments;
 
 import uos.codingsroom.ddmgroup.ContentsActivity;
+import uos.codingsroom.ddmgroup.MainActivity;
 import uos.codingsroom.ddmgroup.R;
 import uos.codingsroom.ddmgroup.comm.Get_Newsfeed_Thread;
 import uos.codingsroom.ddmgroup.comm.Get_Notice_Three_Thread;
@@ -74,8 +75,6 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 		Log.i("DDM","NewsfeedFragment 444 >> ");
 		
 		newsfeedAdapter.clearItem();
-		Get_Newsfeed_Thread mThread1 = new Get_Newsfeed_Thread(this.getActivity(), 12);
-		mThread1.start();
 		
 		return view;
 	}
@@ -94,6 +93,17 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 			noticeTitleText[i].setText(getSubString(noticeTitle[i]));
 			noticeTitleText[i].setVisibility(View.VISIBLE);
 		}
+		
+		newsfeedListView.setAdapter(newsfeedAdapter);
+		newsfeedListView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+				NewsFeedItem curItem = (NewsFeedItem) newsfeedAdapter.getItem(position - 1);
+				moveToContentsActivity(curItem.getIndexNum(), curItem.getGroupName(), false);
+			}
+		});
+		
+		((MainActivity) getActivity()).progressDialog.dismissProgressDialog();
 		Log.i("DDM","NewsfeedFragment 666 >> ");
 	}
 
@@ -114,17 +124,9 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 	// 뉴스피드 출력(20개)
 	public void setNewsFeedList() {
 		Log.i("DDM","NewsfeedFragment 777 >> ");
+		
 		Get_Notice_Three_Thread mThread = new Get_Notice_Three_Thread(this.getActivity(), 11);
 		mThread.start();
-
-		newsfeedListView.setAdapter(newsfeedAdapter);
-		newsfeedListView.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-				NewsFeedItem curItem = (NewsFeedItem) newsfeedAdapter.getItem(position - 1);
-				moveToContentsActivity(curItem.getIndexNum(), curItem.getGroupName(), false);
-			}
-		});
 		Log.i("DDM","NewsfeedFragment 888 >> ");
 	}
 
