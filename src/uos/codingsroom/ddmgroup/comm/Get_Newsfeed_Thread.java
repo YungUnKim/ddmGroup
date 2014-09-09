@@ -18,7 +18,6 @@ public class Get_Newsfeed_Thread extends Communication_Thread {
 
 	// 최신글 20개 받아오는 함수
 	public void xmlParser(XmlPullParser xpp) {
-		Log.i("DDM","Get_Newsfeed_Thread 111 >> ");
 		// ------------------------------------- xml 파서 ------------------------------------//
 		try {
 			eventType = xpp.getEventType(); // 이벤트 타입 얻어오기 예를들어 <start> 인지 </start> 인지 구분하기 위한.
@@ -55,10 +54,9 @@ public class Get_Newsfeed_Thread extends Communication_Thread {
 				}
 				eventType = xpp.next();
 			} // end while
-			Log.i("DDM","Get_Newsfeed_Thread 222 >> ");
+
 			msg.what = 12;
 			mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다
-			Log.i("DDM","Get_Newsfeed_Thread 333 >> ");
 		} catch (Exception e) {
 			e.getMessage();
 		}

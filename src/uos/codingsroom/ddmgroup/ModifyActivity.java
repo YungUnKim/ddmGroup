@@ -33,10 +33,10 @@ public class ModifyActivity extends Activity implements OnClickListener {
 	TextView groupNameText;
 	EditText titleText;
 	EditText articleText;
-	ImageView myImage;
+//	ImageView myImage;
 
-	Button imageRemoveButton;
-	Button imageModifyButton;
+//	Button imageRemoveButton;
+//	Button imageModifyButton;
 	Button backButton2;
 	Button modifyButton;
 
@@ -128,13 +128,15 @@ public class ModifyActivity extends Activity implements OnClickListener {
 		progressDialog.startProgressDialog();
 		if (kind) {
 			// 공지사항 수정 스레드
-			Modify_Notice_Thread nThread = new Modify_Notice_Thread(ModifyActivity.this, 142, currentContentNum, Title, Article, ImgPath,
-					imageUrl);
+//			Modify_Notice_Thread nThread = new Modify_Notice_Thread(ModifyActivity.this, 142, currentContentNum, Title, Article, ImgPath,imageUrl);
+			Modify_Notice_Thread nThread = new Modify_Notice_Thread(ModifyActivity.this, 142, currentContentNum, Title, Article);
 			nThread.start();
 		} else {
 			// 글 수정 스레드
+//			Modify_Content_Thread mThread = new Modify_Content_Thread(ModifyActivity.this, 25, MainActivity.getMyInfoItem().getMyMemNum(),
+//					group_num, currentContentNum, Title, Article, ImgPath, imageUrl);
 			Modify_Content_Thread mThread = new Modify_Content_Thread(ModifyActivity.this, 25, MainActivity.getMyInfoItem().getMyMemNum(),
-					group_num, currentContentNum, Title, Article, ImgPath, imageUrl);
+					group_num, currentContentNum, Title, Article);
 			mThread.start();
 		}
 	}
@@ -153,6 +155,7 @@ public class ModifyActivity extends Activity implements OnClickListener {
 		titleText.setText(title);
 		articleText = (EditText) findViewById(R.id.editMemo_modify);
 		articleText.setText(article);
+		/*
 		myImage = (ImageView) findViewById(R.id.img_need_modify);
 
 		if (!imageUrl.equals("")) {
@@ -164,6 +167,7 @@ public class ModifyActivity extends Activity implements OnClickListener {
 		imageRemoveButton.setOnClickListener(this);
 		imageModifyButton = (Button) findViewById(R.id.button_img_modify);
 		imageModifyButton.setOnClickListener(this);
+		*/
 		modifyButton = (Button) findViewById(R.id.button_content_modify);
 		modifyButton.setOnClickListener(this);
 	}
@@ -197,9 +201,10 @@ public class ModifyActivity extends Activity implements OnClickListener {
 		Toast.makeText(this, message, Toast.LENGTH_LONG).show();
 		setResult(reaction);
 		progressDialog.dismissProgressDialog();
+
 		finish();
 	}
-
+/*
 	// 그림 선택하는 뷰 이후의 함수
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -228,4 +233,5 @@ public class ModifyActivity extends Activity implements OnClickListener {
 		}
 
 	}// end onActivityResult Method
+*/
 }

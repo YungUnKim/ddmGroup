@@ -65,6 +65,7 @@ public class AdminActivity extends Activity implements OnClickListener {
 		contents_count_Text = (TextView) findViewById(R.id.text_contents_count);
 		member_manage_btn = (Button) findViewById(R.id.button_member_manage);
 		member_manage_btn.setOnClickListener(this);
+		member_manage_btn.setVisibility(View.GONE);	// 임시로 회원관리 기능 삭제
 		board_manage_btn = (Button) findViewById(R.id.button_board_manage);
 		board_manage_btn.setOnClickListener(this);
 		board_register_btn = (Button) findViewById(R.id.button_board_register);
@@ -143,8 +144,8 @@ public class AdminActivity extends Activity implements OnClickListener {
 			finish();
 			break;
 		case R.id.button_member_manage: // 회원 관리
-			Intent intent1 = new Intent(this, ManageMemberActivity.class);
-			startActivity(intent1);
+//			Intent intent1 = new Intent(this, ManageMemberActivity.class);
+//			startActivity(intent1);
 			break;
 		case R.id.button_board_manage: // 게시판 관리
 			Intent intent2 = new Intent(this, ManageBoardActivity.class);

@@ -3,7 +3,10 @@ package uos.codingsroom.ddmgroup;
 import java.io.File;
 
 import uos.codingsroom.ddmgroup.comm.Insert_Notice_Thread;
+import uos.codingsroom.ddmgroup.util.LoadingProgressDialog;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -36,6 +39,8 @@ public class NoticeRegisterActivity extends Activity implements OnClickListener 
 	int[] img_id = { R.id.edit_img_01, R.id.edit_img_02, R.id.edit_img_03, R.id.edit_img_04, R.id.edit_img_05 };
 	Intent img_intent;
 
+	LoadingProgressDialog progressDialog;
+	
 	final int REQUEST_CODE_IMAGE_01 = 1;
 	final int REQUEST_CODE_IMAGE_02 = 2;
 	final int REQUEST_CODE_IMAGE_03 = 3;
@@ -45,6 +50,8 @@ public class NoticeRegisterActivity extends Activity implements OnClickListener 
 	int REQUEST_CODE_IMAGE = 1;
 
 	TextView groupTitle;
+	
+	private AlertDialog uploadDialog = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,12 +87,13 @@ public class NoticeRegisterActivity extends Activity implements OnClickListener 
 			Toast.makeText(this, "필수입력사항을 입력하세요!", Toast.LENGTH_LONG).show();
 			// EditText가 비워있으면 null 오류가 뜨기 때문에 리턴해줘서 다시 입력하게 해야한다.
 			return;
-		}
-		Log.i("MyTag", Title + " >> " + Memo + " Img >> " + ImgNum );
-		
+		}	
+
 		Insert_Notice_Thread iThread = new Insert_Notice_Thread(this, 140, Title, Memo, ImgPath, ImgNum);
 		iThread.start(); // 글 업로드하는 스레드
 
+		progressDialog = new LoadingProgressDialog(this);
+		progressDialog.startProgressDialog();
 	}
 
 	// 글 업로드 성공 후 수행하는 함수
@@ -98,7 +106,10 @@ public class NoticeRegisterActivity extends Activity implements OnClickListener 
 		EditMemo.setText("");
 		ImgNum = 0;
 		
-		finish();
+		progressDialog.dismissProgressDialog();
+		
+		viewMessage("공지사항 작성이 완료되었습니다.",0);
+//		finish();
 	}
 
 	// 핸들러에서 보낸 메시지를 토스트로 출력하는 함수
@@ -158,11 +169,34 @@ public class NoticeRegisterActivity extends Activity implements OnClickListener 
 
 	}// end onActivityResult Method
 
+	private AlertDialog createUploadDialog() {
+		AlertDialog.Builder ab = new AlertDialog.Builder(this).setTitle("공지사항 올리기")
+				.setMessage("공지사항을 올리시겠습니까?\n그림은 수정 및 삭제가 불가능합니다.\n(그림을 수정하시거나 삭제하시려면 글을 삭제하셔야 합니다.)")
+				.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// 공지사항 업로드하기
+						registerContent();
+					}
+				}).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						dialog.cancel();
+					}
+				});
+
+		return ab.create();
+	}
+	
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.button_content_register: // 글 업로드 버튼
-			registerContent();
+			uploadDialog = createUploadDialog();
+			uploadDialog.show();
+			
 			break;
 		case R.id.button_content_back:
 			finish();
@@ -186,6 +220,7 @@ public class NoticeRegisterActivity extends Activity implements OnClickListener 
 			break;
 		}
 	}
+	
 	public void clickImgButton(int position, int requestCode) {
 		if (ImgPath[position] == null) {
 			ImgNum++;

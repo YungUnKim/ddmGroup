@@ -2,6 +2,12 @@ package uos.codingsroom.ddmgroup.util;
 
 public class SystemValue {
 
+	public static String Version = "";
+	public static String State = "";
+	public static String AppNotice = "";
+	public static String TutorialWebsite = "";
+	public static String Website = "";
+	
 	public static final int ADMIN = 999;
 	public static final int BLACK = 77;
 	public static final int GENERAL = 101;
@@ -11,11 +17,11 @@ public class SystemValue {
 
 	public static final Boolean test = false;
 
-	public static final String conn_public = "http://14.63.212.85/ddmgroup_test/ddmgroup.php";
-	public static final String m_conn_public = "http://14.63.212.85/ddmgroup_test/ddm_manage.php";
-	public static final String conn = "http://14.63.212.85/ddmgroup_test/ddmgroup.php?menu=";
-	public static final String m_conn = "http://14.63.212.85/ddmgroup_test/ddm_manage.php?menu=";
-	public static final String imageConn = "http://14.63.212.85/ddmgroup_test/image/";
+	public static final String conn_public = "http://14.63.212.85/ddmgroup/ddmgroup.php";
+	public static final String m_conn_public = "http://14.63.212.85/ddmgroup/ddm_manage.php";
+	public static final String conn = "http://14.63.212.85/ddmgroup/ddmgroup.php?menu=";
+	public static final String m_conn = "http://14.63.212.85/ddmgroup/ddm_manage.php?menu=";
+	public static final String imageConn = "http://14.63.212.85/ddmgroup/image/";
 
 	public static final String FBPageID = "601134919906627";
 

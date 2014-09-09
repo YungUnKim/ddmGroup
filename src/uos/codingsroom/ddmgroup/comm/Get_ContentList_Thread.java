@@ -21,7 +21,6 @@ public class Get_ContentList_Thread extends Communication_Thread {
 		url += "&key_word=" + keyWord 
 				+ "&board=" + groupNum 
 				+ "&page_num=" + pageNum;
-		Log.i("MyTag", url);
 	}
 
 	// 게시글 읽어오는 함수
@@ -29,7 +28,7 @@ public class Get_ContentList_Thread extends Communication_Thread {
 		// ------------------------------------- xml 파서 ------------------------------------//
 		try {
 			null_flag=1;
-			Log.i("MyTag", "xml 파싱 리스트");
+
 			eventType = xpp.getEventType(); // 이벤트 타입 얻어오기 예를들어 <start> 인지 </start> 인지 구분하기 위한.
 			while (eventType != XmlPullParser.END_DOCUMENT) { // xml이 끝날때까지 계속 돌린다.
 				if (eventType == XmlPullParser.START_TAG) {

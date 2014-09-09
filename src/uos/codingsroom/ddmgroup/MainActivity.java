@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import uos.codingsroom.ddmgroup.comm.Delete_Notice_Thread;
 import uos.codingsroom.ddmgroup.comm.Get_Groups_Thread;
 import uos.codingsroom.ddmgroup.comm.Get_Newsfeed_Thread;
 import uos.codingsroom.ddmgroup.comm.Login_Profile_Thread;
@@ -19,8 +20,12 @@ import uos.codingsroom.ddmgroup.util.LoadingProgressDialog;
 import uos.codingsroom.ddmgroup.util.MakeMenu;
 import uos.codingsroom.ddmgroup.util.MakePreferences;
 import uos.codingsroom.ddmgroup.util.SystemValue;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -84,6 +89,9 @@ public class MainActivity extends FragmentActivity {
 	private static MyInfoItem myInfoItem;
 	private ArrayList<Integer> board = new ArrayList<Integer>(); // 권한 게시판 번호
 	private ArrayList<Integer> level = new ArrayList<Integer>(); // 권한 게시판 레벨
+	
+	PackageInfo packageinfo;
+	private AlertDialog mainDialog = null;
 
 	Set<String> favoriteStringSet;
 
@@ -120,7 +128,6 @@ public class MainActivity extends FragmentActivity {
 		myPreference = new MakePreferences(this);
 
 		showFragment(NEWSFEED, false);
-		Log.i("DDM","MainActivity 111 >> ");
 	}
 
 	protected void onResume() {
@@ -129,7 +136,6 @@ public class MainActivity extends FragmentActivity {
 		// if (userProfile != null) {
 		// setProfileURL(userProfile.getThumbnailImagePath());
 		// }
-		Log.i("DDM","MainActivity 222 >> ");
 	}
 
 	public static MyInfoItem getMyInfoItem() {
@@ -149,6 +155,86 @@ public class MainActivity extends FragmentActivity {
 		level.add(num);
 	}
 
+	public void setVersion(String str) {
+		SystemValue.Version = str;
+	}
+	
+	public void setState(String str) {
+		SystemValue.State = str;
+	}
+	
+	public void setAppNotice(String str) {
+		SystemValue.AppNotice = str;
+	}
+
+	public void setTutorialWebsite(String str) {
+		SystemValue.TutorialWebsite = str;
+	}
+	
+	public void setWebsite(String str) {
+		SystemValue.Website = str;
+	}
+	
+	// 초기 앱 실행 시 체크
+	public void setMainActivity(){	
+		try {
+			// 앱 버전 확인
+			packageinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+
+			// 앱 버전이 다를 경우 업데이트 상태로 바꿔준다.
+			if(packageinfo.versionCode < Integer.parseInt(SystemValue.Version)){
+				SystemValue.State = "update";
+			}
+			
+		} catch (NameNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(SystemValue.State.equals("normal")){
+			// 평상시
+			setPermission();
+			setProfile();
+			setGroupButtonClickListener();
+		} else{
+			progressDialog.dismissProgressDialog();
+			
+			// 그 외의 상황시 다이얼로그 출력
+			new AlertDialog.Builder(this)
+			.setTitle("앱 알림")
+			.setMessage(SystemValue.AppNotice)
+			.setPositiveButton("닫기", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// State에 따른 행동
+					// normal 	평상시
+					// update 	업데이트 - 업데이트 안내 및 앱 종료
+					// check 	점검 중	- 점검 안내 및 앱 종료
+					// end 		서비스 종료 - 앱 종료
+					if(SystemValue.State.equals("normal")){
+						// 평상시
+					} else if(SystemValue.State.equals("update")){
+						// 업데이트 중
+						finish();
+					} else if(SystemValue.State.equals("check")){
+						// 점검 중
+						finish();
+					} else if(SystemValue.State.equals("end")){
+						// 서비스 종료
+						finish();
+					} else{
+						// error
+						finish();
+					}
+					
+					dialog.cancel();
+				}
+			}).show();
+		}
+		
+		return;
+	}
+	
 	// 게시판 번호와 권한 레벨 객체에 저장하기
 	public void setPermission() {
 		myInfoItem.setMyboard(board);
@@ -193,9 +279,7 @@ public class MainActivity extends FragmentActivity {
 
 	// 뉴스피드 아이템 갱신
 	public void setNewsFeedList() {
-		Log.i("DDM","MainActivity 444 >> ");
 		((NewsfeedFragment) fragments[NEWSFEED]).setNewsFeedList();
-		Log.i("DDM","MainActivity 555 >> ");
 	}
 
 	// 게시글
@@ -299,7 +383,6 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	private void initializeView() {
-		Log.i("DDM","MainActivity 333 >> ");
 		setContentView(R.layout.activity_main);
 		preActivity = this;
 		menu = new MakeMenu(this);
@@ -357,7 +440,6 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	public void showFragment(int fragmentIndex, boolean addToBackStack) {
-		Log.i("DDM","MainActivity 666 >> ");
 		FragmentManager fm = getSupportFragmentManager();
 		FragmentTransaction transaction = fm.beginTransaction();
 		for (int i = 0; i < fragments.length; i++) {
@@ -378,7 +460,6 @@ public class MainActivity extends FragmentActivity {
 		} else {
 			searchBox.setVisibility(View.GONE);
 		}
-		Log.i("DDM","MainActivity 777 >> ");
 	}
 
 	private void initializeProfileView() {
@@ -527,18 +608,13 @@ public class MainActivity extends FragmentActivity {
 
 	@Override
 	public void onBackPressed() {
-		Log.i("DDM","MainActivity 888 >> ");
 		if (menu.getMenu().isMenuShowing()) {
-			Log.i("DDM","MainActivity 888-1 >> ");
 			menu.getMenu().showContent();
 		} else if (currentFragment == 2) {
-			Log.i("DDM","MainActivity 888-2 >> ");
 			showFragment(1, false);
 		} else if (currentFragment == 1) {
-			Log.i("DDM","MainActivity 888-3 >> ");
 			showFragment(0, false);
 		} else {
-			Log.i("DDM","MainActivity 888-4 >> ");
 			super.onBackPressed();
 		}
 	}

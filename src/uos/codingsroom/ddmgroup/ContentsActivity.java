@@ -100,7 +100,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_contents);
-
+		
 		imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
 		Bundle bundle = getIntent().getExtras();
@@ -161,8 +161,6 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		commentEdit = (EditText) findViewById(R.id.edittext_comment);
 		commentRegister = (TextView) findViewById(R.id.button_comment_register);
 		commentRegister.setOnClickListener(this);
-
-		Log.i("DDM", "ContentsActivity 111 >> ");
 	}
 
 	private View header() {
@@ -335,14 +333,12 @@ public class ContentsActivity extends Activity implements OnClickListener {
 
 		return ab.create();
 	}
-
+		
 	// 댓글 수정, 삭제 물어보는 다이얼로그 생성함수
 	private AlertDialog createReplyDialog() {
 		AlertDialog.Builder ab = new AlertDialog.Builder(this);
 		String[] kinds = { "수정하기", "삭제하기" };
 		ab.setTitle("댓글");
-
-		// Log.i("MyTag", "댓글 위치 : " + SELECT_REPLY_NUM);
 		ab.setItems(kinds, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
@@ -350,7 +346,6 @@ public class ContentsActivity extends Activity implements OnClickListener {
 					showEditTextDialog(); // 댓글 수정하는 다이얼로그 생성
 					// 댓글 내용, 위치 넘겨야 함
 				} else if (which == 1) {
-					// Log.i("MyTag", "댓글 삭제하기");
 					Delete_Reply_Thread drThread = new Delete_Reply_Thread(ContentsActivity.this, 30, comItem.get(SELECT_REPLY_NUM)
 							.getIndexNum(),
 							kind);
@@ -638,10 +633,8 @@ public class ContentsActivity extends Activity implements OnClickListener {
 		if (menuLayout.getVisibility() == View.VISIBLE) {
 			menuLayout.setVisibility(View.GONE);
 			menuHelperLayout.setVisibility(View.GONE);
-			Log.i("DDM", "ContentsActivity 222 >> ");
 		} else {
 			super.onBackPressed();
-			Log.i("DDM", "ContentsActivity 333 >> ");
 		}
 
 	}
@@ -651,6 +644,7 @@ public class ContentsActivity extends Activity implements OnClickListener {
 
 		switch (resultCode) {
 		case 2: // 글 수정 후 글을 갱신
+			/*
 			if (kind == false) {
 				Get_Content_Thread mThread = new Get_Content_Thread(this, 24, currentContentNum);
 				mThread.start(); // 글 내용 받아오는 스레드
@@ -658,6 +652,9 @@ public class ContentsActivity extends Activity implements OnClickListener {
 				Get_Notice_Thread nThread = new Get_Notice_Thread(this, 34, currentContentNum);
 				nThread.start(); // 공지사항 받아오는 스레드
 			}
+			*/
+
+			finish();
 			break;
 
 		default:

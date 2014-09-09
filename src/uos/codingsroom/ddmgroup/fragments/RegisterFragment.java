@@ -2,10 +2,16 @@ package uos.codingsroom.ddmgroup.fragments;
 
 import java.io.File;
 
+import uos.codingsroom.ddmgroup.ContentsActivity;
 import uos.codingsroom.ddmgroup.MainActivity;
 import uos.codingsroom.ddmgroup.R;
+import uos.codingsroom.ddmgroup.comm.Delete_Content_Thread;
+import uos.codingsroom.ddmgroup.comm.Delete_Notice_Thread;
 import uos.codingsroom.ddmgroup.comm.Insert_Content_Thread;
+import uos.codingsroom.ddmgroup.comm.Insert_Per_Thread;
 import uos.codingsroom.ddmgroup.util.SystemValue;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -56,6 +62,8 @@ public class RegisterFragment extends Fragment {
 	Sender sender;
 
 	TextView groupTitle;	
+	
+	private AlertDialog uploadDialog = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -102,7 +110,28 @@ public class RegisterFragment extends Fragment {
 	public void setCurrentGroupNum(Integer num) {
 		currentGroup = num;
 	}
+	
+	private AlertDialog createUploadDialog() {
+		AlertDialog.Builder ab = new AlertDialog.Builder(this.getActivity()).setTitle("글 올리기")
+				.setMessage("글을 올리시겠습니까?\n그림은 수정 및 삭제가 불가능합니다.\n(그림을 수정하시거나 삭제하시려면 글을 삭제하셔야 합니다.)")
+				.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// 글 업로드하기
+						registerContent();
+					}
+				}).setNegativeButton("취소", new DialogInterface.OnClickListener() {
 
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						dialog.cancel();
+					}
+				});
+
+		return ab.create();
+	}
+	
 	// 버튼 클릭 이벤트
 	class clickListener implements View.OnClickListener {
 
@@ -110,7 +139,9 @@ public class RegisterFragment extends Fragment {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.button_content_register: // 글 업로드 버튼
-				registerContent();
+				uploadDialog = createUploadDialog();
+				uploadDialog.show();
+				
 				break;
 			case R.id.button_content_back:
 				((MainActivity) getActivity()).showFragment(1, false);
@@ -136,13 +167,11 @@ public class RegisterFragment extends Fragment {
 
 	public void clickImgButton(int position, int requestCode) {
 		if (ImgPath[position] == null) {
-//			Log.i("MyTag", "Add ImgPath[" + ImgPath[position] + "]");
 			ImgNum++;
 			img_intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
 			img_intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 			startActivityForResult(img_intent, requestCode);
 		} else {
-//			Log.i("MyTag", "Remove ImgPath[" + ImgPath[position] + "]");
 			ImgNum--;
 			ImgPath[position] = null;
 			img[position].setImageResource(R.drawable.icon_img_plus);
@@ -158,7 +187,6 @@ public class RegisterFragment extends Fragment {
 			Toast.makeText(getActivity(), "필수입력사항을 입력하세요!", Toast.LENGTH_LONG).show();
 			return;
 		}
-		Log.i("MyTag", Title + " >> " + Memo + " Img >> " + ImgNum );
 
 		Insert_Content_Thread iThread = new Insert_Content_Thread(this.getActivity(), 22, MainActivity.getMyInfoItem().getMyMemNum(),currentGroup, Title, Memo, ImgPath, ImgNum);
 		iThread.start(); // 글 업로드하는 스레드

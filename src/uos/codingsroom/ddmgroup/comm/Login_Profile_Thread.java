@@ -20,7 +20,6 @@ public class Login_Profile_Thread extends Communication_Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Log.i("MyTag", "url >> " + url);
 	}
 
 	// XML 파싱 함수
@@ -32,7 +31,9 @@ public class Login_Profile_Thread extends Communication_Thread {
 				if (eventType == XmlPullParser.START_TAG) {
 					tagname = xpp.getName(); // 태그를 받아온다.
 				} else if (eventType == XmlPullParser.TEXT) {
-					if (tagname.equals("member_num") || tagname.equals("board") || tagname.equals("level")) {
+					if (tagname.equals("member_num") || tagname.equals("board") || tagname.equals("level")
+							|| tagname.equals("version") || tagname.equals("state") || tagname.equals("app_notice")
+							|| tagname.equals("t_website") || tagname.equals("website") ) {
 						ret = xpp.getText(); // id 태그에 해당되는 TEXT를 임시로 저장
 					}
 				} else if (eventType == XmlPullParser.END_TAG) {
@@ -50,6 +51,16 @@ public class Login_Profile_Thread extends Communication_Thread {
 						((MainActivity) mcontext).setBoardNum(Integer.parseInt(ret));
 					} else if (tagname.equals("level")) {
 						((MainActivity) mcontext).setLevel(Integer.parseInt(ret));
+					} else if (tagname.equals("version")) {
+						((MainActivity) mcontext).setVersion(ret);
+					} else if (tagname.equals("state")) {
+						((MainActivity) mcontext).setState(ret);
+					} else if (tagname.equals("app_notice")) {
+						((MainActivity) mcontext).setAppNotice(ret);
+					} else if (tagname.equals("t_website")) {
+						((MainActivity) mcontext).setTutorialWebsite(ret);
+					} else if (tagname.equals("website")) {
+						((MainActivity) mcontext).setWebsite(ret);
 					}
 				}
 				eventType = xpp.next();

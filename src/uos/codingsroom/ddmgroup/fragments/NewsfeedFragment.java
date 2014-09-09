@@ -41,15 +41,11 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 	@Override
 	public void onResume() {
 		super.onResume();
-		Log.i("DDM","NewsfeedFragment 111 >> ");
 	}
 
 	@Override
 	public void onStart() {
 		super.onStart();
-		Log.i("DDM","NewsfeedFragment 222 >> ");
-		
-		Log.i("DDM","NewsfeedFragment 333 >> ");
 	}
 
 	@Override
@@ -71,8 +67,6 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 		for (int i = 0; i < 3; i++) {
 			noticeTitleText[i].setOnClickListener(this);
 		}
-
-		Log.i("DDM","NewsfeedFragment 444 >> ");
 		
 		newsfeedAdapter.clearItem();
 		
@@ -88,7 +82,6 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 
 	// 공지사항 출력 (3개)
 	public void setNoticeTitle() {
-		Log.i("DDM","NewsfeedFragment 555 >> ");
 		for (int i = 0; i < noticeCount; i++) {
 			noticeTitleText[i].setText(getSubString(noticeTitle[i]));
 			noticeTitleText[i].setVisibility(View.VISIBLE);
@@ -104,7 +97,6 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 		});
 		
 		((MainActivity) getActivity()).progressDialog.dismissProgressDialog();
-		Log.i("DDM","NewsfeedFragment 666 >> ");
 	}
 
 	public String getSubString(String notice) {
@@ -123,11 +115,8 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 
 	// 뉴스피드 출력(20개)
 	public void setNewsFeedList() {
-		Log.i("DDM","NewsfeedFragment 777 >> ");
-		
 		Get_Notice_Three_Thread mThread = new Get_Notice_Three_Thread(this.getActivity(), 11);
 		mThread.start();
-		Log.i("DDM","NewsfeedFragment 888 >> ");
 	}
 
 	@Override
@@ -149,13 +138,11 @@ public class NewsfeedFragment extends Fragment implements OnClickListener {
 	}
 
 	public void moveToContentsActivity(Integer contentNum, String groupName, boolean kind) {
-		Log.i("DDM","NewsfeedFragment 999 >> ");
 		Intent intent = new Intent(this.getActivity(), ContentsActivity.class);
 		intent.putExtra("content_num", contentNum);
 		intent.putExtra("group_name", groupName);
 		intent.putExtra("mode", kind);
 		startActivity(intent);
-		Log.i("DDM","NewsfeedFragment 000 >> ");
 	}
 
 }

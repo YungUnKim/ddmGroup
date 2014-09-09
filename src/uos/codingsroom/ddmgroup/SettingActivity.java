@@ -3,6 +3,7 @@ package uos.codingsroom.ddmgroup;
 import uos.codingsroom.ddmgroup.comm.Delete_Member_Thread;
 import uos.codingsroom.ddmgroup.util.LoadingProgressDialog;
 import uos.codingsroom.ddmgroup.util.MakePreferences;
+import uos.codingsroom.ddmgroup.util.SystemValue;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Application;
@@ -43,7 +44,8 @@ public class SettingActivity extends Activity implements OnClickListener {
 	private Button contactButton;
 	private Button kakaoLinkButton;
 	private NetworkImageView profilePictureLayout;
-
+	private Button tutorialButton;
+	
 	private final String mailAddress = "codingsroom@gmail.com";
 
 	private TextView myNameText;
@@ -85,7 +87,9 @@ public class SettingActivity extends Activity implements OnClickListener {
 		contactButton.setOnClickListener(this);
 		kakaoLinkButton = (Button) findViewById(R.id.kakaolink);
 		kakaoLinkButton.setOnClickListener(this);
-
+		tutorialButton = (Button) findViewById(R.id.button_tutorial);
+		tutorialButton.setOnClickListener(this);
+		
 		if (MainActivity.isAdmin == true) {
 			adminButton.setVisibility(View.VISIBLE);
 		}
@@ -176,6 +180,23 @@ public class SettingActivity extends Activity implements OnClickListener {
 			sendKakaoLink();
 			kakaoTalkLinkMessageBuilder = kakaoLink.createKakaoTalkLinkMessageBuilder();
 			break;
+		case R.id.button_tutorial:	// 사용방법 보기
+			new AlertDialog.Builder(this).setTitle("어플 사용방법 보기").setMessage("웹으로 연결합니다. 보시겠습니까?").setPositiveButton("확인", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					Uri uri = Uri.parse(SystemValue.TutorialWebsite);
+					Intent it  = new Intent(Intent.ACTION_VIEW,uri);
+					startActivity(it);
+				}
+			}).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					dialog.cancel();
+				}
+			}).show();
+			break;
 		default:
 			break;
 		}
@@ -207,7 +228,6 @@ public class SettingActivity extends Activity implements OnClickListener {
 			kakaoLink.sendMessage(kakaoTalkLinkMessageBuilder.build(), this);
 		} catch (KakaoParameterException e) {
 			alert(e.getMessage());
-			Log.i("setTag", "lol");
 		}
 	}
 

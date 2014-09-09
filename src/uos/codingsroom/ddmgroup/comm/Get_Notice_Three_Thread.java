@@ -41,7 +41,6 @@ public class Get_Notice_Three_Thread extends Communication_Thread {
 						title = ret;
 						msg.what = 11;
 						((MainActivity) mcontext).setNotice(index, title, num);
-						Log.i("MyTag", "index : " + index + " / title : " + title + " / num : " + num);
 						index++;
 					} else if (tagname.equals("NOTICE_ARTICLE")) {
 					} else if (tagname.equals("NOTICE_IMG")) {

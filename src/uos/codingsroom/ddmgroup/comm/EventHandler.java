@@ -25,7 +25,7 @@ public class EventHandler extends Handler {
 
 	public void handleMessage(Message msg) {
 		try {
-			Log.i("DDM","EventHandler 000 >> " + msg.what);
+//			Log.i("MyTag","EventHandler >> " + msg.what);
 			if (msg.what == 0) {
 
 			} else if (msg.what == 9) { // 회원탈퇴 성공
@@ -35,14 +35,13 @@ public class EventHandler extends Handler {
 			} else if (msg.what == -10) { // 로그인 실패
 
 			} else if (msg.what == 10) { // 로그인 성공
-				((MainActivity) mcontext).setPermission();
-				((MainActivity) mcontext).setProfile();
-				((MainActivity) mcontext).setGroupButtonClickListener();
+//				((MainActivity) mcontext).setPermission();
+//				((MainActivity) mcontext).setProfile();
+//				((MainActivity) mcontext).setGroupButtonClickListener();
+				((MainActivity) mcontext).setMainActivity();
 			} else if (msg.what == 11) { // 공지사항 3개 얻어오기 성공
-				Log.i("DDM","EventHandler 111 >> ");
 				((MainActivity) mcontext).setNoticeTitle();
 			} else if (msg.what == 12) { // 뉴스피드 목록 얻어오기 성공
-				Log.i("DDM","EventHandler 222 >> ");
 				((MainActivity) mcontext).setNewsFeedList();
 			} else if (msg.what == 13) { // 게시글 목록 얻어오기 성공
 				((MainActivity) mcontext).setContent();

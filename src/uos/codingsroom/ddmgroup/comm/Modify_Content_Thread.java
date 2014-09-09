@@ -26,7 +26,7 @@ public class Modify_Content_Thread extends Communication_Thread {
 
 	int serverResponseCode = 0;
 
-	// 글 등록하기
+	// 글 수정하기 (추후 삭제)
 	public Modify_Content_Thread(Context context, int menu, int mem_num, int board_num, int content_num, String title, String article, String path, String del_path) {
 		super(context, menu);
 		this.menu = menu;
@@ -39,10 +39,27 @@ public class Modify_Content_Thread extends Communication_Thread {
 		this.deleteFilePath = del_path;
 	}
 
+	// 글 수정하기 (최신)
+	public Modify_Content_Thread(Context context, int menu, int mem_num, int board_num, int content_num, String title, String article) {
+		super(context, menu);
+		this.menu = menu;
+		this.mem_num = mem_num;
+		this.board_num = board_num;
+		this.content_num = content_num;
+		this.title = title;
+		this.article = article;
+	}
+
 	// 스레드 기본 함수
 	@Override
 	public void run() {
 		try {
+			url += "&mem_num=" + mem_num + "&board_num=" + board_num + "&content_num=" + content_num + "&title="
+					+ URLEncoder.encode(title, "UTF-8") + "&article=" + URLEncoder.encode(article, "UTF-8") + "&del_img=" + ""
+					+ "&del_mode=not";
+			xmlParser(connect(url)); // XML 파싱 함수
+			
+			/*
 			Log.i("MyTag", "test [" + uploadFilePath + "][" + deleteFilePath + "]");
 			if (deleteFilePath == null && uploadFilePath == null) { // 그림이 없거나 수정하지 않은 경우
 				try {
@@ -69,12 +86,13 @@ public class Modify_Content_Thread extends Communication_Thread {
 			} else { // 그림이 있는 경우
 				uploadFile(this.uploadFilePath);
 			}
+			*/
 
 		} catch (Exception e) {
 			e.getMessage();
 		}
 	}
-
+/*
 	public int uploadFile(String sourceFileUri) {
 		String fileName = sourceFileUri;
 
@@ -197,8 +215,8 @@ public class Modify_Content_Thread extends Communication_Thread {
 
 		} // End else block
 	}
-
-	// 글 등록하는 함수
+*/
+	// 파싱하는 함수
 	public void xmlParser(XmlPullParser xpp) {
 		// ------------------------------------- xml 파서 ------------------------------------//
 		try {
@@ -220,7 +238,6 @@ public class Modify_Content_Thread extends Communication_Thread {
 							mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다
 						} else {
 							msg.what = 25;
-							Log.i("MyTag", "test >> 333");
 							mHandler.sendMessage(msg); // Handler에 다음 수행할 작업을 넘긴다
 						}
 					}
